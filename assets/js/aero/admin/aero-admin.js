@@ -13,7 +13,7 @@ Aero.view.admin = {
 	/**
 	 *  Render steps in the menu list
 	 */
-	render : function(type, guide){
+	render : function(type, guide, tab){
 
 		$q('.container-close').remove();
 		this.type = type;
@@ -44,6 +44,9 @@ Aero.view.admin = {
         });
 
 		setTimeout("$q('.aero-required:eq(0)').focus();", 300);
+
+        if(tab) $q(tab).trigger('click');
+
 	},
 
 	/**
@@ -108,8 +111,10 @@ Aero.view.admin = {
 	/**
 	 *  Edit a model
 	 */
-	edit : function($this){
-		var self = this;
+	edit : function($this, loc){
+
+        var tab =  false;
+        var self = this;
 		var $li = $this.parents('li:eq(0)');
 		var type = Aero.tip._guide ? "step" : "guide";
 		self.guideid = Aero.tip._guide ? Aero.tip._guide.id : $this.parents('li:eq(0)').data('guideid');
@@ -123,9 +128,14 @@ Aero.view.admin = {
 				guide.id = self.guideid;
 				guide.index = Aero.index;
 				guide.isAdd = false;
+
+				if(loc){
+					guide.loc = loc;
+                    tab = ".aicon-loc";
+				}
 			}
 
-			Aero.view.admin.render(type, guide);
+			Aero.view.admin.render(type, guide, tab);
 		});
 	},
 

@@ -79,7 +79,7 @@ Aero.view.step.admin = {
     /**
      *  Picker Button Start
      */
-    initPicker : function(){
+    initPicker : function(isEdit){
 
         Aero.picker.init({
             onStart : function(){
@@ -150,7 +150,13 @@ Aero.view.step.admin = {
                     loss : 'ignore'
                 };
 
-                Aero.view.admin.render("step", $q.extend(Aero.model.step.defaults(), settings));
+                if(!isEdit) {
+                    Aero.view.admin.render("step", $q.extend(Aero.model.step.defaults(), settings));
+                }else{
+                    $q('.aero-editing').addClass('aero-picking').data('loc', settings.loc);
+                    $q('.aero-picking a:eq(1)').trigger('click');
+                    $q('.aero-picking').removeClass('.aero-picking');
+                }
             }
         });
         Aero.picker.setEvents();
@@ -197,12 +203,20 @@ Aero.view.step.admin = {
             return false;
         });
 
+        //Edit Location
+        $q('body').off("click.aeroLocE").on("click.aeroLocE", "a.aero-edit-loc", function(){
+            Aero.view.step.admin.initPicker(true);
+            return false;
+        });
 
         //Edit
         $q('body').off("click.aeroSEdit").on("click.aeroSEdit", ".aero-steps ul li a.aero-edit", function(){
             var $li = $q(this).parents('li:eq(0)');
+            var loc = ($li.data('loc')) ? $li.data('loc') : false;
+
             Aero.index = $q('.aero-steps li').index($li);
-            Aero.view.admin.edit($q(this));
+
+            Aero.view.admin.edit($q(this), loc);
             return false;
         });
 

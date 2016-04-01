@@ -928,6 +928,15 @@ a.aicon-role:hover span, .aero-menu-active a.aicon-role span { background-positi
 	padding-right: 10px;
 }
 
+.aero-loc-wrap input {
+    width:85%!important;
+}
+.aero-loc-wrap .aero-edit-loc {
+    float: right;
+    padding: 11px!important;
+    margin-top: 1px;
+}
+
 .aero-admin-wrapper p {
 	color:#9E9A9A;
 	margin-bottom:30px;

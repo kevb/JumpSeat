@@ -194,7 +194,11 @@
 		    	<p><%= AeroStep.lang.locd %></p>
 
 				<label><%= AeroStep.lang.loc %></label>
-				<input type="text" name="aero_loc" value="<%= model.loc %>" />
+                <div class="aero-loc-wrap">
+                    <a class="aero-btn-grey aero-edit-loc"><i class="fa fa-pencil"></i></a>
+                    <input type="text" name="aero_loc" value="<%= model.loc %>" />
+                </div>
+
 
 				<div class="aero-loc-text aero-radio"><input type="checkbox" value="1" name="aero_locText" <%= model.locText ? "checked" : "" %> /> <span><%= AeroStep.lang.uset %></span></div>
 

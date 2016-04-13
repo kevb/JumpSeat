@@ -160,6 +160,7 @@ Aero.view.guide.admin = {
                 msg : "Are you sure you want to remove this pathway?",
                 onConfirm : function(){
                     Aero.pathways.destroyMapping(id, Aero.view.admin.guideid);
+                    return false;
                 }
             });
             return false;
@@ -188,6 +189,7 @@ Aero.view.guide.admin = {
                 msg : "Are you sure you want to remove this role?",
                 onConfirm : function(){
                     Aero.roles.destroyMapping(id, Aero.view.admin.guideid);
+                    return false;
                 }
             });
             return false;

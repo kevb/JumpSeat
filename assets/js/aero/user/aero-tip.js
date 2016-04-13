@@ -414,21 +414,21 @@ Aero.tip = {
             }else{
                 aeroStorage.removeItem('aero:session:end');
             }
+        } else {
+            var step = Aero.step.get(i);
+            this._forward = true;
+            clearInterval(this.ob);
+            Aero.jump = true;
+
+            $q('.aero-play-icon').remove();
+
+            aeroStorage.removeItem('aero:session:pause');
+
+            if (step) {
+                this.hide(this._current);
+                this.beforeShow(i);
+            }
         }
-
-        var step = Aero.step.get(i);
-		this._forward = true;
-		clearInterval(this.ob);
-		Aero.jump = true;
-
-        $q('.aero-play-icon').remove();
-
-		aeroStorage.removeItem('aero:session:pause');
-
-		if(step){
-			this.hide(this._current);
-			this.beforeShow(i);
-		}
 	},
 
 	/**

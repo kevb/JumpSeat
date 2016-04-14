@@ -390,7 +390,7 @@ Aero.guide = {
 
 			aeroStorage.getItem('aero:session', function(ls){
 
-				var hasLink = window.location.hash.indexOf('guideid=') != -1;
+				var hasLink = Aero.utils.getUrlParam('guideid');
 
 				if(ls){
 					//Session start
@@ -403,9 +403,7 @@ Aero.guide = {
 
 				}else if(hasLink){
 					//URL link start
-					var id = window.location.hash.split("=").slice(-1)[0];
-					Aero.tip.start(id);
-					window.location.hash = window.location.hash.split('guideid')[0];
+					Aero.tip.start(Aero.utils.getUrlParam('guideid'));
 				}else{
 					//Render guide sidebar
 					var index = aeroStorage.getItem('aero:pathway');

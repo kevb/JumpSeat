@@ -77,14 +77,16 @@ class Guides extends REST_Controller
 	    	$steps = sizeof($guide['step']);
             $version = $guide['version'];
 
-	    	$first = str_replace("http_", "http://", $this->host);
+			$startUrl = $guide['step'][0] && $guide['step'][0]['url'] ? $guide['step'][0]['url'] : '';
+
+				$first = str_replace("http_", "http://", $this->host);
 			$second = str_replace("https_", "https://", $first);
 			$host = str_replace("_", ".", $second);
 
 			$hostUrl = ($host == IAPP) ? "/iapp/welcome/home" : $host;
 
     		$tools = "<div class='tools' style='width:315px' data-id='$id'>";
-			$tools .= "<a target='_blank' href='$hostUrl#guideid=$id' class='small button success'>Steps <i class='ss-icon'>&#xE396;</i></a> ";
+			$tools .= "<a target='_blank' href='$hostUrl$startUrl?guideid=$id' class='small button success'>Steps <i class='ss-icon'>&#xE396;</i></a> ";
 
     		if($acl['guides']['edit'] || ($creator == $user && $acl['guides']['create'])){
     			$tools .= "<a class='small button success edit'>Edit <i class='ss-icon'>&#x270E;</i></a>";

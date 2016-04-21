@@ -33,7 +33,7 @@ Aero.view.admin = {
 
 			if(type == "step") $q('.aero-nav-item:not(:first)').append('<a class="aero-del-nav">X</a>');
 
-            //Setup Editor
+			//Setup Editor
 			$q('#aeroEditor').trumbowyg({
 				removeformatPasted: true,
 				fullscreenable: false,
@@ -41,11 +41,11 @@ Aero.view.admin = {
 				autogrow: true,
 				height:100
 			});
-        });
+		});
 
 		setTimeout("$q('.aero-required:eq(0)').focus();", 300);
 
-        if(tab) $q(tab).trigger('click');
+		if(tab) $q(tab).trigger('click');
 
 	},
 

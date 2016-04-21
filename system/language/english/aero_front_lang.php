@@ -79,7 +79,7 @@ $lang['basic']		= "Basic details";
 $lang['basicd']		= "Describe your guide so that people understand what they will be learning.";
 $lang['tags']		= "Tags";
 $lang['auto']		= "Auto Start (For New Users)";
-$lang['autop']		= "On any page?";
+$lang['autop']		= "Start from any page?";
 
 //Ratings
 $lang['rating']		= "Ratings";

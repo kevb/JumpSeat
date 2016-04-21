@@ -541,17 +541,17 @@ $q.fn.visible = function(partial, contain){
 
 //Polyfill
 if (!Object.keys) {
-  Object.keys = function(obj) {
-    var keys = [];
+    Object.keys = function(obj) {
+        var keys = [];
 
-    for (var i in obj) {
-      if (obj.hasOwnProperty(i)) {
-        keys.push(i);
-      }
-    }
+        for (var i in obj) {
+            if (obj.hasOwnProperty(i)) {
+                keys.push(i);
+            }
+        }
 
-    return keys;
-  };
+        return keys;
+    };
 }
 
 //Fire Custom

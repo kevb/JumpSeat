@@ -198,6 +198,31 @@ class Analytics_Model extends CI_Model
 
 
 	/**
+	 *  Check if a user has completed a guide
+	 *  @param string $ids guide ids
+	 *  @param string $user
+	 *  @return boolean
+	 */
+	public function has_started_by_ids($user, $ids)
+	{
+		$wheres = array();
+
+		//Guide ids
+		foreach ($ids as $id) array_push($wheres, array('guideid' => $id));
+
+		//Get all guide info
+		$guides = $this->mongo_db
+			->select(array('perc', 'guideid', 'user'))
+			->where(array('user' => $user ))
+            ->whereGte('perc', 1)
+			->orWhere($wheres)
+			->get($this->collection);
+
+		return $guides;
+	}
+
+
+	/**
 	 * Count of how many times a guide has been taken
 	 * @return array $totals map of guide vs taken
 	 */

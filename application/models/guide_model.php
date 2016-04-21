@@ -109,8 +109,32 @@ class Guide_Model extends CI_Model
         //Merge guides with completed
         foreach($guides as &$guide)
         {
-            foreach($stats as $stat)
-                if($stat['guideid'] == $guide['id'] && $stat['perc'] == 100) $guide['isComplete'] = true;
+
+            foreach($stats as $stat) {
+                if ($stat['guideid'] == $guide['id'] && $stat['perc'] == 100) $guide['isComplete'] = true;
+            }
+        }
+    }
+
+
+    /**
+     * Tag guides a user has started
+     * @param $enduser username
+     * @param $whereIds array of ids
+     * @param $guides array of guides
+     */
+    public function tag_started($enduser, $whereIds, &$guides)
+    {
+        //Get Audit
+        $this->load->model('analytics_model', '', FALSE, $this->host);
+        $stats = $this->analytics_model->has_started_by_ids($enduser, $whereIds);
+
+        //Merge guides with completed
+        foreach($guides as &$guide)
+        {
+            foreach($stats as $stat) {
+                if ($stat['guideid'] == $guide['id'] && $stat['perc'] > 0) $guide['isStarted'] = true;
+            }
         }
     }
 
@@ -160,6 +184,7 @@ class Guide_Model extends CI_Model
         //Check Audit for Completed items
         if($enduser && $hasRestrict || $enduser && $hasAuto) {
             $this->tag_completed($enduser, $whereIds, $guides);
+            $this->tag_started($enduser, $whereIds, $guides);
         }
 
         return $guides;

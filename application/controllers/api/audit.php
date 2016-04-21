@@ -54,7 +54,7 @@ class Audit extends REST_Controller
 	 */
 	function update_get()
 	{
-        $entry = json_decode($this->get('data'));
+		$entry = json_decode($this->get('data'), true);
         //$entry = $this->request->body;
 
 		$success = $this->audit_model->update_by_id($entry['id'], $entry);

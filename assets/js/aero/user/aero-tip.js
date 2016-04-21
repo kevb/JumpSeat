@@ -346,10 +346,10 @@ Aero.tip = {
 				_this.setStep(null);
 				_this.hide(_this._current);
 				clearInterval(_this.ob);
-				Aero.tip._guide = null;
 
 				//Clear session
 				AeroStep.session.destroy();
+				Aero.tip._guide = null;
 				Aero.guide.init();
 			}
 
@@ -581,16 +581,16 @@ Aero.tip = {
                 }
             }, 1000);
         }
-	},
+    },
 
-	/**
-	 * @function Before showing a step
+    /**
+     * @function Before showing a step
      * @param {integer} i Step number
      * @returns {void}
-	 */
-	beforeShow : function(i){
-		var self = this;
-			self.tries = 1;
+     */
+    beforeShow : function(i){
+        var self = this;
+        self.tries = 1;
 
         //Get Step Info
         var step = Aero.step.get(i);
@@ -617,15 +617,15 @@ Aero.tip = {
                 if (!Aero.hashChange) self.show(i);
             }, wait);
         });
-	},
+    },
 
-	/**
-	 * @function Show a step
+    /**
+     * @function Show a step
      * @param {integer} i Step number
      * @returns {void}
-	 */
-	show : function(i, skipStore){
-		var $tip, $el, step, self;
+     */
+    show : function(i, skipStore){
+        var $tip, $el, step, self;
 
         self = this;
 

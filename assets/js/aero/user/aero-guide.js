@@ -7,71 +7,71 @@
  */
 Aero.model.guide = {
 
-	/**
-	 *  Services URL
-	 */
-	url : "api/guides",
-	urlSearch: "api/search",
+    /**
+     *  Services URL
+     */
+    url : "api/guides",
+    urlSearch: "api/search",
 
-	/**
-	 *  Default model
-	 *  Used so we don't have to store all value in the DB
-	 */
-	defaults : function(){
+    /**
+     *  Default model
+     *  Used so we don't have to store all value in the DB
+     */
+    defaults : function(){
 
-		return {
-			"title": "",
-			"active": false,
-			"steps" : []
-		}
-	},
+        return {
+            "title": "",
+            "active": false,
+            "steps" : []
+        }
+    },
 
-	/**
-	 *  Get guide from the model by id
-	 */
-	byId : function(id, callback){
-		Aero.guide.getAll(function(guides){
-			$q.each(guides, function(i, guide){
+    /**
+     *  Get guide from the model by id
+     */
+    byId : function(id, callback){
+        Aero.guide.getAll(function(guides){
+            $q.each(guides, function(i, guide){
 
-				if(guide && (id == guide.id)){
-					callback(guides[i]);
-					aeroStorage.setItem('aero:session:index', i, function(){}, true);
-				}
-			})
-		});
-	},
+                if(guide && (id == guide.id)){
+                    callback(guides[i]);
+                    aeroStorage.setItem('aero:session:index', i, function(){}, true);
+                }
+            })
+        });
+    },
 
-	/**
-	 *  Update our model/view
-	 */
-	update : function(callback, newid){
-		Aero.guide.getAll(function(r){
-			Aero.view.guide.render(r);
-			if(callback) callback(newid);
-		}, true);
-	},
+    /**
+     *  Update our model/view
+     */
+    update : function(callback, newid){
+        Aero.guide.getAll(function(r){
+            Aero.view.guide.render(r);
+            if(callback) callback(newid);
+        }, true);
+    },
 
-	/**
-	 *  Validate our forms
-	 */
-	validate : function(){
+    /**
+     *  Validate our forms
+     */
+    validate : function(){
 
-		//Validate
-		var valid = $q('form').isFormValid();
+        //Validate
+        var valid = $q('form').isFormValid();
 
-		//Check content
-		if($q('#aeroEditor').trumbowyg('html').replace(/<br>/g, '') == ""){
-			valid = false;
-			$q('.trumbowyg-editor').addClass('aero-require-error');
-		}
+        //Check content
+        if($q('#aeroEditor').trumbowyg('html').replace(/<br>/g, '') == ""){
+            valid = false;
+            $q('.trumbowyg-editor').addClass('aero-require-error');
+        }
 
-		//Add messaging
-		if(!valid){
-			$q('#aeroSection0 p:first').after('<div class="aero-error-box">'+AeroStep.lang.requirede+'</div>');
-		}
+        //Add messaging
+        if(!valid){
+            $q('#aeroSection0 p:first').after('<div class="aero-error-box">'+AeroStep.lang.requirede+'</div>');
+        }
 
-		return valid;
-	}
+        return valid;
+    }
 };
 
 /**
@@ -80,22 +80,22 @@ Aero.model.guide = {
  */
 Aero.view.guide = {
 
-	/**
-	 *  @function sidebar view
-	 *  @param {array} guides
-	 *  @param {function} callback function
-	 *  @param {boolean} is search render
-	 */
-	render : function(guides, callback, search){
-		var self = this;
+    /**
+     *  @function sidebar view
+     *  @param {array} guides
+     *  @param {function} callback function
+     *  @param {boolean} is search render
+     */
+    render : function(guides, callback, search){
+        var self = this;
 
-		//Cleanup stuff
+        //Cleanup stuff
         $q('.aero-restrict, .aero-contextual').remove();
 
-		if(!search) self.clearSearch();
+        if(!search) self.clearSearch();
 
-		Aero.tpl.get("sidebar-guides.html", function(r){
-			aeroStorage.getItem('aero:sidebar:open', function(s){
+        Aero.tpl.get("sidebar-guides.html", function(r){
+            aeroStorage.getItem('aero:sidebar:open', function(s){
                 aeroStorage.getItem('aero:session:tab', function(tab){
                     //Remove duplicates
                     $q('#aeroGuidebar').remove();
@@ -119,8 +119,8 @@ Aero.view.guide = {
                     }
                 }, true);
             }, true);
-		});
-	},
+        });
+    },
 
     /**
      * Render tooltip for context item
@@ -158,7 +158,7 @@ Aero.view.guide = {
         function renderBox(step, loc){
 
             var $el, $box;
-                $el = $q(loc);
+            $el = $q(loc);
 
             if($el.length > 0) {
 
@@ -254,78 +254,78 @@ Aero.view.guide = {
         });
     },
 
-	/**
-	 *  @function search
-	 *  @param {array} guides
-	 *  @param {function} callback function
-	 */
-	search : function(term){
-		var self = this;
+    /**
+     *  @function search
+     *  @param {array} guides
+     *  @param {function} callback function
+     */
+    search : function(term){
+        var self = this;
 
-		$q('.aero-search i').switchClass( "fa-search", "fa-times", 0);
-		$q('.aero-search a').switchClass( "aero-search-btn", "aero-search-clear", 0);
+        $q('.aero-search i').switchClass( "fa-search", "fa-times", 0);
+        $q('.aero-search a').switchClass( "aero-search-btn", "aero-search-clear", 0);
 
-		Aero.guide.getByTerm(term, function(r){
-			r.search = term;
-			self.render(r, function(){}, true);
-		});
-	},
+        Aero.guide.getByTerm(term, function(r){
+            r.search = term;
+            self.render(r, function(){}, true);
+        });
+    },
 
-	/**
-	 *  @function search reset ui
-	 */
-	clearSearch : function(){
-		if($q('.aero-search-clear').length > 0){
-			$q('.aero-search i').switchClass( "fa-times", "fa-search", 0);
-			$q('.aero-search a').switchClass( "aero-search-clear", "aero-search-btn", 0);
-			$q('.aero-search').removeClass('aero-active');
-			$q('input[name=aero_search]').val(AeroStep.lang.search);
-		}
-	},
+    /**
+     *  @function search reset ui
+     */
+    clearSearch : function(){
+        if($q('.aero-search-clear').length > 0){
+            $q('.aero-search i').switchClass( "fa-times", "fa-search", 0);
+            $q('.aero-search a').switchClass( "aero-search-clear", "aero-search-btn", 0);
+            $q('.aero-search').removeClass('aero-active');
+            $q('input[name=aero_search]').val(AeroStep.lang.search);
+        }
+    },
 
-	/**
-	 *  @function setEvents on the guide view
-	 */
-	setEvents: function(){
-		var self = this;
+    /**
+     *  @function setEvents on the guide view
+     */
+    setEvents: function(){
+        var self = this;
 
-		//Start a guide
-		$q('body').off('click.aeroStart').on('click.aeroStart', '.aero-guides ul li > a', function(){
-			var id = $q(this).parents('li:eq(0)').data('guideid');
-			aeroStorage.removeItem("aero:session:pause");
-			Aero.tip.start(id);
-		});
+        //Start a guide
+        $q('body').off('click.aeroStart').on('click.aeroStart', '.aero-guides ul li > a', function(){
+            var id = $q(this).parents('li:eq(0)').data('guideid');
+            aeroStorage.removeItem("aero:session:pause");
+            Aero.tip.start(id);
+        });
 
-		//Search active placeholder
-		$q('body').off('click.apF').on('focus.apF', '.aero-sidebar input[name=aero_search]', function(){
-			$q(this).parents("div:eq(0)").addClass('aero-active');
-			if($q(this).val() == AeroStep.lang.search) $q(this).val("");
-		});
-		$q('body').off('click.apB').on('blur.apB', '.aero-sidebar input[name=aero_search]', function(){
-			if($q(this).val() == ""){
-				$q(this).parents("div:eq(0)").removeClass('aero-active');
-				$q(this).val(AeroStep.lang.search);
-			}
-		});
+        //Search active placeholder
+        $q('body').off('click.apF').on('focus.apF', '.aero-sidebar input[name=aero_search]', function(){
+            $q(this).parents("div:eq(0)").addClass('aero-active');
+            if($q(this).val() == AeroStep.lang.search) $q(this).val("");
+        });
+        $q('body').off('click.apB').on('blur.apB', '.aero-sidebar input[name=aero_search]', function(){
+            if($q(this).val() == ""){
+                $q(this).parents("div:eq(0)").removeClass('aero-active');
+                $q(this).val(AeroStep.lang.search);
+            }
+        });
 
-		//Perform search
-		$q('body').off('click.aS').on('click.aS', '.aero-search a.aero-search-btn', function(){
-			self.search($q('input[name=aero_search]').val());
-		});
-		$q('body').off('keypress.asK').on('keypress.asK', '.aero-sidebar input[name=aero_search]', function(e){
-			var code = e.keyCode || e.which;
-			 if(code == 13){
-				self.search($q(this).val());
-			}
-		});
+        //Perform search
+        $q('body').off('click.aS').on('click.aS', '.aero-search a.aero-search-btn', function(){
+            self.search($q('input[name=aero_search]').val());
+        });
+        $q('body').off('keypress.asK').on('keypress.asK', '.aero-sidebar input[name=aero_search]', function(e){
+            var code = e.keyCode || e.which;
+            if(code == 13){
+                self.search($q(this).val());
+            }
+        });
 
-		//Clear search
-		$q('body').off('click.asC').on('click.asC', '.aero-search-clear', function(){
-			Aero.guide.getAll(function(guides){
-				self.render(guides);
-			});
-			return false;
-		});
+        //Clear search
+        $q('body').off('click.asC').on('click.asC', '.aero-search-clear', function(){
+            Aero.guide.getAll(function(guides){
+                self.render(guides);
+            });
+            return false;
+        });
 
         //Restrict Start
         $q('body').off('click.asr').on('click.asr', '.aero-restrict', function(){
@@ -365,7 +365,7 @@ Aero.view.guide = {
                 $q('.aero-auto-page').show();
             }
         });
-	}
+    }
 };
 
 /**
@@ -375,62 +375,62 @@ Aero.view.guide = {
  */
 Aero.guide = {
 
-	/**
-	 * @function Initialize the sidebar as guide listing
-	 * @param {function} callback function
-	 */
-	init : function(){
-		var self = this;
+    /**
+     * @function Initialize the sidebar as guide listing
+     * @param {function} callback function
+     */
+    init : function(){
+        var self = this;
 
-		//Check for ended guide
-		var end = aeroStorage.getItem('aero:session:end');
-		if(end) Aero.tip.sayCongrats();
+        //Check for ended guide
+        var end = aeroStorage.getItem('aero:session:end');
+        if(end) Aero.tip.sayCongrats();
 
-		self.getAll(function(guides){
+        self.getAll(function(guides){
 
-			aeroStorage.getItem('aero:session', function(ls){
+            aeroStorage.getItem('aero:session', function(ls){
 
-				var hasLink = Aero.utils.getUrlParam('guideid');
+                var hasLink = Aero.utils.getUrlParam('guideid');
 
-				if(ls){
-					//Session start
-					var guide = JSON.parse(ls);
+                if(ls){
+                    //Session start
+                    var guide = JSON.parse(ls);
 
                     //Get current step
                     aeroStorage.getItem('aero:session:current', function(i){
                         Aero.tip.start(guide.id, parseInt(i));
                     }, true);
 
-				}else if(hasLink){
-					//URL link start
-					Aero.tip.start(Aero.utils.getUrlParam('guideid'));
-				}else{
-					//Render guide sidebar
-					var index = aeroStorage.getItem('aero:pathway');
-					if(index && index != "0"){
-						Aero.pathway.get(function(r){
-							var t = Aero.view.pathway.render(r, parseInt(index));
-							if(!t) Aero.view.guide.render(guides);
-						});
-					}else{
-						Aero.view.guide.render(guides);
-					}
-				}
-			}, true);
-		});
-	},
+                }else if(hasLink){
+                    //URL link start
+                    Aero.tip.start(Aero.utils.getUrlParam('guideid'));
+                }else{
+                    //Render guide sidebar
+                    var index = aeroStorage.getItem('aero:pathway');
+                    if(index && index != "0"){
+                        Aero.pathway.get(function(r){
+                            var t = Aero.view.pathway.render(r, parseInt(index));
+                            if(!t) Aero.view.guide.render(guides);
+                        });
+                    }else{
+                        Aero.view.guide.render(guides);
+                    }
+                }
+            }, true);
+        });
+    },
 
-	/**
-	 *  @function autoStart a guide based on URL or any page
-	 *  @param guide to start
-	 */
-	autoStart : function(guide){
+    /**
+     *  @function autoStart a guide based on URL or any page
+     *  @param guide to start
+     */
+    autoStart : function(guide){
 
         //Check restrict
         Aero.view.guide.renderRestrict(guide);
 
-		//Check contextual tips
-		Aero.view.guide.renderContextualAction(guide);
+        //Check contextual tips
+        Aero.view.guide.renderContextualAction(guide);
 
         if(!guide.auto) return;
 
@@ -448,33 +448,43 @@ Aero.guide = {
                 }
             }
 
-            if(isStart) Aero.tip.start(guide.id);
-		}
-	},
+            if(isStart) {
+                aeroStorage.setItem('aero:guide:auto', 1);
+                Aero.tip.start(guide.id);
+            }
+        }
+    },
 
-	/**
-	 *  @function update local storage data
-	 */
-	updateCache : function(guides){
-		aeroStorage.setItem('aero:guides', JSON.stringify(guides));
-	},
+    /**
+     *  @function update local storage data
+     */
+    updateCache : function(guides){
+        aeroStorage.setItem('aero:guides', JSON.stringify(guides));
+    },
 
-	/**
-	 * @function Get all the guides in the system
-	 * @param {function} callback function
-	 * @param force guide reload
-	 */
-	getAll : function(callback, force){
+    /**
+     * @function Get all the guides in the system
+     * @param {function} callback function
+     * @param force guide reload
+     */
+    getAll : function(callback, force){
 
-		//Get cache
+        //Auto start for first time only
+        if(aeroStorage.getItem('aero:guide:auto')){
+            //Clear cache for completed
+            force = true;
+            aeroStorage.removeItem('aero:guide:auto');
+        }
+
+        //Get cache
         var oldData = null;
         var ls = aeroStorage.getItem('aero:guides');
-		var cache = aeroStorage.getItem('aero:cache');
-		if(!cache) cache = AeroStep.cache;
-			cache = parseInt(cache);
+        var cache = aeroStorage.getItem('aero:cache');
+        if(!cache) cache = AeroStep.cache;
+        cache = parseInt(cache);
 
-		//Clear cache
-		if(cache != AeroStep.cache) {
+        //Clear cache
+        if(cache != AeroStep.cache) {
             oldData = JSON.parse(ls);
             aeroStorage.removeItem('aero:guides');
 
@@ -482,11 +492,11 @@ Aero.guide = {
             ls = null;
         }
 
-		//Local or Server storage loader
-		if(!ls || force){
+        //Local or Server storage loader
+        if(!ls || force){
 
-			Aero.log("Loading from SS", "success");
-			Aero.send(Aero.model.guide.url, { enduser: Aero.constants.USERNAME }, function(guides){
+            Aero.log("Loading from SS", "success");
+            Aero.send(Aero.model.guide.url, { enduser: Aero.constants.USERNAME }, function(guides){
 
                 //Notify of new
                 if(oldData) {
@@ -494,67 +504,67 @@ Aero.guide = {
                     if (diff > 0) $q('body').data('newguides', diff);
                 }
 
-				aeroStorage.setItem('aero:cache', AeroStep.cache);
-				aeroStorage.setItem('aero:guides', JSON.stringify(guides));
-				if(callback) callback(guides);
-			});
-		}else{
-			Aero.log("Loading from LS", "success");
-			callback(JSON.parse(ls));
-		}
-	},
+                aeroStorage.setItem('aero:cache', AeroStep.cache);
+                aeroStorage.setItem('aero:guides', JSON.stringify(guides));
+                if(callback) callback(guides);
+            });
+        }else{
+            Aero.log("Loading from LS", "success");
+            callback(JSON.parse(ls));
+        }
+    },
 
-	/**
-	 *  Get a guide by id
-	 */
-	get : function(id, callback){
-		Aero.send(Aero.model.guide.url, { id : id }, function(guide){
-			if(callback) callback(guide);
-		});
-	},
+    /**
+     *  Get a guide by id
+     */
+    get : function(id, callback){
+        Aero.send(Aero.model.guide.url, { id : id }, function(guide){
+            if(callback) callback(guide);
+        });
+    },
 
 
-	/**
-	 *  Get a guide by id
-	 */
-	getByTerm : function(term, callback){
-		Aero.send(Aero.model.guide.urlSearch, { term : term }, function(guide){
-			if(callback) callback(guide);
-		});
-	},
+    /**
+     *  Get a guide by id
+     */
+    getByTerm : function(term, callback){
+        Aero.send(Aero.model.guide.urlSearch, { term : term }, function(guide){
+            if(callback) callback(guide);
+        });
+    },
 
-	/**
-	 * @function Create a new guide
-	 * @param {object} guide data
-	 * @param {function} callback function
-	 */
-	create : function(guide, callback){
-		Aero.send(Aero.model.guide.url, guide, function(r){
-			Aero.model.guide.update(callback, r);
-		}, "POST");
-	},
+    /**
+     * @function Create a new guide
+     * @param {object} guide data
+     * @param {function} callback function
+     */
+    create : function(guide, callback){
+        Aero.send(Aero.model.guide.url, guide, function(r){
+            Aero.model.guide.update(callback, r);
+        }, "POST");
+    },
 
-	/**
-	 * @function Update guide data
-	 * @param {object} guide data
-	 * @param {function} callback function
-	 */
-	update : function(guide, callback){
-		Aero.send(Aero.model.guide.url, guide, function(){
-			Aero.model.guide.update();
-			if(callback) callback();
-		}, "PUT");
-	},
+    /**
+     * @function Update guide data
+     * @param {object} guide data
+     * @param {function} callback function
+     */
+    update : function(guide, callback){
+        Aero.send(Aero.model.guide.url, guide, function(){
+            Aero.model.guide.update();
+            if(callback) callback();
+        }, "PUT");
+    },
 
-	/**
-	 * @function Delete a guide
-	 * @param {integer} id
-	 */
-	destroy : function(id){
-		Aero.send(Aero.model.guide.url, { id : id }, function(){
-			Aero.model.guide.update();
-		}, "DELETE");
-	}
+    /**
+     * @function Delete a guide
+     * @param {integer} id
+     */
+    destroy : function(id){
+        Aero.send(Aero.model.guide.url, { id : id }, function(){
+            Aero.model.guide.update();
+        }, "DELETE");
+    }
 };
 
 /**
@@ -564,53 +574,53 @@ Aero.guide = {
  */
 Aero.view.sidebar = {
 
-	/**
-	 *  @function setScrollable area
-	 */
-	setScrollable : function(){
-		var w = $q(window).height() - ($q('.aero-head').outerHeight() + $q('.aero-foot').outerHeight());
-		var t = $q('.aero-guide-title').outerHeight();
-		var a = $q('.aero-add-step').length > 0 ? $q('.aero-add-step').outerHeight() : 0;
+    /**
+     *  @function setScrollable area
+     */
+    setScrollable : function(){
+        var w = $q(window).height() - ($q('.aero-head').outerHeight() + $q('.aero-foot').outerHeight());
+        var t = $q('.aero-guide-title').outerHeight();
+        var a = $q('.aero-add-step').length > 0 ? $q('.aero-add-step').outerHeight() : 0;
 
-		$q('.aero-guides, .aero-steps').height(w - (t + a));
-	},
+        $q('.aero-guides, .aero-steps').height(w - (t + a));
+    },
 
-	/**
-	 * @function show sidebar
-	 * @param store {boolean}
-	 * @param time {int}
-	 */
-	show : function(store, time){
+    /**
+     * @function show sidebar
+     * @param store {boolean}
+     * @param time {int}
+     */
+    show : function(store, time){
 
-		if(!time) time - 750;
-
-		$q('.aero-sidebar')
-            .stop()
-			.animate({ right: "-50px" }, time, 'easeInOutBack', function() {})
-			.addClass('open');
-
-		if(store) aeroStorage.setItem('aero:sidebar:open', 1, function(){}, true);
-	},
-
-	/**
-	 * @function hide sidebar
-	 * @param store {boolean} the state
-	 */
-	hide : function(store){
+        if(!time) time - 750;
 
         $q('.aero-sidebar')
             .stop()
-			.animate({ right: -($q('.aero-sidebar').outerWidth(true)) }, 300, 'swing', function() {})
-			.removeClass('open');
+            .animate({ right: "-50px" }, time, 'easeInOutBack', function() {})
+            .addClass('open');
 
-		//Close admin windows
-		if($q('.aero-admin-wrapper').length){
-			$q('.aero-admin-wrapper').remove();
-			$q('#aero-tab').css('left', '-44px');
-		}
-		$q('.aero-blanket, .aero-edit-active').remove();
-		if(store)  aeroStorage.setItem('aero:sidebar:open', 0, function(){}, true);
-	},
+        if(store) aeroStorage.setItem('aero:sidebar:open', 1, function(){}, true);
+    },
+
+    /**
+     * @function hide sidebar
+     * @param store {boolean} the state
+     */
+    hide : function(store){
+
+        $q('.aero-sidebar')
+            .stop()
+            .animate({ right: -($q('.aero-sidebar').outerWidth(true)) }, 300, 'swing', function() {})
+            .removeClass('open');
+
+        //Close admin windows
+        if($q('.aero-admin-wrapper').length){
+            $q('.aero-admin-wrapper').remove();
+            $q('#aero-tab').css('left', '-44px');
+        }
+        $q('.aero-blanket, .aero-edit-active').remove();
+        if(store)  aeroStorage.setItem('aero:sidebar:open', 0, function(){}, true);
+    },
 
     /**
      *  @function notify user of new guides
@@ -619,18 +629,18 @@ Aero.view.sidebar = {
         $q('#aero-tab').prepend('<span class="aero-not">'+$q('body').data('newguides')+'</span>');
     },
 
-	/**
-	 *  @function setEvents
-	 */
-	setEvents : function(){
-		var self = this;
-		var sizing;
+    /**
+     *  @function setEvents
+     */
+    setEvents : function(){
+        var self = this;
+        var sizing;
 
-		//Resize window reposition
-		window.onresize = function(){
-			clearTimeout(sizing);
-			sizing = setTimeout(function(){
-				self.setScrollable();
+        //Resize window reposition
+        window.onresize = function(){
+            clearTimeout(sizing);
+            sizing = setTimeout(function(){
+                self.setScrollable();
 
                 //Reposition overlays
                 var $ar = $q('.aero-restrict');
@@ -640,36 +650,36 @@ Aero.view.sidebar = {
                     Aero.view.guide.positionRestrict($q(this));
                 });
 
-			}, 100);
-		};
+            }, 100);
+        };
 
-		//Tab click
-		$q('body').off("click.atc").on("click.atc", "#aero-tab a", function(){
-			if($q('.aero-sidebar').hasClass('open')){
-				self.hide(true);
-			}else{
-				self.show(true);
-			}
-		});
+        //Tab click
+        $q('body').off("click.atc").on("click.atc", "#aero-tab a", function(){
+            if($q('.aero-sidebar').hasClass('open')){
+                self.hide(true);
+            }else{
+                self.show(true);
+            }
+        });
 
-		//Tab drag
-		$q('#aero-tab').draggable({
-			axis: "y",
-			distance: 10,
+        //Tab drag
+        $q('#aero-tab').draggable({
+            axis: "y",
+            distance: 10,
             containment: 'body',
-			stop: function( event, ui ) {
-				aeroStorage.setItem('aero:session:tab', ui.offset.top, function(){}, true);
-			}
-		});
+            stop: function( event, ui ) {
+                aeroStorage.setItem('aero:session:tab', ui.offset.top, function(){}, true);
+            }
+        });
 
-		$q(window).off('hashchange.hashn').on('hashchange.hashn', function() {
-			Aero.hashChange = true;
-			AeroStep.ready(function(){
-				setTimeout(function(){
-					Aero.hashChange = false;
-					Aero.guide.init();
-				},500);
-			}, AeroStep.required);
-		});
-	}
+        $q(window).off('hashchange.hashn').on('hashchange.hashn', function() {
+            Aero.hashChange = true;
+            AeroStep.ready(function(){
+                setTimeout(function(){
+                    Aero.hashChange = false;
+                    Aero.guide.init();
+                },500);
+            }, AeroStep.required);
+        });
+    }
 };

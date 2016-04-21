@@ -21,8 +21,8 @@ Aero.model.audit = {
 			"user": Aero.constants.USERNAME,
 			"guideid": Aero.tip._guide.id,
 			"pathwayid": Aero.pathway.pathwayid,
-			"progress": 0,
-			"perc" : 0,
+			"progress": 1,
+			"perc" : Math.round((1 / Aero.tip._guide.step.length) * 100),
 			"timeStart": "",
 			"timeStamp": this.getTime(),
 			"timeTotal": ""
@@ -161,8 +161,8 @@ Aero.audit = {
 
 		// This function is called only from init for new sessions not to be called if
 		// Create new audit log (row) in database
-		// Return auditid
-		// Create aeroStorage session with new auditid and defaults
+		// Return id
+		// Create aeroStorage session with new id and defaults
 		var self = this;
 		var data = Aero.model.audit.defaults();
 			data.timeStart = data.timeStamp;
@@ -207,6 +207,7 @@ Aero.audit = {
 	 * @param {function} callback function
 	 */
 	save: function(callback) {
+
         if(AeroStep.admin || !Aero.tip._guide) return;
 
 		var data = Aero.model.audit.get();
@@ -217,8 +218,8 @@ Aero.audit = {
 
 			Aero.view.audit.removeEvents();
 
-			// Save local storage to server using the auditid
-			Aero.send(this.url + '/create', { data : JSON.stringify(data) }, function(r) {
+			// Save local storage to server using the id
+			Aero.send(this.url + '/update', { data : JSON.stringify(data) }, function(r) {
 				Aero.model.audit.update(data);
 			}, 'GET');
 		}

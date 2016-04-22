@@ -33,7 +33,9 @@ class AeroSpace extends CI_Controller {
             $referer = parse_url($_SERVER['HTTP_REFERER']);
         }
 
-        $www = $referer["scheme"] . "://" . $referer['host'];
+		//Enable ports
+		$port = (isset($referer['port']) && $referer['port'] != "80") ? ':' . $referer['port'] : '';
+        $www = $referer["scheme"] . "://" . $referer['host'] . $port;
         $path = $referer['path'];
 
 		//Load app model and get app

@@ -77,9 +77,95 @@ Aero.view.step.admin = {
     },
 
     /**
+     * Automatically add steps
+     * @param path
+     */
+    autoAdd : function(path){
+        var defaults = this.setDefaults(path);
+
+        if(defaults.title == "") defaults.title = "Step " + (defaults.index + 1);
+        if(defaults.body == "") defaults.body = "Step Body";
+        Aero.step.add(defaults, function(){
+            console.log('Added');
+        }, true);
+    },
+
+    /**
+     * Setup step defaults
+     * @param path
+     * @returns {{id: null, title: string, body: string, url: string, isAdd: boolean, index: *, loc: *, nav: Array, loss: string}}
+     */
+    setDefaults : function(path){
+
+        var index = (Aero.tip._guide.step.length > 0) ? Aero.tip._current + 1 : 0;
+        var nav = [];
+        var title = "";
+        var body = "";
+        var text = "";
+
+        //Auto populate buttons
+        var tag = $q(path).prop('tagName').toLowerCase();
+        var contains = ['button', 'a'];
+        if($q.inArray(tag, contains) > -1){
+            text = $q.trim($q(path).text());
+            body = "Click " + text;
+            title = text;
+
+            nav = { click : "-1" };
+        }
+
+        //Auto populate for forms
+        contains = ['input', 'select', 'textarea'];
+        if($q.inArray(tag, contains) > -1){
+
+            text = $q.trim($q(path).parent().find('label:eq(0)').text());
+
+            var lbl = $q("label[for='"+$q(path).attr('id')+"']");
+            if(lbl.length > 0) text = lbl.text().replace('*', '');
+            body = "Enter " + text;
+            title = text;
+
+            nav = { blur : "-1" };
+        }
+
+        var url = document.URL;
+        var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
+        url = url.replace(full, '');
+
+        //Remove trailing slash and slash with empty #
+        if(!url.match(/#\/$/)){
+            var sl = /(\/$|\/#$|#$)/;
+            url = url.replace(sl, "");
+        }
+
+        if (tag == "a"){
+            //Auto check page unload
+            var ahref = $q(path).attr('href');
+            if (ahref != "javascript://" && ahref != "#") nav = {unload: 1};
+        }
+
+        //Step settings
+        var settings = {
+            id : null,
+            title: title,
+            body: body,
+            url: url,
+            isAdd: true,
+            index: index,
+            loc : path,
+            nav : nav,
+            loss : 'ignore'
+        };
+
+        return settings;
+    },
+
+    /**
      *  Picker Button Start
      */
     initPicker : function(isEdit){
+
+        var _this = this;
 
         Aero.picker.init({
             onStart : function(){
@@ -90,65 +176,7 @@ Aero.view.step.admin = {
                 Aero.view.sidebar.show(false, 0);
                 Aero.picker.destroy();
 
-                var index = (Aero.tip._guide.step.length > 0) ? Aero.tip._current + 1 : 0;
-                var nav = [];
-                var title = "";
-                var body = "";
-                var text = "";
-
-                //Auto populate buttons
-                var tag = $q(path).prop('tagName').toLowerCase();
-                var contains = ['button', 'a'];
-                if($q.inArray(tag, contains) > -1){
-                    text = $q.trim($q(path).text());
-                    body = "Click " + text;
-                    title = text;
-
-                    nav = { click : "-1" };
-                }
-
-                //Auto populate for forms
-                contains = ['input', 'select', 'textarea'];
-                if($q.inArray(tag, contains) > -1){
-
-                    text = $q.trim($q(path).parent().find('label:eq(0)').text());
-
-                    var lbl = $q("label[for='"+$q(path).attr('id')+"']");
-                    if(lbl.length > 0) text = lbl.text().replace('*', '');
-                    body = "Enter " + text;
-                    title = text;
-
-                    nav = { blur : "-1" };
-                }
-
-                var url = document.URL;
-                var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
-                url = url.replace(full, '');
-
-                //Remove trailing slash and slash with empty #
-                if(!url.match(/#\/$/)){
-                    var sl = /(\/$|\/#$|#$)/;
-                    url = url.replace(sl, "");
-                }
-
-                if (tag == "a"){
-                    //Auto check page unload
-                    var ahref = $q(path).attr('href');
-                    if (ahref != "javascript://" && ahref != "#") nav = {unload: 1};
-                }
-
-                //Step settings
-                var settings = {
-                    id : null,
-                    title: title,
-                    body: body,
-                    url: url,
-                    isAdd: true,
-                    index: index,
-                    loc : path,
-                    nav : nav,
-                    loss : 'ignore'
-                };
+                var settings = _this.setDefaults(path);
 
                 if(!isEdit) {
                     Aero.view.admin.render("step", $q.extend(Aero.model.step.defaults(), settings));
@@ -318,7 +346,7 @@ Aero.view.step.admin = {
         //Add step
         $q('body')
             .on("mouseup", "a.aero-btn-picker", function() {
-                $q('.aero-play-icon').remove();
+                $q('.aero-play').remove();
                 self.initPicker();
             })
             .on("click", "a.aero-btn-picker", function() {

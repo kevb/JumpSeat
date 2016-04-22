@@ -20,6 +20,23 @@ function AeroAdminMain() {
         if (e.keyCode == 192) {
             if(event.shiftKey) Aero.view.step.admin.initPicker();
         }
+
+        if (e.keyCode == 82) {
+            if(event.shiftKey){
+                $q('body').on('mousedown', function(e){
+                    var path = Aero.picker.get(e);
+                    Aero.view.step.admin.autoAdd(path);
+                });
+
+                //$q('body').on('focus', 'input,textarea', function(e){
+                //    var path = Aero.picker.get(e);
+                //    Aero.view.step.admin.autoAdd(path);
+                //});
+                //
+                ////Don't add on aero
+                //$q('body').on('mousedown.side', '.aero-app', function(e){ e.stopPropagation(); });
+            }
+        }
     });
 }
 

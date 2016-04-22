@@ -331,7 +331,7 @@ Aero.tip = {
 			}
 
 			//Remove play button if exists
-			$q('.aero-play-icon').remove();
+			$q('.aero-play').remove();
 
 			// @todo clear on restrict and auto only
 			aeroStorage.setItem('aero:cache', -1);
@@ -420,7 +420,7 @@ Aero.tip = {
             clearInterval(this.ob);
             Aero.jump = true;
 
-            $q('.aero-play-icon').remove();
+            $q('.aero-play').remove();
 
             aeroStorage.removeItem('aero:session:pause');
 
@@ -666,13 +666,16 @@ Aero.tip = {
             if (AeroStep.admin && aeroStorage.getItem('aero:session:pause') && aeroStorage.getItem('aero:session:forwardUrl') !== document.URL) {
                 Aero.view.step.setState(aeroStorage.getItem('aero:session:pause'), 'forward');
 
-                var $play = $q('<a class="aero-play-icon"><span></span></a>');
+                var $play = $q('<a class="aero-play aero-play-icon"><span></span></a>');
+				var $overlay = $q('<div class="aero-play aero-play-shadow"></div>');
 
                 $play.css({
                     top: $q(window).height() / 2 - 150,
                     left: $q(window).width() / 2 - 100
                 });
-                $q('body').append($play);
+
+				$overlay.css({ opacity : 0.4 });
+                $q('body').append($play, $overlay);
 
                 return;
             } else {
@@ -1231,7 +1234,7 @@ Aero.tip = {
                         });
 						$el.off('focusout.aeronavb').on('focusout.aeronavb', $el, function(e){
                             Aero.navigating = true;
-							if(!self.validate()) return;
+                            if(!self.validate()) return;
 							self.jumpTo(nav[n]);
 						});
                         break;

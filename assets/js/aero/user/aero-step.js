@@ -40,7 +40,7 @@ Aero.model.step = {
 		}
 	},
 
-	update : function(guide){
+	update : function(guide, ignoreShow){
 
 		//Update ls
 		aeroStorage.getItem('aero:session:index', function(index){
@@ -63,7 +63,7 @@ Aero.model.step = {
                     //Make sure we have enough steps
                     if(Aero.tip._current == Aero.tip._guide.step.length) Aero.tip._current--;
                     if(!Aero.tip._current) Aero.tip._current = 0;
-                    Aero.tip.jumpTo(Aero.tip._current);
+                    if(!ignoreShow) Aero.tip.jumpTo(Aero.tip._current);
                 });
 			}, true);
 		}, true);
@@ -192,7 +192,7 @@ Aero.view.step = {
 			aeroStorage.removeItem('aero:session:pause');
 
 			Aero.tip.jumpTo(Aero.tip._current);
-			$q(this).remove();
+			$q(this).fadeOut(1000, function(){ $q(this).remove(); });
 		});
 
 		$q('body').off("click.sas").on("click.sas", "a.aero-stop", function(){
@@ -252,7 +252,7 @@ Aero.step = {
 	 * @param {object} step object
      * @param {function} callback function
 	 */
-	add : function(step, callback){
+	add : function(step, callback, ignoreShow){
 
 		//Actions
 		step.id = Aero.tip._guide.id;
@@ -265,7 +265,7 @@ Aero.step = {
             }
 
             //Update ls
-			Aero.model.step.update(r);
+			Aero.model.step.update(r, ignoreShow);
 
 			if(callback) callback(r);
 		}, "POST");

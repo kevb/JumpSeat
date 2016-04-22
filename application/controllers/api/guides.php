@@ -77,7 +77,7 @@ class Guides extends REST_Controller
 	    	$steps = sizeof($guide['step']);
             $version = $guide['version'];
 
-			$startUrl = $guide['step'][0] && $guide['step'][0]['url'] ? $guide['step'][0]['url'] : '';
+			$startUrl = $guide['step'][0] && isset($guide['step'][0]['url']) ? $guide['step'][0]['url'] : '';
 
 				$first = str_replace("http_", "http://", $this->host);
 			$second = str_replace("https_", "https://", $first);

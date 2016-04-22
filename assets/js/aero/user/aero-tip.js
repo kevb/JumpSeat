@@ -339,9 +339,12 @@ Aero.tip = {
 			//Return to branch?
 			var isReturn = _this.isReturnBranch();
 
-			if(!isReturn){
+			if(!isReturn) {
+                //Stop recording
+                Aero.view.step.record.off();
+
 				//Last step end?
-				if(Aero.tip._guide.step && Aero.tip._current == (Aero.tip._guide.step.length - 1)) _this.sayCongrats();
+				if (Aero.tip._guide.step && Aero.tip._current == (Aero.tip._guide.step.length - 1)) _this.sayCongrats();
 
 				_this.setStep(null);
 				_this.hide(_this._current);
@@ -352,7 +355,6 @@ Aero.tip = {
 				Aero.tip._guide = null;
 				Aero.guide.init();
 			}
-
 		}, true);
 	},
 
@@ -676,6 +678,11 @@ Aero.tip = {
 
 				$overlay.css({ opacity : 0.4 });
                 $q('body').append($play, $overlay);
+
+                //Continue session
+                if(aeroStorage.getItem('aero:session:recording')) {
+                    Aero.view.step.record.on(true);
+                }
 
                 return;
             } else {

@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="Generated files" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/assets/js/aero/user/aero-tip.min.js" />
+        <item url="file://$PROJECT_DIR$/assets/js/aero/user/aero-step.min.js" />
+        <item url="file://$PROJECT_DIR$/assets/js/aero/admin/_main.min.js" />
+        <item url="file://$PROJECT_DIR$/assets/js/aero/admin/aero-step.min.js" />
+        <item url="file://$PROJECT_DIR$/assets/js/aero/admin/aero-picker.min.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/assets/js/aero/user/aero-tip.min.js" />
+      <root url="file://$PROJECT_DIR$/assets/js/aero/user/aero-step.min.js" />
+      <root url="file://$PROJECT_DIR$/assets/js/aero/admin/_main.min.js" />
+      <root url="file://$PROJECT_DIR$/assets/js/aero/admin/aero-step.min.js" />
+      <root url="file://$PROJECT_DIR$/assets/js/aero/admin/aero-picker.min.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

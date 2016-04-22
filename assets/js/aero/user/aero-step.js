@@ -192,7 +192,7 @@ Aero.view.step = {
 			aeroStorage.removeItem('aero:session:pause');
 
 			Aero.tip.jumpTo(Aero.tip._current);
-			$q(this).fadeOut(1000, function(){ $q(this).remove(); });
+			$q('.aero-play').fadeOut(1000, function(){ $q(this).remove(); });
 		});
 
 		$q('body').off("click.sas").on("click.sas", "a.aero-stop", function(){

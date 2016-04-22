@@ -217,6 +217,9 @@ Aero.view.step.admin = {
 
         var self = this;
 
+        //Record
+        Aero.view.step.record.setEvents();
+
         //Delete
         $q('body').off("click.aroSD").on("click.aroSD", ".aero-steps ul li a.aero-delete", function(){
             var index = $q( ".aero-steps li" ).index( $q(this).parents('li:eq(0)') );
@@ -354,3 +357,77 @@ Aero.view.step.admin = {
             });
     }
 };
+
+/**
+ * Record steps from user interactions
+ * @type {{init: Function, setEvents: Function}}
+ */
+Aero.view.step.record = {
+
+    init : function(e){
+        var path = Aero.picker.get(e);
+        Aero.view.step.admin.autoAdd(path);
+    },
+
+    /**
+     *  Turn recording on
+     */
+    on : function(ignorePlay){
+
+        var _this = this;
+        if(!Aero.tip._guide) return;
+        aeroStorage.setItem('aero:session:recording', 1);
+        $q('.aero-btn-record span:eq(0)').addClass('recording');
+
+        Aero.log('Started Recording...', 'warn');
+
+        //Cleanup
+        if(!ignorePlay) {
+            $q('.aero-play').fadeOut(500, function () {
+                $q('.aero-play').remove();
+            });
+        }
+        $q('.aero-tip').remove();
+
+        $q('body').on('mousedown.autorc', function (e) {
+            _this.init(e);
+        });
+
+        $q('body').on('focus', 'input.autori,textarea.autort', function (e) {
+            _this.init(e);
+        });
+
+        //Don't add on aero
+        $q('body').on('mousedown.side', '.aero-app, .ae-active-el, .aero-play', function (e) {
+            e.stopPropagation();
+        });
+
+    },
+
+    /**
+     *  Turn recording off
+     */
+    off : function(){
+        Aero.log('Stopped Recording', 'success');
+        aeroStorage.removeItem('aero:session:recording');
+        $q('.aero-btn-record span:eq(0)').removeClass('recording');
+        $q('body').off('mousedown.autorc input.autori textarea.autort');
+    },
+
+    /**
+     *  Set UI Events
+     */
+    setEvents : function(){
+
+        var _this = this;
+
+        //Record button
+        $q('body').off('click.aerec').on('click.aerec', '.aero-btn-record', function(){
+            if(!aeroStorage.getItem('aero:session:recording')) {
+                _this.on();
+            }else{
+                _this.off();
+            }}
+        );
+    }
+}

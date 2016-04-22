@@ -803,6 +803,35 @@ a.aero-btn-prev:hover {
 	padding: 15px 25px!Important;
 	font-weight: 500!important;
 }
+
+.aero-sidebar .aero-add-step a.aero-btn-record {
+	width: 50px;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	border-left: 5px solid #E27A7B!important;
+	padding-left: 0!important;
+}
+.aero-btn-record span.acircle {
+	width: 18px;
+	height: 18px;
+	background: #FFD5D6;
+	display: block;
+	margin: 15px 13px;
+	border-radius: 15px;
+	border: 2px solid #E27A7B;
+}
+
+.aero-btn-record span.acircle.recording span {
+	width: 10px;
+	height: 10px;
+	background: #EF1B1E;
+	display: inline-block;
+	margin: 2px;
+	border-radius: 15px;
+}
+
 .aero-picker {
 	background:url(../images/transparent.png);
 }

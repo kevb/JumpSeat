@@ -408,7 +408,7 @@ Aero.view.step.record = {
      *  Turn recording off
      */
     off : function(){
-        Aero.log('Stopped Recording', 'success');
+        Aero.log('Stopped Recording.', 'success');
         aeroStorage.removeItem('aero:session:recording');
         $q('.aero-btn-record span:eq(0)').removeClass('recording');
         $q('body').off('mousedown.autorc input.autori textarea.autort');

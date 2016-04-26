@@ -341,7 +341,7 @@ Aero.tip = {
 
 			if(!isReturn) {
                 //Stop recording
-                Aero.view.step.record.off();
+                if(Aero.view.step.record) Aero.view.step.record.off();
 
 				//Last step end?
 				if (Aero.tip._guide.step && Aero.tip._current == (Aero.tip._guide.step.length - 1)) _this.sayCongrats();
@@ -680,7 +680,7 @@ Aero.tip = {
                 $q('body').append($play, $overlay);
 
                 //Continue session
-                if(aeroStorage.getItem('aero:session:recording')) {
+                if(Aero.view.step.record && aeroStorage.getItem('aero:session:recording')) {
                     Aero.view.step.record.on(true);
                 }
 

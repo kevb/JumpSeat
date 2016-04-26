@@ -342,7 +342,7 @@ Aero.tip = {
 			//Return to branch?
 			var isReturn = _this.isReturnBranch();
 
-            console.log('Test one');
+            console.log('Test one ' + isReturn);
 			if(!isReturn) {
 
                 //Last step end?
@@ -352,6 +352,8 @@ Aero.tip = {
                     // @ninja
                     window.postMessage({type: "cloudninjas-track-incomplete"}, "*");
                 }
+
+                console.log('Test two ');
 
                 //Stop recording
                 Aero.view.step.record.off();

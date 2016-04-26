@@ -278,6 +278,9 @@ Aero.tip = {
 		var s = step ? step : 0;
         var self = this;
 
+		// @ninja
+		window.postMessage({ type: "cloudninjas-track-start" }, "*");
+
         //Cross Domain
         aeroStorage.getItem('aero:session:cds', function(cds){
 
@@ -343,8 +346,13 @@ Aero.tip = {
                 //Stop recording
                 Aero.view.step.record.off();
 
-				//Last step end?
-				if (Aero.tip._guide.step && Aero.tip._current == (Aero.tip._guide.step.length - 1)) _this.sayCongrats();
+                //Last step end?
+                if (Aero.tip._guide.step && Aero.tip._current == (Aero.tip._guide.step.length - 1)) {
+                    _this.sayCongrats();
+                } else {
+                    // @ninja
+                    window.postMessage({type: "cloudninjas-track-incomplete"}, "*");
+                }
 
 				_this.setStep(null);
 				_this.hide(_this._current);
@@ -1104,15 +1112,15 @@ Aero.tip = {
 			var guide = JSON.parse(ls);
 
 			if(!AeroStep.admin){
-				Aero.confirm({
-					ok : AeroStep.lang['ok'],
-                    cancel: "",
-					title : AeroStep.lang['gfinished'],
-					msg : AeroStep.lang['congrats'] + guide.title,
-					onConfirm : function(){
-						AeroStep.session.destroy();
-					}
-				});
+                // @ninja
+                try {
+                    window.postMessage({type: "cloudninjas-track-completed"}, "*");
+                } catch(err){
+                    console.log("There was an error sending cloud ninja track completed");
+                    console.log(err);
+                }
+
+                AeroStep.session.destroy();
 			}
 		}, true);
 	},

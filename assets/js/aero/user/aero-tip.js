@@ -342,7 +342,6 @@ Aero.tip = {
 			//Return to branch?
 			var isReturn = _this.isReturnBranch();
 
-            console.log('Test one ' + isReturn);
 			if(!isReturn) {
 
                 //Last step end?
@@ -353,12 +352,9 @@ Aero.tip = {
                     window.postMessage({type: "cloudninjas-track-incomplete"}, "*");
                 }
 
-                console.log('Test two ');
-
                 //Stop recording
-                Aero.view.step.record.off();
+                if(Aero.view.step.record) Aero.view.step.record.off();
 
-                console.log('Test end');
 				_this.setStep(null);
 				_this.hide(_this._current);
 				clearInterval(_this.ob);
@@ -693,7 +689,7 @@ Aero.tip = {
                 $q('body').append($play, $overlay);
 
                 //Continue session
-                if(aeroStorage.getItem('aero:session:recording')) {
+                if(Aero.view.step.record && aeroStorage.getItem('aero:session:recording')) {
                     Aero.view.step.record.on(true);
                 }
 

@@ -354,6 +354,8 @@ Aero.tip = {
                     window.postMessage({type: "cloudninjas-track-incomplete"}, "*");
                 }
 
+
+                console.log('Test end');
 				_this.setStep(null);
 				_this.hide(_this._current);
 				clearInterval(_this.ob);

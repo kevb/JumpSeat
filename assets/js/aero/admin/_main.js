@@ -20,12 +20,6 @@ function AeroAdminMain() {
         if (e.keyCode == 192) {
             if (event.shiftKey) Aero.view.step.admin.initPicker();
         }
-
-        if (e.keyCode == 82) {
-            if (event.shiftKey) {
-                Aero.view.step.record.on();
-            }
-        }
     });
 }
 

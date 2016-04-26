@@ -86,7 +86,6 @@ Aero.view.step.admin = {
         if(defaults.title == "") defaults.title = "Step " + (defaults.index + 1);
         if(defaults.body == "") defaults.body = "Step Body";
         Aero.step.add(defaults, function(){
-            console.log('Added');
         }, true);
     },
 

@@ -153,7 +153,8 @@ Aero.view.step.admin = {
             index: index,
             loc : path,
             nav : nav,
-            loss : 'ignore'
+            loss : 'ignore',
+            showTitle : true
         };
 
         return settings;

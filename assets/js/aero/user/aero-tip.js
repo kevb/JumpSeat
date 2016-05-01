@@ -1163,6 +1163,8 @@ Aero.tip = {
         $q('body').off('click.aNe').on('click.aNe', '.aero-btn-next', function(){
             Aero.navigating = true;
             self.next();
+
+			return false;
         });
 
 		for(var n in nav){
@@ -1178,6 +1180,8 @@ Aero.tip = {
                             if(!self.validate()) return;
 
                             self.jumpTo(nav[n]);
+
+							return false;
                         });
                         break;
 

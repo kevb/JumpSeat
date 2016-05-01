@@ -1160,7 +1160,7 @@ Aero.tip = {
 		});
 
         //Default for next
-        $q('body').off('click.aNe').on('click.aNe', '.aero-btn-next', function(){
+        $q('body').off('mousedown.aNe').on('mousedown.aNe', '.aero-btn-next', function(){
             Aero.navigating = true;
             self.next();
 
@@ -1175,7 +1175,7 @@ Aero.tip = {
 
                 switch(n) {
                     case "next":
-                        $q('body').off('click.aNe').on('click.aNe', '.aero-btn-next', function(){
+                        $q('body').off('mousedown.aNe').on('mousedown.aNe', '.aero-btn-next', function(){
                             Aero.navigating = true;
                             if(!self.validate()) return;
 

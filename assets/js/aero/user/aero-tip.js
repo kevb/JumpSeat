@@ -1086,9 +1086,11 @@ Aero.tip = {
 		var self = this;
 
 		$q('body')
-			.off('click.aPe').on('click.aPe', '.aero-btn-prev', function(){
+			.off('mousedown.aPe').on('mousedown.aPe', '.aero-btn-prev', function(){
                 Aero.navigating = true;
                 self.prev();
+
+                return false;
 			})
 			.off('click.aEd').on('click.aEd', '.aero-btn-end', function(){
 				self.stop();

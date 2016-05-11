@@ -399,14 +399,14 @@ Aero.guide = {
                     //Get current step
                     aeroStorage.getItem('aero:session:current', function(i){
                         Aero.tip.start(guide.id, parseInt(i));
-                    }, true); 
+                    }, true);
 
                 }else if(hasLink){
                     //URL link start
                     Aero.tip.start(Aero.utils.getUrlParam('guideid'));
 
                     //Change URL param
-                    window.location.href.replace('guideid', 'startedid');
+                    window.history.pushState("object or string", "Title", window.location.href.replace('guideid', 'startedid'));
                 }else{
                     //Render guide sidebar
                     var index = aeroStorage.getItem('aero:pathway');

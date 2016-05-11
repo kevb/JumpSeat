@@ -399,7 +399,7 @@ Aero.guide = {
                     //Get current step
                     aeroStorage.getItem('aero:session:current', function(i){
                         Aero.tip.start(guide.id, parseInt(i));
-                    }, true);
+                    }, true); 
 
                 }else if(hasLink){
                     //URL link start

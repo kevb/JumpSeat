@@ -404,6 +404,9 @@ Aero.guide = {
                 }else if(hasLink){
                     //URL link start
                     Aero.tip.start(Aero.utils.getUrlParam('guideid'));
+
+                    //Change URL param
+                    window.history.pushState("object or string", "Title", window.location.href.replace('guideid', 'startedid'));
                 }else{
                     //Render guide sidebar
                     var index = aeroStorage.getItem('aero:pathway');

@@ -1,97 +1,81 @@
 <?
 /**
- *  Model that fetches all data associated with guides
- */
+*  Model that fetches all data associated with guides
+*/
 class Guide_Model extends CI_Model
 {
-    private $collection = null;
-    private $pathwaymap_collection = null;
-    private $rolemap_collection = null;
-    private $host = null;
+	private $collection = null;
+	private $pathwaymap_collection = null;
+	private $rolemap_collection = null;
+	private $host = null;
 
-    /**
-     * Constructor
-     */
-    function __construct($host)
-    {
-        // Call the Model constructor
-        parent::__construct();
-        $this->load->library('mongo_db');
+	/**
+	 * Constructor
+	*/
+	function __construct($host)
+	{
+		// Call the Model constructor
+		parent::__construct();
+		$this->load->library('mongo_db');
 
-        //Load from config
-        $this->load->config('config', TRUE);
-        $this->host = $host;
+		//Load from config
+		$this->load->config('config', TRUE);
+		$this->host = $host;
 
-        $this->collection = $host . "_" . GUIDES;
+		$this->collection = $host . "_" . GUIDES;
         $this->version_collection = $host . "_" . VERSIONS;
-        $this->pathwaymap_collection = $host . "_" . PATHWAYGUIDE;
-        $this->rolemap_collection = $host . "_" . ROLEGUIDE;
+		$this->pathwaymap_collection = $host . "_" . PATHWAYGUIDE;
+		$this->rolemap_collection = $host . "_" . ROLEGUIDE;
 
-        $this->load->model('app_model');
+		$this->load->model('app_model');
+		$this->load->model('language_model', '', FALSE, $host);
         $this->load->model('version_model', '', FALSE, $host);
-    }
+	}
 
 
-    /**
-     *  Get real url from collection name
-     */
-    public function decode_url()
-    {
+	/**
+	 *  Get real url from collection name
+	 */
+	public function get_real_url(){
 
-        $first = str_replace("http_", "http://", $this->host);
-        $second = str_replace("https_", "https://", $first);
-        $host = str_replace("_", ".", $second);
+		$first = str_replace("http_", "http://", $this->host);
+		$second = str_replace("https_", "https://", $first);
+		$host = str_replace("_", ".", $second);
 
-        return $host;
-    }
-
-    /**
-     * Decode host from collection friendly host name, and set it in $this->host
-     * (Useful for external sources using REST services)
-     * @param string $host URL of the application
-     * @return string
-     */
-    public function encode_url($host = '')
-    {
-        if (empty($host))
-            $host = $this->host;
-
-        $first = str_replace("http://", "http_", $host);
-        $second = str_replace("https://", "https_", $first);
-        $this->host = str_replace(".", "_", $second);
-    }
+		return $host;
+	}
 
 
-    /**
-     * Check to see if a user has access to a pathway
-     * @param string $pathwayid
-     * @return boolean
-     */
-    public function has_access($guideid)
-    {
-        $wheres = array();
+	/**
+	 * Check to see if a user has access to a pathway
+	 * @param string $pathwayid
+	 * @return boolean
+	 */
+	public function has_access($guideid)
+	{
+		$wheres = array();
 
-        $this->load->library('person', array('host' => $this->host));
-        if(in_array("Administrator", $this->person->roles)) return true;
+		$this->load->library('person', array('host' => $this->host));
+		if(in_array("Administrator", $this->person->roles)) return true;
 
-        $roles = $this->mongo_db
-            ->where(array('guideid' => $guideid))
-            ->get($this->rolemap_collection);
+		$roles = $this->mongo_db
+			->where(array('guideid' => $guideid))
+			->get($this->rolemap_collection);
 
-        //Default to Guest
-        if(sizeof($roles) == 0) return true;
+		//Default to Guest
+		if(sizeof($roles) == 0) return true;
 
-        // @todo clean this up with orWhere roleid && pathwayid
-        foreach($roles as $role)
-        {
-            foreach($this->person->roleids as $roleid)
-            {
-                if($role['roleid'] == $roleid) return true;
-            }
-        }
+		// @todo clean this up with orWhere roleid && pathwayid
+		foreach($roles as $role)
+		{
+			foreach($this->person->roleids as $roleid)
+			{
+				if($role['roleid'] == $roleid) return true;
+			}
+		}
 
-        return false;
-    }
+		return false;
+	}
 
 
     /**
@@ -115,92 +99,108 @@ class Guide_Model extends CI_Model
     }
 
 
-    /**
-     * Get all guides from mongo
-     * @param array $order_by order of tours
-     * @return array $guides
-     */
-    public function get_all($select = array(), $forceAdmin = false, $enduser = "")
-    {
+	/**
+	 * Get all guides from mongo
+	 * @param array $order_by order of tours
+	 * @return array $guides
+	*/
+	public function get_all($select = array(), $forceAdmin = false, $enduser = "")
+	{
         $hasAuto = false;
         $hasRestrict = false;
         $whereIds = array();
+        $locale = substr(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']),0,2);
 
         $order = array('title' => 'ASC');
 
-        // @todo Admin inactive
-        $where = array('active' => true);
-        $this->load->library('person', array('host' => $this->host));
+		// @todo Admin inactive
+		$where = array('active' => true);
+		$this->load->library('person', array('host' => $this->host));
 
-        if($forceAdmin || $this->person->acl['guides']['create'] || $this->person->acl['guides']['edit']){
-            $where = array();
-        }
+		if($forceAdmin || $this->person->acl['guides']['create'] || $this->person->acl['guides']['edit']){
+			$where = array();
+		}
 
-        //Get guides
-        $guides = $this->mongo_db
-            ->select($select)
-            ->where($where)
-            ->orderBy($order)
-            ->get($this->collection);
+		//Get guides
+		$guides = $this->mongo_db
+			->select($select)
+			->where($where)
+			->orderBy($order)
+			->get($this->collection);
 
         $guides = $this->version_check($guides);
 
-        foreach($guides as $key => $guide){
-            if( !$this->has_access($guide['id']) )
+        //Get language guides based off of the language flag that is sent through
+    	if ($locale !== 'en'){
+    		$languageContent = $this->language_model->get_all_by_language($locale);
+    	}
+
+		foreach($guides as $key => $guide){
+			if( !$this->has_access($guide['id']) )
             {
-                unset($guides[$key]);
-                $guides = array_values($guides);
-            }else{
+				unset($guides[$key]);
+				$guides = array_values($guides);
+			}else{
                 $hasAuto = isset($guide['auto']) || $hasAuto ? true : false;
                 $hasRestrict = (isset($guide['restrict']) && sizeof($guide['restrict']) > 0) ? true : false;
                 array_push($whereIds, $guide['id']);
+
+                // Add Language content to the guide
+                if (isset($locale) && $locale !== 'en'){
+                	foreach($languageContent as $key => $guideContent){
+                		if ($guide['id'] === $guideContent['guideid']){
+                			$guide = $this->language_model->add_language_pack($guide, $guideContent);
+                			$guides[$key] = $guide;
+                		}
+                	}
+	            }
             }
-        }
+		}
 
         //Check Audit for Completed items
         if($enduser && $hasRestrict || $enduser && $hasAuto) {
             $this->tag_completed($enduser, $whereIds, $guides);
         }
 
-        return $guides;
-    }
+		return $guides;
+	}
 
-    /**
-     * Get count of guides
-     * @return integer $count
-     */
-    public function get_count()
-    {
-        //Get roles
-        $count = $this->mongo_db
-            ->count($this->collection);
+	/**
+	 * Get count of guides
+	 * @return integer $count
+	 */
+	public function get_count()
+	{
+		//Get roles
+		$count = $this->mongo_db
+			->count($this->collection);
 
-        return $count;
-    }
+		return $count;
+	}
 
-    /**
-     * Get all guides from mongo
-     * @param array $order_by order of tours
-     * @return array $guides
-     */
-    public function get_by_id($id)
-    {
-        //Get guides
-        $guide = $this->mongo_db
-            ->where(array('_id' => new MongoId($id)))
-            ->get($this->collection);
+	/**
+	 * Get all guides from mongo
+	 * @param array $order_by order of tours
+	 * @return array $guides
+	 */
+	public function get_by_id($id)
+	{
+		//Get guides
+		$guide = $this->mongo_db
+			->where(array('_id' => new MongoId($id)))
+			->get($this->collection);
 
         $guide = $this->version_check($guide);
-        return $guide[0];
-    }
+		return $guide[0];
+	}
 
-    /**
-     * Get multiple guides
-     * @param string[] $ids Requested IDs
-     * @return string[] Guides
-     */
-    public function get_by_ids($ids, $select = array())
-    {
+	/**
+	 * Get multiple guides
+	 * @param string[] $ids Requested IDs
+	 * @return string[] Guides
+	 */
+	public function get_by_ids($ids, $select = array())
+	{
         $whereIds = array();
 
         foreach ($ids as $id)
@@ -216,44 +216,44 @@ class Guide_Model extends CI_Model
 
         $guides = $this->version_check($guides);
         return $guides;
-    }
+	}
 
-    /**
-     * Get by name
-     * @param array $order_by order of tours
-     * @return array $guides
-     */
-    public function get_by_title($title)
-    {
-        //Get guides
-        $guide = $this->mongo_db
-            ->whereLike("title", $title)
-            ->get($this->collection);
-
-        $guide = $this->version_check($guide);
-        return $guide;
-    }
-
-    public function get_title_by_id($id)
-    {
-        $guide = $this->mongo_db
-            ->where(array('_id' => new MongoId($id)))
-            ->get($this->collection);
+	/**
+	 * Get by name
+	 * @param array $order_by order of tours
+	 * @return array $guides
+	 */
+	public function get_by_title($title)
+	{
+		//Get guides
+		$guide = $this->mongo_db
+			->whereLike("title", $title)
+			->get($this->collection);
 
         $guide = $this->version_check($guide);
-        return $guide[0]['title'];
-    }
+		return $guide;
+	}
 
-    /**
-     *  Create a clone of a guide
-     */
-    public function create_clone($id)
-    {
-        if(is_string($id))
-        {
-            //Grab the current
-            $guide = $this->get_by_id($id);
-            $guide['title'] = $guide['title'] . " Copy";
+	public function get_title_by_id($id)
+	{
+		$guide = $this->mongo_db
+			->where(array('_id' => new MongoId($id)))
+			->get($this->collection);
+
+        $guide = $this->version_check($guide);
+		return $guide[0]['title'];
+	}
+
+	/**
+	 *  Create a clone of a guide
+	 */
+	public function create_clone($id)
+	{
+		if(is_string($id))
+		{
+			//Grab the current
+			$guide = $this->get_by_id($id);
+			$guide['title'] = $guide['title'] . " Copy";
 
             //Start off with version 1 when cloning
             $guide['version'] = 1;
@@ -261,70 +261,70 @@ class Guide_Model extends CI_Model
             // @todo this causes a bug is it even needed for cloning?
             //$this->version_model->create($guide);
 
-            //Clone
-            $g = $this->create($guide);
+			//Clone
+			$g = $this->create($guide);
 
-            return $g != false;
-        }
-        else
-        {
-            foreach($id as $i)
-            {
-                $this->create_clone($i);
-            }
-        }
-        return true;
-    }
+			return $g != false;
+		}
+		else
+		{
+			foreach($id as $i)
+			{
+				$this->create_clone($i);
+			}
+		}
+		return true;
+	}
 
-    /**
-     * Get all guides from mongo
-     * @param array $order_by order of tours
-     * @return array $guides
-     */
-    public function create($guide)
-    {
-        unset($guide['id']);
-        if(!isset($guide['step'])) $guide['step'] = array();
+	/**
+	 * Get all guides from mongo
+	 * @param array $order_by order of tours
+	 * @return array $guides
+	 */
+	public function create($guide)
+	{
+		unset($guide['id']);
+		if(!isset($guide['step'])) $guide['step'] = array();
 
-        $app = $this->app_model->get_by_host($this->decode_url());
+		$app = $this->app_model->get_by_host($this->get_real_url());
 
-        $this->load->library('person');
+		$this->load->library('person');
         $guide['version'] = 1;
-        $guide['created'] = New Mongodate(time());
-        $guide['creator'] = $this->person->username;
-        $guide['host'] = $app['id'];
+		$guide['created'] = New Mongodate(time());
+		$guide['creator'] = $this->person->username;
+		$guide['host'] = $app['id'];
 
 
-        if(sizeof($app) > 0){
-            try
-            {
-                $id = $this->mongo_db->insert($this->collection, (array) $guide );
+		if(sizeof($app) > 0){
+			try
+			{
+				$id = $this->mongo_db->insert($this->collection, (array) $guide );
                 $this->version_model->create($id->{'$id'}, $guide);
-            }
-            catch (Exception $e)
-            {
-                return false;
-            }
+			}
+			catch (Exception $e)
+			{
+				return false;
+			}
 
-            $this->update_cache($app);
-            return $id->{'$id'};
-        }else{
-            return false;
-        }
-    }
+			$this->update_cache($app);
+			return $id->{'$id'};
+		}else{
+			return false;
+		}
+	}
 
 
-    /**
-     * Replaces content in a guide with new data
-     * @param $id Guide Id
-     * @param $find Find Text
-     * @param $replace Replace With
-     * @param $namespace Property to Search
+	/**
+	 * Replaces content in a guide with new data
+	 * @param $id Guide Id
+	 * @param $find Find Text
+	 * @param $replace Replace With
+	 * @param $namespace Property to Search
      * @param $isPreview Save or Not (return preview of what will change)
-     * @return boolean
+	 * @return boolean
      * @todo add how many we found
-     */
-    public function replace_prop($id, $find, $replace, $namespace, $case, $isPreview)
+	 */
+	public function replace_prop($id, $find, $replace, $namespace, $case, $isPreview)
     {
         //Go get the guide
         $guide = $this->get_by_id($id);
@@ -378,17 +378,17 @@ class Guide_Model extends CI_Model
             $preview = $found;
         }
 
-        return $preview;
-    }
+		return $preview;
+	}
 
-    /**
-     * Updates a guide with new data
-     * @param $id
-     * @param $guide
-     * @return mixed
-     */
-    public function update_by_id($id, $guide)
-    {
+	/**
+	 * Updates a guide with new data
+	 * @param $id
+	 * @param $guide
+	 * @return mixed
+	 */
+	public function update_by_id($id, $guide)
+	{
         unset($guide['id']);
 
         // Create new version and get version number
@@ -396,20 +396,18 @@ class Guide_Model extends CI_Model
         $current = $this->version_model->get_current_version($id);
 
         // Update object in main collection
-        $this->load->library('person');
+		$this->load->library('person');
         $guide['version'] = $current;
-        $guide['modified'] = New Mongodate(time());
-        $guide['modifier'] = $this->person->username;
-        $r = $this->mongo_db
-            ->where(array('_id' => new MongoId($id)))
-            ->set( (array) $guide )
-            ->update($this->collection);
+		$guide['modified'] = New Mongodate(time());
+		$guide['modifier'] = $this->person->username;
+		$this->mongo_db
+			->where(array('_id' => new MongoId($id)))
+			->set( (array) $guide )
+			->update($this->collection);
 
-
-        if (!empty($r))
-            $this->update_cache();
-        return empty($r) ? false : $guide;
-    }
+		$this->update_cache();
+		return $guide;
+	}
 
     /** NOT USED anymore.
      *
@@ -434,85 +432,81 @@ class Guide_Model extends CI_Model
         return $guide;
     }
 
-    /**
-     * Delete guide by id
-     * @param string id
-     * @return boolean
-     */
-    public function delete_by_id($id, $host = '')
-    {
-        // Need to handle host coming from external sources
-        if (!empty($host) && !empty($this->host))
-            $this->host=$this->encode_url($host);
-
-        try
-        {
-            if(is_string($id)){
+	/**
+	 * Delete guide by id
+	 * @param string id
+	 * @return boolean
+	 */
+	public function delete_by_id($id)
+	{
+		try
+		{
+			if(is_string($id)){
 
                 $this->load->model('trash_model', '', FALSE, $this->host);
 
                 // Move to trash
                 $this->trash_model->trash_guide($id);
 
-                try {
-                    //Delete role map
-                    $this->mongo_db
-                        ->where(array('guideid' => $id))
-                        ->delete($this->rolemap_collection);
+				try {
+					//Delete role map
+					$this->mongo_db
+						->where(array('guideid' => $id))
+						->delete($this->rolemap_collection);
 
-                    //Delete pathway map
-                    $this->mongo_db
-                        ->where(array('guideid' => $id))
-                        ->delete($this->pathwaymap_collection);
+					//Delete pathway map
+					$this->mongo_db
+						->where(array('guideid' => $id))
+						->delete($this->pathwaymap_collection);
 
-                }catch(Exception $e){
-                    log_message('error', 'Error trying to cleanup relationships. Collections may not exist? :' . $e);
-                }
+				}catch(Exception $e){
+					log_message('error', 'Error trying to cleanup relationships. Collections may not exist? :' . $e);
+				}
 
-                $this->update_cache();
-                return true;
-            }else{
+				$this->update_cache();
+				return true;
+			}else{
 
-                //Delete multi
-                foreach ($id as $i)
-                {
-                    if (!$this->delete_by_id($i))
-                    {
-                        return false;
-                    }
-                }
+				//Delete multi
+				foreach ($id as $i)
+				{
+					if (!$this->delete_by_id($i))
+					{
+						return false;
+					}
+				}
 
-                $this->update_cache();
-                return true;
-            }
-        }
-        catch (Exception $e)
-        {
-            return false;
-        }
-    }
+				$this->update_cache();
+				return true;
+			}
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+	}
 
-    /**
-     * Update cache number
-     */
-    public function update_cache($app = null)
-    {
-        if(!$app) $app = $this->app_model->get_by_host($this->decode_url());
-        $app['version']++;
+	/**
+	 * Update cache number
+	 */
+	public function update_cache($app = null)
+	{
+		if(!$app) $app = $this->app_model->get_by_host($this->get_real_url());
+		$app['version']++;
 
-        $this->app_model->update_by_id($app['id'], $app);
-    }
+		$this->app_model->update_by_id($app['id'], $app);
+	}
 
-    /**
-     * Get cache number
-     */
-    public function get_cache($host = null)
-    {
-        if(!isset($host)) $host = $this->decode_url();
+	/**
+	 * Get cache number
+	 */
+	public function get_cache($host = null)
+	{
+		if(!isset($host)) $host = $this->get_real_url();
 
-        $app = $this->app_model->get_by_host($host);
-        return $app['version'];
-    }
+		$app = $this->app_model->get_by_host($host);
+		return $app['version'];
+	}
 
     /** Check to see if the guide has a version number, if not start at version 1
      *  TODO: Once all guides have version numbers, this function and it's references can be removed

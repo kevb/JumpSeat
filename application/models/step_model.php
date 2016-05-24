@@ -32,6 +32,7 @@ class Step_Model extends CI_Model
 		$this->collection = $this->host . "_" . GUIDES;
 		$this->load->model('guide_model', '', FALSE, $this->host);
         $this->load->model('version_model', '', FALSE, $this->host);
+        $this->load->model('language_model', '', FALSE, $this->host);
 	}
 
 
@@ -43,6 +44,9 @@ class Step_Model extends CI_Model
 	public function insertAt($index, $steps)
 	{
 		$guide = $this->guide_model->get_by_id($this->id);
+		
+		// Get all stored language objects
+		$languageObjects = $this->language_model->get_all_by_id($this->id);
 
 		unset($steps['id']);
 
@@ -52,6 +56,16 @@ class Step_Model extends CI_Model
 
 			//Update the DB
 			$this->save($guide);
+
+			// If language objects then add the new step after stripping the content
+			if (sizeof($languageObjects) > 0){
+				$thisStep = $this->language_model->strip_step_content($steps);
+				foreach ($languageObjects as &$lObject) {
+					array_splice( $lObject["step"], $index, 0, array($thisStep));
+					$this->language_model->update_by_id($lObject['id'], $lObject);
+				}
+
+			}
 
 			return $guide;
 		}else{
@@ -120,6 +134,9 @@ class Step_Model extends CI_Model
 	{
 		$guide = $this->guide_model->get_by_id($this->id);
 
+		// Get all stored language objects
+		$languageObjects = $this->language_model->get_all_by_id($this->id);
+
 		if($guide){
 
 			$out = array_splice($guide["step"], $from, 1);
@@ -127,6 +144,16 @@ class Step_Model extends CI_Model
 
 			//Update the DB
 			$this->save($guide);
+
+			//If language objects then move the step to the new position
+			if (sizeof($languageObjects) > 0){
+				foreach ($languageObjects as &$lObject) {
+					$outPosition = array_splice($lObject["step"], $from, 1);
+					array_splice($lObject["step"], $to, 0, $outPosition);
+					$this->language_model->update_by_id($lObject['id'], $lObject);
+				}
+
+			}
 
 			return $guide;
 
@@ -144,6 +171,9 @@ class Step_Model extends CI_Model
 	{
 		$guide = $this->guide_model->get_by_id($this->id);
 
+		// Get all stored language objects
+		$languageObjects = $this->language_model->get_all_by_id($this->id);
+
 		if($guide){
 
 			unset($guide["step"][$index]);
@@ -152,6 +182,16 @@ class Step_Model extends CI_Model
 
 			//Update the DB
 			$this->save($guide);
+
+			// If language objects then delete the step from each object
+			if (sizeof($languageObjects) > 0){
+				foreach ($languageObjects as &$lObject) {
+					unset($lObject["step"][$index]);
+					$lObject["step"] = array_values($lObject["step"]);
+					$this->language_model->update_by_id($lObject['id'], $lObject);
+				}
+
+			}
 
 			return $guide;
 

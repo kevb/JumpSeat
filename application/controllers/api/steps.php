@@ -37,6 +37,7 @@ class Steps extends REST_Controller
      */
     function index_post()
     {
+
 		$index = floor( $this->request_data['insertAt']) + 1;
 
 		unset($this->request_data['insertAt']);

@@ -85,7 +85,7 @@ class Guides extends REST_Controller
 
 			$hostUrl = ($host == IAPP) ? "/iapp/welcome/home" : $host;
 
-    		$tools = "<div class='tools' style='width:315px' data-id='$id'>";
+    		$tools = "<div class='tools' style='width:316px' data-id='$id'>";
 			$tools .= "<a target='_blank' href='$hostUrl$startUrl?guideid=$id' class='small button success'>Steps <i class='ss-icon'>&#xE396;</i></a> ";
 
     		if($acl['guides']['edit'] || ($creator == $user && $acl['guides']['create'])){

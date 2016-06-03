@@ -39,6 +39,9 @@
 	display:block;
 	position:static;
 	-webkit-appearance: checkbox;
+    opacity: 1;
+    height:auto;
+    width:auto;
 }
 
 .aero-app form label {
@@ -524,6 +527,7 @@ li.aero-helper-dropable {
 	margin-left: -25px;
 	margin-right: -25px;
 	padding: 20px 25px;
+    color: #fff!important;
 }
 .aero-tip-title span {
 	display: block;
@@ -998,14 +1002,14 @@ a.aicon-role:hover span, .aero-menu-active a.aicon-role span { background-positi
 	padding-bottom: 0.5em;
 	text-transform: uppercase;
 	font-weight: 600!important;
-	font-size: 0.9em!important;
+	font-size: 12px!important;
 }
 .aero-section input[type=text], .aero-section textarea, .aero-section select, a.aero-multi-drop {
 	background:#fff;
 	border: 1px solid #E1E1E1;
 	font-size: 15px;
 	font-weight: 400;
-	font-family: 'Source Sans Pro';
+	font-family: 'Source Sans Pro'!important;
 	line-height: 30px;
 	margin-bottom: 20px;
 	padding: 5px 10px;
@@ -1019,6 +1023,7 @@ a.aicon-role:hover span, .aero-menu-active a.aicon-role span { background-positi
 	min-width: auto;
 	max-width: auto;
 	height: auto;
+	border-radius: 0;
 }
 .aero-section textarea {
 	line-height: 20px!important;

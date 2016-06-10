@@ -140,7 +140,7 @@ Aero.view.step.admin = {
         if (tag == "a"){
             //Auto check page unload
             var ahref = $q(path).attr('href');
-            if (ahref != "javascript://" && ahref != "#") nav = {unload: 1};
+            if (ahref != "javascript://" && ahref != "#") nav = { unload:  -1 };
         }
 
         //Step settings

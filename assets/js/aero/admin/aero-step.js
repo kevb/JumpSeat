@@ -140,7 +140,7 @@ Aero.view.step.admin = {
         if (tag == "a"){
             //Auto check page unload
             var ahref = $q(path).attr('href');
-            if (ahref != "javascript://" && ahref != "#") nav = {unload: 1};
+            if (ahref != "javascript://" && ahref != "#") nav = { unload:  -1 };
         }
 
         //Step settings
@@ -366,6 +366,8 @@ Aero.view.step.record = {
     init : function(e){
         var path = Aero.picker.get(e);
         Aero.view.step.admin.autoAdd(path);
+
+        $q('.aero-tip').remove();
     },
 
     /**
@@ -388,16 +390,16 @@ Aero.view.step.record = {
         }
         $q('.aero-tip').remove();
 
-        $q('body').on('mousedown.autorc', function (e) {
+        $q('body').off('mousedown.autorc').on('mousedown.autorc', function (e) {
             _this.init(e);
         });
 
-        $q('body').on('focus', 'input.autori,textarea.autort', function (e) {
+        $q('body').off('input.autori,textarea.autort').on('focus', 'input.autori,textarea.autort', function (e) {
             _this.init(e);
         });
 
         //Don't add on aero
-        $q('body').on('mousedown.side', '.aero-app, .ae-active-el, .aero-play', function (e) {
+        $q('body').on('mousedown.side', '.aero-modal, .aero-tip, .aero-app, .ae-active-el, .aero-play', function (e) {
             e.stopPropagation();
         });
 

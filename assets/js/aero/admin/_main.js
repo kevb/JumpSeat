@@ -21,6 +21,11 @@ function AeroAdminMain() {
             if (event.shiftKey) Aero.view.step.admin.initPicker();
         }
     });
+
+    //Is already recording?
+    if(aeroStorage.getItem('aero:session:recording')){
+        Aero.view.step.record.on();
+    }
 }
 
 //Start

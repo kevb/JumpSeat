@@ -744,6 +744,13 @@ Aero.tip = {
                 $q('body').append($tip);
                 Aero.view.step.setState(i);
 
+				try {
+					if (step.onCode) eval(step.onCode);
+				}
+				catch(err){
+					Aero.log('On show code error: ' + err, 'error');
+				}
+
                 //// @todo finalize spotlight
                 //if(true){
                 //     self.spotlight($tip, step);
@@ -809,6 +816,14 @@ Aero.tip = {
 
         //Ignore missing steps
         if(!$q('.aero-tip:visible').length > 0) return;
+
+        if(step.offCode){
+            try {
+                eval(step.offCode);
+            }catch(err){
+                Aero.log('Before hide code is broken: ' + err,'error');
+            }
+        }
 
 		$q('.aero-active, .aero-showElement').removeClass('aero-active aero-showElement aero-relativePosition');
 		$q('.aero-tip, .aero-remove').remove();
@@ -1095,9 +1110,11 @@ Aero.tip = {
 		var self = this;
 
 		$q('body')
-			.off('click.aPe').on('click.aPe', '.aero-btn-prev', function(){
+			.off('mousedown.aPe').on('mousedown.aPe', '.aero-btn-prev', function(){
                 Aero.navigating = true;
                 self.prev();
+
+                return false;
 			})
 			.off('click.aEd').on('click.aEd', '.aero-btn-end', function(){
 				self.stop();
@@ -1169,9 +1186,11 @@ Aero.tip = {
 		});
 
         //Default for next
-        $q('body').off('click.aNe').on('click.aNe', '.aero-btn-next', function(){
+        $q('body').off('mousedown.aNe').on('mousedown.aNe', '.aero-btn-next', function(){
             Aero.navigating = true;
             self.next();
+
+			return false;
         });
 
 		for(var n in nav){
@@ -1182,11 +1201,13 @@ Aero.tip = {
 
                 switch(n) {
                     case "next":
-                        $q('body').off('click.aNe').on('click.aNe', '.aero-btn-next', function(){
+                        $q('body').off('mousedown.aNe').on('mousedown.aNe', '.aero-btn-next', function(){
                             Aero.navigating = true;
                             if(!self.validate()) return;
 
                             self.jumpTo(nav[n]);
+
+							return false;
                         });
                         break;
 

@@ -735,6 +735,13 @@ Aero.tip = {
                 $q('body').append($tip);
                 Aero.view.step.setState(i);
 
+				try {
+					if (step.onCode) eval(step.onCode);
+				}
+				catch(err){
+					Aero.log('On show code error: ' + err, 'error');
+				}
+
                 //// @todo finalize spotlight
                 //if(true){
                 //     self.spotlight($tip, step);
@@ -800,6 +807,14 @@ Aero.tip = {
 
         //Ignore missing steps
         if(!$q('.aero-tip:visible').length > 0) return;
+
+        if(step.offCode){
+            try {
+                eval(step.offCode);
+            }catch(err){
+                Aero.log('Before hide code is broken: ' + err,'error');
+            }
+        }
 
 		$q('.aero-active, .aero-showElement').removeClass('aero-active aero-showElement aero-relativePosition');
 		$q('.aero-tip, .aero-remove').remove();

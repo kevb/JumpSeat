@@ -41,7 +41,7 @@ $lang['role']        = "Rol";
 $lang['roles']       = "Rollen";
 $lang['guide']       = "Gids";
 $lang['guides']          = "Gidsen";
-$lang['pathways']    = "Leerweg";
+$lang['pathways']     = "Leerweg";
 
 //Buttons
 $lang['save']        = "Save";
@@ -52,11 +52,11 @@ $lang['add']         = "Voeg toe";
 //Labels
 $lang['title']       = "Titel";
 $lang['desc']        = "Omschrijving";
-$lang['active']      = "Actief";
+$lang['active']          = "Actief";
 
 $lang['stepdel']       = "Stap verwijderd F";
-$lang['stepdelconf']   = "Weet je zeker dat je deze stap wilt verwijderen? F";
-$lang['guidedelconf']  = "Weet je zeker dat je deze gids wilt verwijderen? F";
+$lang['stepdelconf']    = "Weet je zeker dat je deze stap wilt verwijderen? F";
+$lang['guidedelconf']   = "Weet je zeker dat je deze gids wilt verwijderen? F";
 
 /**
  *  Guide admin nav
@@ -166,28 +166,28 @@ $lang['xno']        = "Doe niks";
 $lang['dontr']     = "Ga niet terug";
 
 //Buttons, titles, and descriptions
-$lang['done']       = "Ik ben klaar";
-$lang['stepa']      = "Voeg een stap toe";
-$lang['stepn']      = "Stap nummer";
-$lang['steph']      = "Het lijkt erop dat je nog geen stappen hebt toegevoegd. Voeg stappen toe door hierboven op \"Voeg een stap toe\" te klikken en vervolgens op een element op de pagina te klikken.";
+$lang['done']     = "Ik ben klaar";
+$lang['stepa']        = "Voeg een stap toe";
+$lang['stepn']        = "Stap nummer";
+$lang['steph']     = "Het lijkt erop dat je nog geen stappen hebt toegevoegd. Voeg stappen toe door hierboven op \"Voeg een stap toe\" te klikken en vervolgens op een element op de pagina te klikken.";
 $lang['contente']   = "Bewerk Inhoud";
 $lang['contentd']   = "Omschrijf in detail wat de gebruiker ziet en hoe ze naar de volgende stap kunnen gaan; titels zijn zichtbaar in de stappenlijst in de sidebar.";
-$lang['content']    = "Inhoud";
-$lang['stylee']     = "Bewerk Stijl";
-$lang['styled']     = "Controleer wat de gebruiker ziet. Verander de tooltip grootte, posities, en dergelijke.";
+$lang['content']       = "Inhoud";
+$lang['stylee']        = "Bewerk Stijl";
+$lang['styled']        = "Controleer wat de gebruiker ziet. Verander de tooltip grootte, posities, en dergelijke.";
 $lang['pos']       = "Positie";
 $lang['size']      = "Grootte";
 $lang['sizec']     = "Custom grootte (pixels)";
-$lang['stitle']    = "Show titel in tip?";
+$lang['stitle']        = "Show titel in tip?";
 $lang['sprev']     = "Show met vorige stap?";
 $lang['sbar']      = "Sluit sidebar?";
 $lang['ctip']      = "Contextuele tooltip?";
 $lang['nave']      = "Bewerk Navigatie";
 $lang['navd']      = "Of je nou de simpele “volgende” knop gebruikt of een meer geavanceerde gebruikers-interactie, jij beslist hoe de gebruikers van de ene naar de volgende stap gaan.";
 $lang['move']      = "Ga naar de volgende stap wanneer";
-$lang['moveto']    = "Ga naar de volgende stap";
-$lang['addm']      = "Voeg meer toe";
-$lang['buttonc']   = "Wil je de beschikbare knoppen in de tooltip veranderen?";
+$lang['moveto']        = "Ga naar de volgende stap";
+$lang['addm']     = "Voeg meer toe";
+$lang['buttonc']    = "Wil je de beschikbare knoppen in de tooltip veranderen?";
 $lang['hide']      = "Verbergen";
 $lang['loce']      = "Bewerk Locatie";
 $lang['uset']      = "Gebruik tekst?";

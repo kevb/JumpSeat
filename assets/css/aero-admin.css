@@ -786,13 +786,9 @@ table .tools { display:inline-block;}
 	top: 3px;
 	right: 15px;
 }
-.dataTables_length label:after {
-	content: ":";
-}
 
 .dataTables_length select {
 	display: inline-block;
-	float: right;
 	width: 61px;
 	background-color: #fff;
 	border: 1px solid #E1E1E1;

@@ -12,7 +12,7 @@ var Trash = {};
 Trash.model = {
 
     url : "api/trash",
-
+    
     defaults : function(){
         return {
             "title" : "",

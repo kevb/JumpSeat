@@ -31,13 +31,13 @@
      <div class="row">
          <div class="login-form small-offset-1 small-10 medium-offset-2 medium-8 large-offset-4 large-4 columns form">
             <form class="login">
-                <input type="text" value="" name="username" placeholder="Username/Email" />
-                <input type="password" value="" name="password" placeholder="Password" />
+                <input type="text" value="" name="username" placeholder="<?= $lang->luser; ?>" />
+                <input type="password" value="" name="password" placeholder="<?= $lang->lpass; ?>" />
                 <a href="/apps" class="btn sign-in"><?= $lang->signin; ?></a>
             </form>
 
             <form class="email-form clearfix">
-                <input id="reset" type="text" value="" name="email" placeholder="Username/Email" />
+                <input id="reset" type="text" value="" name="email" placeholder="<?= $lang->luser; ?>" />
                 <a class="reset-pwd btn"><?= $lang->reset; ?></a>
                 <a class="reset-cnl btn"><?= $lang->cancel; ?></a>
             </form>

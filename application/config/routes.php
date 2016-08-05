@@ -57,6 +57,7 @@ $route['(:any)/profile'] = "profile/index/$1";
 $route['app/(:any)/analytics'] = "analytics/index/$1";
 $route['app/(:any)/versions/(:any)'] = "app/subsection/$1/$2/versions";
 $route['app/(:any)/trash'] = "app/section/$1/trash";
+$route['app/(:any)/language/(:any)'] = "app/subsection/$1/$2/language";
 
 //Custom for screenshot apps
 $route['app/(:any)/features'] = "app/section/$1/features";

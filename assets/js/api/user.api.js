@@ -15,7 +15,7 @@ var User = {
  *  @namespace User
  *  @class User.model
  *  Model for User Object
- */
+ */ 
 User.model = {
 
     url : "api/users",

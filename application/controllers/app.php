@@ -122,6 +122,10 @@ class App extends CI_Controller {
         {
             $aclSection = "guides";
         }
+        else if($view == "language")
+        {
+            $aclSection = "guides";
+        }
         else if($view == "pages")
         {
             $aclSection = "guides";

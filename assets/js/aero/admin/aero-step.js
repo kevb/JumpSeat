@@ -223,10 +223,11 @@ Aero.view.step.admin = {
         //Delete
         $q('body').off("click.aroSD").on("click.aroSD", ".aero-steps ul li a.aero-delete", function(){
             var index = $q( ".aero-steps li" ).index( $q(this).parents('li:eq(0)') );
+
             Aero.confirm({
-                ok : "Delete",
-                title : "Step delete",
-                msg : "Are you sure you want to delete this step?",
+                ok : AeroStep.lang.del,
+                title : AeroStep.lang.stepdel,
+                msg : AeroStep.lang.stepdelconf,
                 onConfirm : function(){
                     Aero.step.destroy(index);
                 }

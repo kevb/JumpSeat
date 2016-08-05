@@ -79,6 +79,7 @@ debug : <?= $debug ? "true":"false" ?>,
 admin : <?= $admin ? "true" : "false" ?>,
 baseUrl : "<?= base_url(); ?>",
 host : "<?= $app; ?>",
+locale : "<?= substr(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']),0,2); ?>",
 <? if ($require != ""){ ?>
     required : {
     ready : function(){

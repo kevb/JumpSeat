@@ -107,9 +107,9 @@ Aero.view.guide.admin = {
             var name = li.find('a:last').text();
 
             Aero.confirm({
-                ok : "Delete",
+                ok : AeroStep.lang.del,
                 title : name,
-                msg : "Are you sure you want to delete this guide?",
+                msg : AeroStep.lang.guidedelconf,
                 onConfirm : function(){
                     Aero.guide.destroy(id);
                 }

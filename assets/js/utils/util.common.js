@@ -345,7 +345,20 @@ Utils.datatable = function(url, columns, id){
         "ajax" : '/api/'+ url + host + Aero.host +'&id='+ id,
         "order": [[ 1, "asc" ]],
         "columnDefs": [{ "targets": 0, "orderable": false }, { "targets": (columns.length - 1), "orderable": false }],
-        "columns": columns
+        "columns": columns,
+        "oLanguage": {
+            "sSearch": AeroStep.lang.dtfilter,
+            "sLengthMenu": AeroStep.lang.dtentries,
+            "sInfoFiltered": AeroStep.lang.dtfiltered,
+            "sInfo": AeroStep.lang.dtinfo,
+            "sEmptyTable": AeroStep.lang.dtempty,
+            "sInfoEmpty": AeroStep.lang.dtinfoempty,
+            "sZeroRecords": AeroStep.lang.dtzero,
+            "oPaginate": {
+                "sNext": AeroStep.lang.dtnext,
+                "sPrevious": AeroStep.lang.dtprevious
+            }
+        }
     });
 
     //Draw the table
@@ -353,7 +366,7 @@ Utils.datatable = function(url, columns, id){
 
 
     //Switch labels
-    $q('#DataTables_Table_0_filter input').attr('placeholder', 'any column...');
+    $q('#DataTables_Table_0_filter input').attr('placeholder', AeroStep.lang.dtfilterplace + '...');
     $q('.next').html("&rarr;");
     $q('.previous').html("&larr;");
 

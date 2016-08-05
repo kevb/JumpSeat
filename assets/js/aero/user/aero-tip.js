@@ -967,6 +967,8 @@ Aero.tip = {
      * @returns {void}
 	 */
 	scrollToElement : function($el){
+
+
 		var $tip = $q('.aero-tip:eq(0)');
         var $scrollParent = Aero.pos.isScrollable($el);
         var nudge = 0;
@@ -985,6 +987,15 @@ Aero.tip = {
             }, 500, function () {
                 $q('.aero-tip').fadeIn(200);
             });
+
+            //Tip still not visible
+            if(!$tip.visible(false)){
+                $q('body').stop().animate({
+                    scrollTop: nudge + $el.offset().top - ($q('body').height()/2 + $el.height()/2)
+                }, 500, function () {
+                    $q('.aero-tip').fadeIn(200);
+                });
+            }
 
             $tip.hide();
 		}else{

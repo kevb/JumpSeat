@@ -42,6 +42,7 @@ var Aero = {
 
 		//Default host
 		if(!data.host) data.host = this.host;
+		if(!data.locale) data.locale = AeroStep.locale;
 
         //Limitation for POST PUT
 		if (type == "POST" || type == "PUT") data = JSON.stringify(data);

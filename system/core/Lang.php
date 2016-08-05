@@ -64,7 +64,19 @@ class CI_Lang {
 	 */
 	function load($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
 	{
-		$langfile = str_replace('.php', '', $langfile);
+	    //Get locale
+        $locale = substr(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']),0,2);
+
+        //Check if it exists
+        if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/system/language/" . $locale)){
+            $locale = $locale;
+        }else {
+            //Use base config
+            $locale = $idiom;
+        }
+        $idiom = $locale;
+
+	    $langfile = str_replace('.php', '', $langfile);
 
 		if ($add_suffix == TRUE)
 		{

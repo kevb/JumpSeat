@@ -58,8 +58,12 @@ class Apps extends REST_Controller
 	{
 		$app = $this->request->body;
 
+        if (empty($app['id']))
+            $this->response('id required', 400);
+
 		$success = $this->app_model->update_by_id($app['id'], $app);
-    	$this->response($success, 200);
+
+        $this->response($success, empty($success) ? 400 : 200);
 	}
 
 	/**

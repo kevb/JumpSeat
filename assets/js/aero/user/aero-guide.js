@@ -483,11 +483,15 @@ Aero.guide = {
         var oldData = null;
         var ls = aeroStorage.getItem('aero:guides');
         var cache = aeroStorage.getItem('aero:cache');
+        var locale = aeroStorage.getItem('aero:locale');
+
         if(!cache) cache = AeroStep.cache;
+        if(!locale) cache = AeroStep.locale;
+
         cache = parseInt(cache);
 
         //Clear cache
-        if(cache != AeroStep.cache) {
+        if(cache != AeroStep.cache || locale != AeroStep.locale) {
             oldData = JSON.parse(ls);
             aeroStorage.removeItem('aero:guides');
 
@@ -508,6 +512,7 @@ Aero.guide = {
                 }
 
                 aeroStorage.setItem('aero:cache', AeroStep.cache);
+                aeroStorage.setItem('aero:locale', AeroStep.locale);
                 aeroStorage.setItem('aero:guides', JSON.stringify(guides));
                 if(callback) callback(guides);
             });

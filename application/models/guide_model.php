@@ -8,6 +8,7 @@ class Guide_Model extends CI_Model
     private $pathwaymap_collection = null;
     private $rolemap_collection = null;
     private $host = null;
+    private $locale = 'en';
 
     /**
      * Constructor
@@ -27,7 +28,10 @@ class Guide_Model extends CI_Model
         $this->pathwaymap_collection = $host . "_" . PATHWAYGUIDE;
         $this->rolemap_collection = $host . "_" . ROLEGUIDE;
 
-        $this->load->model('app_model');
+        $this->locale = substr(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']),0,2);
+
+		$this->load->model('app_model');
+		$this->load->model('language_model', '', FALSE, $host);
         $this->load->model('version_model', '', FALSE, $host);
     }
 
@@ -149,6 +153,7 @@ class Guide_Model extends CI_Model
         $hasAuto = false;
         $hasRestrict = false;
         $whereIds = array();
+        $locale = $this->locale;
 
         $order = array('title' => 'ASC');
 
@@ -169,8 +174,13 @@ class Guide_Model extends CI_Model
 
         $guides = $this->version_check($guides);
 
-        foreach($guides as $key => $guide){
-            if( !$this->has_access($guide['id']) )
+        //Get language pack
+    	if ($locale !== 'en'){
+    		$languageContent = $this->language_model->get_all_by_language($locale);
+    	}
+
+		foreach($guides as $key => $guide){
+			if( !$this->has_access($guide['id']) )
             {
                 unset($guides[$key]);
                 $guides = array_values($guides);
@@ -178,6 +188,16 @@ class Guide_Model extends CI_Model
                 $hasAuto = isset($guide['auto']) || $hasAuto ? true : false;
                 $hasRestrict = (isset($guide['restrict']) && sizeof($guide['restrict']) > 0) ? true : false;
                 array_push($whereIds, $guide['id']);
+
+                // Add Language content to the guide
+                if (isset($locale) && $locale !== 'en'){
+                	foreach($languageContent as $key => $guideContent){
+                		if ($guide['id'] === $guideContent['guideid']){
+                			$guide = $this->language_model->add_language_pack($guide, $guideContent);
+                			$guides[$key] = $guide;
+                		}
+                	}
+	            }
             }
         }
 
@@ -210,13 +230,21 @@ class Guide_Model extends CI_Model
      */
     public function get_by_id($id)
     {
+
         //Get guides
         $guide = $this->mongo_db
             ->where(array('_id' => new MongoId($id)))
             ->get($this->collection);
 
         $guide = $this->version_check($guide);
-        return $guide[0];
+        $guide = $guide[0];
+
+        if($this->locale != $this->config->item("language")) {
+            $languageContent = $this->language_model->get_lang_by_id($id, $this->locale);
+            $guide = $this->language_model->add_language_pack($guide, $languageContent);
+        }
+
+        return $guide;
     }
 
     /**
@@ -416,24 +444,37 @@ class Guide_Model extends CI_Model
     {
         unset($guide['id']);
 
-        // Create new version and get version number
-        $this->version_model->update($id, $guide);
-        $current = $this->version_model->get_current_version($id);
+        //Update language content
+        if($this->locale != $this->config->item("language")){
+            $languageContent['title'] = $guide['title'];
+            $languageContent['desc'] = $guide['desc'];
 
-        // Update object in main collection
-        $this->load->library('person');
-        $guide['version'] = $current;
-        $guide['modified'] = New Mongodate(time());
-        $guide['modifier'] = $this->person->username;
-        $r = $this->mongo_db
-            ->where(array('_id' => new MongoId($id)))
-            ->set( (array) $guide )
-            ->update($this->collection);
+            unset($guide['title']);
+            unset($guide['desc']);
+            unset($guide['step']);
+
+            return $this->language_model->update_by_guideid($id, $this->locale, $languageContent);
+        } else {
+
+            // Create new version and get version number
+            $this->version_model->update($id, $guide);
+            $current = $this->version_model->get_current_version($id);
+
+            // Update object in main collection
+            $this->load->library('person');
+            $guide['version'] = $current;
+            $guide['modified'] = New Mongodate(time());
+            $guide['modifier'] = $this->person->username;
+            $r = $this->mongo_db
+                ->where(array('_id' => new MongoId($id)))
+                ->set((array)$guide)
+                ->update($this->collection);
 
 
-        if (!empty($r))
-            $this->update_cache();
-        return empty($r) ? false : $guide;
+            if (!empty($r))
+                $this->update_cache();
+            return empty($r) ? false : $guide;
+        }
     }
 
     /** NOT USED anymore.
@@ -478,6 +519,9 @@ class Guide_Model extends CI_Model
 
                 // Move to trash
                 $this->trash_model->trash_guide($id);
+
+                //Delete language model
+                $this->language_model->delete_by_id($id, true);
 
                 try {
                     //Delete role map

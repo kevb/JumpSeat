@@ -514,6 +514,7 @@ li.aero-helper-dropable {
 .aero-tip-body ol li, .aero-tip-body ul li { padding-bottom:5px;}
 .aero-tip-body ol li { list-style: decimal; }
 .aero-tip-body ul li { list-style: circle; }
+.trumbowyg-editor.trumbowyg-reset-css b, .trumbowyg-editor.trumbowyg-reset-css strong, .aero-tip-body strong, .aero-tip-body b {  font-weight:600!important;  }
 
 .aero-tip-title img.as-icon-note {     height: 19px; top: 3px;}
 .aero-tip-title img.as-icon-choose { height: 18px; top: 2px; }

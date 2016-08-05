@@ -12,7 +12,6 @@ Aero.model.pathway = {
 	 */
 	url : "api/pathway"
 };
-
 /**
  * Pathway View
  * @author Mike Priest

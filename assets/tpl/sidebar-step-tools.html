@@ -2,6 +2,6 @@
 <% var del = <?= $acl['steps']['delete'] ? "true" : "false"; ?> %>
 <% var create = <?= $acl['steps']['create']? "true" : "false"; ?> %>
 <div class="aero-item-tools">
-	<% if(del  || creator){ %><a class="aero-delete"><i class="fa fa-times"></i></a><% } %>
+	<% if(AeroStep.locale == AeroStep.rootLocale && del  || creator){ %><a class="aero-delete"><i class="fa fa-times"></i></a><% } %>
 	<% if(edit || creator){ %><a class="aero-edit"><i class="fa fa-pencil"></i></a><% } %>
 </div>

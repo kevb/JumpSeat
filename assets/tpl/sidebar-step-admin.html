@@ -5,12 +5,14 @@
 	<div class="aero-strip-menu">
 		<ul>
 			<li class="aero-menu-active"><a data-title="<%= AeroStep.lang.basic %>" class="aicon-basic"><span></span></a></li>
+			<% if(AeroStep.locale == AeroStep.rootLocale){ %>
 			<li><a data-title="<%= AeroStep.lang.styling %>" class="aicon-style"><span></span></a></li>
 			<li><a data-title="<%= AeroStep.lang.navigation %>" class="aicon-nav"><span></span></a></li>
 			<li><a data-title="<%= AeroStep.lang.location %>" class="aicon-loc"><span></span></a></li>
 			<li><a data-title="<%= AeroStep.lang.exce %>" class="aicon-alert"><span></span></a></li>
 			<li><a data-title="<%= AeroStep.lang.branching %>" class="aicon-branch"><span></span></a></li>
 			<li><a data-title="<%= AeroStep.lang.customcode %>" class="aicon-code"><span></span></a></li>
+			<% } %>
 		</ul>
 	</div>
 	<div class="aero-admin-body">

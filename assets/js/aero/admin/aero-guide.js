@@ -99,7 +99,7 @@ Aero.view.guide.admin = {
             Aero.view.admin.renderMenu($li);
             return false;
         });
-
+        
         //Delete
         $q('body').off("click.aeroGDelete").on("click.aeroGDelete", ".aero-guides ul li a.aero-delete", function(){
             var li = $q(this).parents('li:eq(0)');
@@ -107,9 +107,9 @@ Aero.view.guide.admin = {
             var name = li.find('a:last').text();
 
             Aero.confirm({
-                ok : "Delete",
+                ok : AeroStep.lang.del,
                 title : name,
-                msg : "Are you sure you want to delete this guide?",
+                msg : AeroStep.lang.guidedelconf,
                 onConfirm : function(){
                     Aero.guide.destroy(id);
                 }

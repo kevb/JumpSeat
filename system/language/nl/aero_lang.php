@@ -7,11 +7,11 @@ $lang['tagline']        = "Revolutionizing how <strong>you</strong> onboard, sup
 //Login
 $lang['signin']         = "Sign in";
 $lang['reset']          = "Reset";
-$lang['passreset']      = "Forgot your password? Click here to reset it";
-$lang['badpass']        = "Invalid username or password";
+$lang['passreset']      = "Paswoord vergeten? Klik hier om te resetten";
+$lang['badpass']        = "Ongeldige gebruikersnaam of paswoord";
 
-$lang['notfound']       = "Page not found";
-$lang['notfounddesc']   = "Either this page does not exist, or you do not have access to this page. Please contact your administrator if you feel this is incorrect.";
+$lang['notfound']       = "Pagina niet gevonden";
+$lang['notfounddesc']   = "Deze pagina bestaat niet of je hebt geen toegang tot deze pagina. Neem contact op met jouw administratorif you feel this is incorrect.";
 
 $lang['installgood']    = "Your Installation was Successful!";
 $lang['installdesc']    = "To get started, you will first need an administrator JumpSeat account: Enter an email address and password and we will create your first user:";

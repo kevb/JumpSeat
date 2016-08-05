@@ -22,8 +22,9 @@ var d = (s) ? "Search" : AeroStep.lang.allguides; %>
 		</div>
 	</div>
 	<div class="aero-body">
+		<% if(AeroStep.locale == AeroStep.rootLocale){ %>
 		<? if($acl['guides']['create']){ ?><div class="aero-add-step"><a class="aero-btn-red aero-btn-create"><i class="fa fa-plus"></i>&nbsp;&nbsp;<%= AeroStep.lang.guidea %></a></div><? } ?>
-		<% if(guides.search){ %><div class="aero-helper-results"><span><%= guides.length %></span> <%= AeroStep.lang.found %></div><% } %>
+		<% } if(guides.search){ %><div class="aero-helper-results"><span><%= guides.length %></span> <%= AeroStep.lang.found %></div><% } %>
 		<% if(!guides.search && AeroStep.admin && (guides.length == 0 || !guides[0].title)) { %><div class="aero-helper"><span class="aero-help-triangle"></span><%= AeroStep.lang.guideh %></div><% } %>
 		<div class="aero-guides">
 			<ul>

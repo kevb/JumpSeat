@@ -48,13 +48,17 @@ $lang['save']			= "Save";
 $lang['cancel']			= "Cancel";
 $lang['ok']				= "Ok";
 $lang['add']			= "Add";
+$lang['del']             = "Delete";
 
 //Labels
 $lang['title']			= "Title";
 $lang['desc']			= "Description";
 $lang['active']			= "Active";
 
-$lang['cond'] = "Click here or conditional content.";
+//Step
+$lang['stepdel']		= "Step delete F";
+$lang['stepdelconf']    = "Are you sure you want to delete this step? F";
+$lang['guidedelconf']   = "Are you sure you want to delete this guide? F";
 
 /**
  *  Guide admin nav

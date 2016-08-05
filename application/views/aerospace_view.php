@@ -79,6 +79,9 @@ if(!AeroStep){
 		admin : <?= $admin ? "true" : "false" ?>,
 		baseUrl : "<?= base_url(); ?>",
 		host : "<?= $app; ?>",
+		locale : "<?= substr(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']),0,2); ?>",
+		rootLocale : "<?= $rootLocale; ?>",
+
 		<? if ($require != ""){ ?>
 			required : {
 				ready : function(){

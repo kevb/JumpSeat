@@ -19,6 +19,7 @@ requirejs.config({
         //APIs
         'api/apps' : 'api/app.api' + AeroStep.min,
         'api/guides' : 'api/guide.api' + AeroStep.min,
+        'api/languages' : 'api/language.api' + AeroStep.min,
         'api/versions' : 'api/version.api' + AeroStep.min,
         'api/trash' : 'api/trash.api' + AeroStep.min,
         'api/pagedata' : 'api/pagedata.api' + AeroStep.min,

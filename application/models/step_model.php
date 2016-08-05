@@ -14,6 +14,7 @@ class Step_Model extends CI_Model
 	private $id = null;
 	private $collection = null;
 	private $host = null;
+    private $locale = 'en';
 
 	/**
 	 * Constructor
@@ -30,8 +31,11 @@ class Step_Model extends CI_Model
 		$this->load->config('config', TRUE);
 
 		$this->collection = $this->host . "_" . GUIDES;
+        $this->locale = substr(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']),0,2);
+
 		$this->load->model('guide_model', '', FALSE, $this->host);
         $this->load->model('version_model', '', FALSE, $this->host);
+        $this->load->model('language_model', '', FALSE, $this->host);
 	}
 
 
@@ -44,6 +48,9 @@ class Step_Model extends CI_Model
 	{
 		$guide = $this->guide_model->get_by_id($this->id);
 
+		// Get all stored language objects
+		$languageObjects = $this->language_model->get_all_by_id($this->id);
+
 		unset($steps['id']);
 
 		if(sizeof($guide) > 0){
@@ -52,6 +59,16 @@ class Step_Model extends CI_Model
 
 			//Update the DB
 			$this->save($guide);
+
+			// If language objects then add the new step after stripping the content
+			if (sizeof($languageObjects) > 0){
+				$thisStep = $this->language_model->strip_step_content($steps);
+				foreach ($languageObjects as &$lObject) {
+					array_splice( $lObject["step"], $index, 0, array($thisStep));
+					$this->language_model->update_by_id($lObject['id'], $lObject);
+				}
+
+			}
 
 			return $guide;
 		}else{
@@ -88,6 +105,7 @@ class Step_Model extends CI_Model
 	{
 		unset($data['id']);
 		unset($data['host']);
+        unset($data['locale']);
 
 		$guide = $this->guide_model->get_by_id($this->id);
 
@@ -120,6 +138,9 @@ class Step_Model extends CI_Model
 	{
 		$guide = $this->guide_model->get_by_id($this->id);
 
+		// Get all stored language objects
+		$languageObjects = $this->language_model->get_all_by_id($this->id);
+
 		if($guide){
 
 			$out = array_splice($guide["step"], $from, 1);
@@ -127,6 +148,16 @@ class Step_Model extends CI_Model
 
 			//Update the DB
 			$this->save($guide);
+
+			//If language objects then move the step to the new position
+			if (sizeof($languageObjects) > 0){
+				foreach ($languageObjects as &$lObject) {
+					$outPosition = array_splice($lObject["step"], $from, 1);
+					array_splice($lObject["step"], $to, 0, $outPosition);
+					$this->language_model->update_by_id($lObject['id'], $lObject);
+				}
+
+			}
 
 			return $guide;
 
@@ -144,6 +175,9 @@ class Step_Model extends CI_Model
 	{
 		$guide = $this->guide_model->get_by_id($this->id);
 
+		// Get all stored language objects
+		$languageObjects = $this->language_model->get_all_by_id($this->id);
+
 		if($guide){
 
 			unset($guide["step"][$index]);
@@ -152,6 +186,16 @@ class Step_Model extends CI_Model
 
 			//Update the DB
 			$this->save($guide);
+
+			// If language objects then delete the step from each object
+			if (sizeof($languageObjects) > 0){
+				foreach ($languageObjects as &$lObject) {
+					unset($lObject["step"][$index]);
+					$lObject["step"] = array_values($lObject["step"]);
+					$this->language_model->update_by_id($lObject['id'], $lObject);
+				}
+
+			}
 
 			return $guide;
 
@@ -165,15 +209,35 @@ class Step_Model extends CI_Model
 		$this->guide_model->update_cache();
         $guide['version'] = $this->version_model->get_current_version($this->id) + 1;
 
-		//Update the DB
-		$success = $this->mongo_db
-			->where(array('_id' => new MongoId($this->id)))
-			->set( (array) $guide )
-			->update($this->collection);
+        //Update language content
+        if($this->locale != $this->config->item("language")){
+            $languageContent['step'] = array();
 
-        $this->version_model->update($this->id, $guide);
+            foreach($guide['step'] as &$step){
+                $stepLang['title'] = $step['title'];
+                $stepLang['body'] = $step['body'];
+                array_push($languageContent['step'], $stepLang);
 
-		return $success;
+                unset($step['title']);
+                unset($step['body']);
+            }
+
+            $languageContent['title'] = $guide['title'];
+            $languageContent['desc'] = $guide['desc'];
+
+            $this->language_model->update_by_guideid($this->id, $this->locale, $languageContent);
+        }else {
+
+            //Update the DB
+            $success = $this->mongo_db
+                ->where(array('_id' => new MongoId($this->id)))
+                ->set((array)$guide)
+                ->update($this->collection);
+
+            $this->version_model->update($this->id, $guide);
+        }
+
+		return true;
 
 	}
 }

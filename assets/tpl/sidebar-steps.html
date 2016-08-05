@@ -7,7 +7,9 @@
 			<span><a class="aero-share" data-link="<%= url %><%= (g.step[0] && g.step[0].url) ? g.step[0].url : '' %><%='?guideid=' + g.id %>"><i class="fa fa-external-link"></i> <%= AeroStep.lang.share %></a></span>
 		</div>
 
+		<% if(AeroStep.locale == AeroStep.rootLocale){ %>
 		<? if($acl['steps']['create']){ ?><div class="aero-add-step"><a class="aero-btn-red aero-btn-picker"><i class="fa fa-plus"></i>&nbsp;&nbsp;<%= AeroStep.lang.stepa %></a><a title="Record" class="aero-btn-red aero-btn-record"><span class="acircle <%= aeroStorage.getItem('aero:session:recording') ? 'recording' : '' %>"><span></span></span></span></a></div><? } ?>
+		<% } %>
 		<div class="aero-steps">
 			<% if(AeroStep.admin && g.step.length == 0) { %><div class="aero-helper"><span class="aero-help-triangle"></span><%= AeroStep.lang.steph %></div><% } %>
 			<ul>

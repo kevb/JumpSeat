@@ -62,6 +62,7 @@ class AeroSpace extends CI_Controller {
 				$data['pagedata'] = $this->get_page_data($host);
 				$data['require'] = $this->require;
                 $data['fire'] = $this->fire;
+                $data['rootLocale'] = $this->config->item("language");
 			}
 
 			//Inject JumpSeat

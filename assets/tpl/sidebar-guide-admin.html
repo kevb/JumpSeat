@@ -5,7 +5,7 @@
 		<ul>
 			<li class="aero-menu-active"><a data-title="<%= AeroStep.lang.basic %>" class="aicon-basic"><span></span></a></li>
 			<!-- <li><a data-title="Ratings" class="aicon-rate"><span></span></a></li> -->
-			<% if(model.id){ %>
+			<% if(model.id && AeroStep.locale == AeroStep.rootLocale){ %>
 			<li><a data-title="<%= AeroStep.lang.pathways %>" class="aicon-path"><span></span></a></li>
 			<li><a data-title="<%= AeroStep.lang.roles %>" class="aicon-role"><span></span></a></li>
 			<% } %>

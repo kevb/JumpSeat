@@ -1,254 +1,277 @@
 <?php
 
 //Copyright
-$lang['copy']		    = "TenSpeed Technologies, Inc. &copy; 2015 All rights reserved.<br>You are running version ";
+$lang['copy']         = "TenSpeed Technologies, Inc. &copy; 2015 All rights reserved.<br>You are running version";
 $lang['tagline']        = "Revolutionizing how <strong>you</strong> onboard, support and educate your users";
 
 //Login
-$lang['signin']         = "Sign in";
+$lang['luser']         = "Gebruikersnaam/Email";
+$lang['lpass']         = "Wachtwoord";
+$lang['signin']         = "Inloggen";
+
+$lang['signin']         = "Inloggen";
 $lang['reset']          = "Reset";
-$lang['passreset']      = "Paswoord vergeten? Klik hier om te resetten";
-$lang['badpass']        = "Ongeldige gebruikersnaam of paswoord";
+$lang['passreset']      = "Wachtwoord vergeten? Klik hier om je wachtwoord te resetten";
+$lang['badpass']        = "Ongeldige gebruikersnaam of wachtwoord";
 
 $lang['notfound']       = "Pagina niet gevonden";
-$lang['notfounddesc']   = "Deze pagina bestaat niet of je hebt geen toegang tot deze pagina. Neem contact op met jouw administratorif you feel this is incorrect.";
+$lang['notfounddesc']   = "Deze pagina bestaat niet of je hebt geen toegang tot deze pagina. Neem contact op met jouw administrator wanneer je denkt dat dit niet klopt.";
 
-$lang['installgood']    = "Your Installation was Successful!";
-$lang['installdesc']    = "To get started, you will first need an administrator JumpSeat account: Enter an email address and password and we will create your first user:";
+$lang['installgood']    = "Jouw Installatie was Succesvoll!";
+$lang['installdesc']    = "Om te beginnen heb je eerst een administrator JumpSeat account nodig: Enter een e-mailadres en wachtwoord en wij creëeren jouw eerste gebruiker:";
 
 //Menu System
-$lang['home']			= "Home";
-$lang['analytics']		= "Analytics";
-$lang['role']			= "Role";
-$lang['roles']			= "Roles";
-$lang['guide']			= "Guide";
-$lang['guides']			= "Guides";
-$lang['pathway']		= "Pathway";
-$lang['spathway']		= "Select a Pathway";
-$lang['pathways']		= "Pathways";
-$lang['config']			= "Configuration";
-$lang['blacklist']		= "URL Blacklisting";
-$lang['version']		= "Version";
-$lang['versions']		= "Versions";
-$lang['logout']			= "Logout";
+$lang['home']        = "Home";
+$lang['analytics']    = "Analytics";
+$lang['role']        = "Rol";
+$lang['roles']       = "Rollen";
+$lang['guide']       = "Gids";
+$lang['guides']          = "Gidsen";
+$lang['pathway']      = "Leerweg";
+$lang['spathway']     = "Selecteer een leerweg";
+$lang['pathways']     = "Leerwegen";
+$lang['config']          = "Configuratie";
+$lang['blacklist']    = "URL Blacklisting";
+$lang['version']      = "Versie";
+$lang['versions']     = "Versies";
+$lang['logout']          = "Logout";
 
-$lang['pagedata']		= $lang['config'];
-$lang['pathwaymap']		= $lang['pathways'];
-$lang['rolemap']		= $lang['roles'];
+$lang['pagedata']     = $lang['config'];
+$lang['pathwaymap']       = $lang['pathways'];
+$lang['rolemap']      = $lang['roles'];
 
 //Buttons
-$lang['save']			= "Save";
-$lang['saveclose']		= "Save &amp; Close";
-$lang['cancel']			= "Cancel";
-$lang['ok']				= "Ok";
-$lang['add']			= "Add";
-$lang['delete']			= "Delete";
-$lang['edit']			= "Edit";
-$lang['clone']			= "Clone";
-$lang['export']			= "Export";
-$lang['import']			= "Import";
+$lang['save']        = "Save";
+$lang['saveclose']    = "Save &amp; Sluit";
+$lang['cancel']          = "Cancel";
+$lang['ok']             = "Ok";
+$lang['add']         = "Voeg toe";
+$lang['delete']          = "Delete";
+$lang['edit']        = "Bewerk";
+$lang['clone']       = "Clone";
+$lang['export']          = "Export";
+$lang['import']          = "Import";
 
 //Labels
-$lang['title']			= "Title";
-$lang['desc']			= "Description";
-$lang['host']			= "Host";
-$lang['permissions']	= "Permissions";
-$lang['multiactions']	= "With Selected...";
-$lang['sguide']			= "Select a Guide";
-$lang['srole']			= "Select a Role";
-$lang['yes']			= "Yes";
-$lang['no']				= "No";
+$lang['title']       = "Titel";
+$lang['desc']        = "Omschrijving";
+$lang['host']        = "Host";
+$lang['permissions']   = "Toestemmingen";
+$lang['multiactions']  = "Met geselecteerde...";
+$lang['sguide']          = "Selecteer een gids";
+$lang['srole']       = "Selecteer een rol";
+$lang['yes']         = "Ja";
+$lang['no']             = "Nee";
 
 //Error
-$lang['requirede']		= "Please check all required fields";
-$lang['success']		= "Success! Your changes have been saved.";
+$lang['requirede']    = "Check alle vereiste velden";
+$lang['success']      = "Succes! Jouw wijzigingen zijn opgeslagen.";
 
 //Tools
-$lang['selected']       = "Guide(s) Selected";
-$lang['case']       = "Case sensitive?";
+$lang['selected']       = "Gids(en) Geselecteerd";
+$lang['case']       = "Casus gevoelig?";
 
 //Common Field Labels
-$lang['description']  = "Description";
-$lang['modified']     = "Modified";
-$lang['firstname']    = "First Name";
-$lang['lastname']     = "Last Name";
-$lang['created']      = "Created";
-$lang['lastlogin']    = "Last Login";
+$lang['description']  = "Omschrijving";
+$lang['modified']     = "Gemodificeerd";
+$lang['firstname']    = "Voornaam";
+$lang['lastname']     = "Achternaam";
+$lang['created']      = "Gecreëerd";
+$lang['lastlogin']    = "Laatst ingelogd";
 $lang['sysadmin']     = "System Admin";
 $lang['creator']      = "Creator";
-$lang['name']         = "Name";
+$lang['name']         = "Naam";
 $lang['tools']        = "Tools";
-$lang['replace']       = "Replace";
+$lang['replace']       = "Vervangen";
 $lang['asdasd']       = "asdasd";
 
 /**
  *  Apps
  */
 
-$lang['hometitle']		= "JUMPSEAT";
-$lang['apps']			= "Applications";
-$lang['appsc']			= "Current Applications";
-$lang['appsd']			= "Listed below are all of the applications in your organization that is using JumpSeat. To add a new application, simply click \"ADD A NEW WEB APPLICATION\" below.";
-$lang['active']			= "Active";
-$lang['status']			= "Application Status";
-$lang['etitle']			= "Enter a title";
-$lang['edesc']			= "Enter a description";
-$lang['vguides']		= "View Guides";
-$lang['vpaths']			= "View Paths";
-$lang['on']				= "On";
-$lang['off']			= "Off";
-$lang['appsa']			= "Add a new web application";
-$lang['addhost']		= "Add another host";
-$lang['more']			= "more";
+$lang['hometitle']    = "JUMPSEAT";
+$lang['apps']        = "Applicaties";
+$lang['appsc']       = "Huidige Applicaties";
+$lang['appsd']       = "Onderaan staan alle applicaties in jouw organisatie die gebruik maken van JumpSeat opgesomd. Om een nieuwe applicatie toe te voegen, klik \"VOEG EEN NIEUWE WEB APPLICATIE TOE\" hieronder.";
+$lang['active']          = "Actief";
+$lang['status']          = "Applicatie status";
+$lang['etitle']          = "Enter een titel";
+$lang['edesc']       = "Enter een omschrijving";
+$lang['vguides']      = "Bekijk Gidsen";
+$lang['vpaths']          = "Bekijk leerwegen";
+$lang['on']             = "Aan";
+$lang['off']         = "Uit";
+$lang['appsa']       = "Voeg een nieuwe web applicatie toe";
+$lang['addhost']      = "Voeg een andere host toe";
+$lang['more']        = "meer";
 
 
 /**
  *  Blacklist
  */
-$lang['prefix']			= "Prefix";
-$lang['suffix']			= "Suffix";
-$lang['eurl']			= "Enter a URL";
-$lang['matchpre']		= "Match with any prefix";
-$lang['matchsuf']		= "Match with any suffix";
+$lang['prefix']          = "Prefix";
+$lang['suffix']          = "Suffix";
+$lang['eurl']        = "Enter een URL";
+$lang['matchpre']     = "Match met een prefix";
+$lang['matchsuf']     = "Match met een suffix";
 
 /**
  *  Guides
  */
-$lang['guidesd']		= "If you want to create guides without any step fuss, this is the place. Create your empty guides and then click the \"steps\" button to start the guide. ";
-$lang['versionsd']		= "The latest version is the version currently in use. Restore will copy an older guide and make it the current version. You can also clean up unwanted versions.";
-$lang['trashd']         = "Restore guides from the trash, and cleanup unwanted guides.";
-$lang['addg']			= "Create a new guide";
-$lang['trash']			= "Trash";
-$lang['importg']		= "Import guides";
-$lang['etitle']			= "Enter a title";
-$lang['edesc']			= "Enter a description";
-$lang['afindr']			= "Find &amp; Replace";
-$lang['afindp']         = "Guide Property";
-$lang['afindc']         = "Find";
-$lang['afindrw']        = "Replace With";
-$lang['afindp']         = "Preview";
+$lang['guidesd']      = "Als je een guide wilt creëeren zonder enige stappen-heisa, dat kan hier.  Creëer een lege gids en klik vervolgens de \"stappen\" knop om de guide te starten.";;
+$lang['versionsd']    = "De laatste versie is momenteel in gebruik. “Herstellen” zal de oudere gids kopiëren en transformeren naar de huidige versie. U kunt ongewilde versies verwijderen of aanpassen.";
+$lang['trashd']         = "Herstel gidsen uit de prullenbak en delete ongewilde gidsen.";
+$lang['addg']        = "Creëer een nieuwe gids";
+$lang['trash']       = "Prullenbank";
+$lang['importg']      = "Import gidsen";
+$lang['etitle']          = "Enter een titel";
+$lang['edesc']       = "Enter een omschrijving";
+$lang['afindr']          = "Vind &amp; Vervang";
+$lang['afindp']         = "Gids eigenschap";
+$lang['afindc']         = "Vind";
+$lang['afindrw']        = "Vervangen Met";
+$lang['afindp']         = "Voorbeeldweergave";
 
-$lang['sprop']          = "- Select a property -";
-$lang['sgtitle']        = "Guide: Title";
-$lang['sgdesc']         = "Guide: Description";
-$lang['sstitle']        = "Step: Title";
-$lang['ssbody']         = "Step: Content";
+$lang['sprop']          = "- Selecteer een eigenschap -";
+$lang['sgtitle']        = "Gids: Titel";
+$lang['sgdesc']         = "Gids: Omschrijving";
+$lang['sstitle']        = "Stap: Titel";
+$lang['ssbody']         = "Stap: Inhoud";
 
 
 
 /**
  *  Roles
  */
-$lang['assocp']			= "Add a new pathway";
-$lang['addr']			= "Create a new role";
-$lang['roled']			= "This page allows you to manage guide, pathway and user access. Once you have created a role (by clicking create), simply click on the user icon to open the role permissions page.";
-$lang['cardr']			= "Manage role";
+$lang['assocp']          = "Voeg een nieuwe leerweg toe";
+$lang['addr']        = "Creëer een nieuwe rol";
+$lang['roled']       = "Op deze pagina kun je de gidsen, leerwegen, en het succes van de gebruikers managen. Zodra je een rol hebt gecreëerd (door op creëeren te klikken), klik op de gebruikers icoon om de toegangspagina van de rol te openen.";
+$lang['cardr']       = "Manage rol";
 
 /**
  *  Pathways
  */
-$lang['addp']			= "Create a new pathway";
-$lang['pathwaysd']		= "Pathways are structured learning paths in which users progress to completion. Add a pathway and try dragging it around to reorder the learning path.";
-$lang['pathd']			= "Pathways help users learn key tasks and related concepts in a sequential way. A pathway can contain any number of guides. To add a new path click the add a pathway button below.";
-$lang['cardp']			= "Manage pathway";
-$lang['assocg']			= "Add a guide";
-$lang['assocr']			= "Add a role";
-$lang['start']			= "Start";
-$lang['end']			= "End";
+$lang['addp']        = "Creëer een nieuwe leerweg";
+$lang['pathwaysd']    = "Leerwegen zijn zo gestructureerd dat de gebruiker door een proces loopt van begin tot voltooiing. Voeg een nieuwe leerweg toe en sleep het heen en weer om zo de leerweg te herstructureren.";
+$lang['pathd']       = "Leerwegen helpen gebruikers om de belangrijkste taken en gerelateerde concepten in a chronologische volgorde te leren. Een leerweg kan een variable nummer aan gidsen bevatten. Om een nieuwe leerweg toe te voegen, klik the “voeg toe” knop hieronder.";
+$lang['cardp']       = "Manage leerweg";
+$lang['assocg']          = "Voeg een gids toe";
+$lang['assocr']          = "Voeg een rol toe";
+$lang['start']       = "Start";
+$lang['end']         = "Eind";
 
 
 /**
  * Mappings
  */
-$lang['pathmap'] 		= "Pathways associated with this role";
-$lang['pathmapd'] 		= "Control who has access to your learning pathways. Simply add a pathway to this role and users in that group will have access. If a pathway is not part of any role, it will be available to all guest users!";
-$lang['pathguide'] 		= "Guides associated with this role";
-$lang['pathguided'] 	= "Simply add a guide to this role and users in that group will have access. If a guide is not part of any role, it will be available to all guest users!";
-$lang['rolethings'] 	= "Things this role can...";
-$lang['rolethingsd'] 	= "Restricting access to administration features is easy. Simply click on the options below and everything will be updated automatically.";
-$lang['usermap'] 		= "Users associated with this role";
-$lang['usermapd'] 		= "Choose who belongs to this role. Simply add users by clicking the \"Add a user\" button and they will have access to everything in this role.";
+$lang['pathmap']      = "Leerwegen geassocieerd met deze rol";
+$lang['pathmapd']     = "Controleer wie toegang heeft tot jouw leerwegen. Voeg een leerweg toe aan een rol(len) zodat alleen de gebruikers in die groep(en) toegang hebben. De leerweg is toegankelijk voor alle gebruikers wanneer een leerweg geen onderdeel is van een rol!";
+$lang['pathguide']        = "Gidsen geassocieerd met deze rol";
+$lang['pathguided']    = "Voeg een gids toe aan deze rol en gebruikers in die groep hebben toegang. De gids is toegangelijk voor alle gebruikers wanneer de gids geen onderdeel is van een rol!";
+$lang['rolethings']    = "Dingen die deze rol kan...";
+$lang['rolethingsd']   = "Toegang tot administratieve functies kunnen makkelijk beperkt worden. Klik op de opties hier beneden en alles wordt automatisch geupdate.";
+$lang['usermap']      = "Gebruikers geassocieerd met deze rol";
+$lang['usermapd']     = "Kies welke gebruikers tot deze rol behoren. Voeg gebruikers toe door op de \"Voeg een gebruiker toe\" knop te klikken en zij zullen toegang hebben tot alles dat tot deze rol behoort.";
 
 /**
  *  Page data
  */
-$lang['importc'] 		= "Import URLs";
-$lang['addd'] 			= "Add a dynamic url";
-$lang['configd'] 		= "Guides naturally enforce one-to-one URL matching. Dynamic URL's include things like username, company name (multi-tenant), email address or some unique identifier. By using our dynamic URL replacement you can create one guide for all dynamic URLs.";
-$lang['basicconfigd'] 	= "This section is for advanced users only.";
-$lang['required']		= "Required";
-$lang['requiredhelp']	= "JavaScript e.g. MYAPP";
-$lang['fire']	= "Fire";
-$lang['firehelp']	= "Enter JavaScript to fire some code before JumpSeat starts";
-$lang['username']		= "Username";
-$lang['usernamehelp']	= "JavaScript e.g. MYAPP.constants.USERNAME";
-$lang['roleshelp']		= "JavaScript e.g. MYAPP.constants.ROLES";
-$lang['warnadvanced']	= "Warning this is for advanced users only!";
-$lang['basicconf']		= "Basic Configuration";
-$lang['urlsubstitution']= "Dynamic URLs";
-$lang['regex'] 			= "Replace (regex)";
-$lang['eregex'] 		= "Enter a regex";
-$lang['with'] 			= "With";
-$lang['ewith'] 			= "JavaScript e.g. MYAPP.dynamicValue";
+$lang['importc']      = "Import URLs";
+$lang['addd']        = "Voeg een dynamische url toe";
+$lang['configd']      = "Gidsen dwingen automatisch een-op-een URL matching af. Dynamische URL's bevatten dingen zoals gebruikersnaam, bedrijfsnaam (multi-tenant), e-mailadres of een unieke identifier. Je kunt 1 gids creëeren voor alle dynamische URLs door gebruik te maken van onze dynamische URL vervanging.";
+$lang['basicconfigd']  = "Deze sectie is alleen voor geavanceerde gebruikers.";
+$lang['required']     = "Vereist";
+$lang['requiredhelp']  = "JavaScript e.g. MYAPP";
+$lang['fire']  = "Fire";
+$lang['firehelp']  = "Enter JavaScript to fire some code voordat JumpSeat begint";
+$lang['username']     = "Gebruikersnaam";
+$lang['usernamehelp']  = "JavaScript e.g. MYAPP.constants.USERNAME";
+$lang['roleshelp']    = "JavaScript e.g. MYAPP.constants.ROLES";
+$lang['warnadvanced']  = "Waarschuwing! Dit is alleen voor geavanceerde gebruikers!";
+$lang['basicconf']    = "Basic Configuratie";
+$lang['urlsubstitution']= "Dynamische URLs";
+$lang['regex']           = "Vervang (regex)";
+$lang['eregex']       = "Enter een regex";
+$lang['with']        = "Met";
+$lang['ewith']           = "JavaScript e.g. MYAPP.dynamicValue";
 
 /**
  *  Permissions
  */
-$lang['steps'] 			= "Steps";
+$lang['steps']           = "Stappen";
 
 /**
  *  Blacklist
  */
-$lang['url'] 		    = "URL";
-$lang['addurl'] 		= "Add a URL";
-$lang['blacklistd'] 	= "The guide-bar will be available on all URLs under this domain. In order to ignore pages (e.g. login page), you must blacklist them here.";
+$lang['url']          = "URL";
+$lang['addurl']       = "Voeg een URL toe";
+$lang['blacklistd']    = "De gidsen-bar is zichtbaar op alle URLs onder dit domein. Als je pagina’s wilt negeren (e.g. login page), zul je die pagina’s hier moeten blacklisten.";
 
 /**
  *  Users
  */
-$lang['admin']			= "System Administrator";
-$lang['user'] 			= "User";
-$lang['users'] 			= "Users";
-$lang['usersd'] 		= "Manage who can access this administration console. System Administrators have the ability to manage user, applications and their data.";
-$lang['addu'] 			= "Add a User";
-$lang['importu'] 		= "Import Users";
+$lang['admin']       = "System Administrator";
+$lang['user']        = "Gebruiker";
+$lang['users']           = "Gebruikers";
+$lang['usersd']       = "Manage wie toegang heeft tot deze administration console. System Administrators kunnen de gebruikers, applicaties en hun data managen.";
+$lang['addu']        = "Voeg een gebruiker toe";
+$lang['importu']      = "Import Gebruikers";
 
-$lang['firstname'] 		= "Firstname";
-$lang['firstnamep'] 	= "Enter a firstname";
-$lang['lastname'] 		= "Lastname";
-$lang['lastnamep'] 		= "Enter a lastname";
-$lang['email'] 			= "Email";
-$lang['emailaddress'] 	= "Email Address";
-$lang['emailp'] 		= "Enter email address";
-$lang['passwordc'] 		= "Change Password";
-$lang['password'] 		= "Password";
-$lang['passwordv'] 		= "Confirm New Password";
-$lang['passwordp'] 		= "Enter a password";
-$lang['passwordvp'] 	= "Confirm password";
-$lang['profilec'] 		= "Edit Profile";
-$lang['emailuser']	= "Email user";
+$lang['firstname']        = "Voornaam";
+$lang['firstnamep']    = "Enter een voornaam";
+$lang['lastname']     = "Achternaam";
+$lang['lastnamep']        = "Enter een achternaam";
+$lang['email']           = "E-mail";
+$lang['emailaddress']  = "E-mailadres";
+$lang['emailp']       = "Enter e-mailadres";
+$lang['passwordc']        = "Veranderd wachtwoord";
+$lang['password']     = "Wachtwoord";
+$lang['passwordv']        = "Bevestig nieuw wachtwoord";
+$lang['passwordp']        = "Enter een wachtwoord";
+$lang['passwordvp']    = "Bevestig wachtwoord";
+$lang['profilec']     = "Bewerk profiel";
+$lang['emailuser'] = "E-mail gebruiker";
 
 /**
  *  Analytics
  */
-$lang['reportusers'] 	= "Started vs Completed";
-$lang['reportusersd'] 	= "Difference between users starting and completing guides";
+$lang['reportusers']   = "Begonnen vs Voltooid";
+$lang['reportusersd']  = "Verschil tussen gebruikers die zijn begonnen en die gidsen hebben voltooid";
 
-$lang['reportprogress'] 	= "User Progress";
-$lang['reportprogressd'] 	= "A graph to show user progress across all guides";
+$lang['reportprogress']    = "Gebruikers voortgang";
+$lang['reportprogressd']   = "Een grafiek om de voortgang van gebruikers te laten zien in alle gidsen";
 
-$lang['filteruser'] 	    = "Report By User";
-$lang['nouser'] 	        = "No User Selected";
+$lang['filteruser']        = "Rapporteer bij gebruiker";
+$lang['nouser']            = "Geen gebruiker geselecteerd";
+
+/**
+ *  Datatables
+ */
+$lang['dtfilter']          = "Zoek F";
+$lang['dtfilterplace']         = "any column F";
+$lang['dtresults']             = "Showing F";
+$lang['dtshowing']             = "Showing F";
+$lang['dtnext']            = "Volgende F";
+$lang['dtprevious']        = "Vorige F";
+
+//  *******  Do not change _MENU_  ********
+$lang['dtentries']             = "Show _MENU_ entries F";
+$lang['dtfiltered']        = " (filtered from _MAX_ total entries) F";
+$lang['dtinfo']            = "Showing _START_ to _END_ of _TOTAL_ entries F";
+$lang['dtempty']            = "No data available in table F";
+$lang['dtinfoempty']        = "Showing 0 to 0 of 0 entries F";
+$lang['dtzero']             = "No matching records found F";
 
 /**
  *  Features
  */
-$lang['features']	= "Features";
-$lang['featuresd']	= "Features allow us to replicate non-browser application screens for the purpose of training. A feature is a collection of screen-shots that makeup an emulated process. Create screen-shots for each step within your process";
-$lang['addf']	= "Create a new feature";
+$lang['features']  = "Functies";
+$lang['featuresd'] = "Functies maken het voor ons mogelijk om non-browser applicatie schermen te kopiëren voor training doeleinden. Een functie is een collectie van screenshots 
+Features allow us to replicate non-browser application screens for the purpose of training. A feature is a collection of screen-shots that makeup an emulated process. Create screen-shots for each step within your process";
+$lang['addf']  = "Create a new feature";
 
-$lang['pages']	= "Pages";
-$lang['pagesd']	= "Pages belong to a feature and should contain a screen-shot for that step of the process.";
+$lang['pages'] = "Pages";
+$lang['pagesd']    = "Pages belong to a feature and should contain a screen-shot for that step of the process.";
 $lang['addpage'] = "Create a new page";
 
 

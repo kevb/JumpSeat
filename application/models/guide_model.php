@@ -113,7 +113,6 @@ class Guide_Model extends CI_Model
         //Merge guides with completed
         foreach($guides as &$guide)
         {
-
             foreach($stats as $stat) {
                 if ($stat['guideid'] == $guide['id'] && $stat['perc'] == 100) $guide['isComplete'] = true;
             }
@@ -230,7 +229,6 @@ class Guide_Model extends CI_Model
      */
     public function get_by_id($id)
     {
-
         //Get guides
         $guide = $this->mongo_db
             ->where(array('_id' => new MongoId($id)))
@@ -238,6 +236,18 @@ class Guide_Model extends CI_Model
 
         $guide = $this->version_check($guide);
         $guide = $guide[0];
+
+//        $hasAuto = isset($guide['auto']) ? true : false;
+//        $username = "admin@setup.com";
+//
+//        //Check Audit for Completed items
+//        if($username) {
+//            //Get Audit
+//            $this->load->model('analytics_model', '', FALSE, $this->host);
+//            $guide['progress']   =  $this->analytics_model->get_progress($username, $id);
+//            $guide['isStarted'] = $guide['progress'] > 0;
+//            $guide['isComplete'] = $guide['progress'] >= 100;
+//        }
 
         if($this->locale != $this->config->item("language")) {
             $languageContent = $this->language_model->get_lang_by_id($id, $this->locale);

@@ -142,6 +142,29 @@ class Analytics_Model extends CI_Model
 		return count($guideids);
 	}
 
+    /**
+     *  Check if a user has completed a guide
+     *  @param string $guideid
+     *  @param string $user
+     *  @return boolean
+     */
+    public function get_progress($user, $guideid)
+    {
+        // Get only completed guides
+        $where = array(
+            'guideid' => $guideid,
+            'user' => $user
+        );
+
+        $guide = $this->mongo_db
+            ->select(array('perc'))
+            ->where($where)
+            ->orderBy(array('perc' => -1))
+            ->limit(1)
+            ->get($this->collection);
+
+        return sizeof($guide) > 0 ? (int) $guide[0]['perc'] : 0;
+    }
 
     /**
      *  Check if a user has completed a guide
@@ -151,19 +174,8 @@ class Analytics_Model extends CI_Model
      */
     public function has_completed($user, $guideid)
     {
-        // Get only completed guides
-        $where = array(
-            'guideid' => $guideid,
-            'user' => $user,
-            'perc' => 100
-        );
-
-        $guideids = $this->mongo_db
-            ->select(array('progress'))
-            ->where($where)
-            ->get($this->collection);
-
-        return count($guideids) > 0;
+        $perc = $this->get_progress($user, $guideid);
+        return $perc >= 100;
     }
 
 
@@ -196,6 +208,18 @@ class Analytics_Model extends CI_Model
         return $guides;
     }
 
+
+    /**
+     *  Check if a user has completed a guide
+     *  @param string $ids guide ids
+     *  @param string $user
+     *  @return boolean
+     */
+    public function has_started($user, $guideid)
+    {
+        $perc = $this->get_progress($user, $guideid);
+        return $perc >= 1;
+    }
 
 	/**
 	 *  Check if a user has completed a guide

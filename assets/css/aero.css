@@ -1,5 +1,33 @@
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600,700);
 
+.aero-progress-bar {
+    color: #f0a465;
+    text-align: right!important;
+    display: block;
+    font-size:20px!important;
+}
+.aero-progress-bar span {
+    width: 13%;
+    display: inline-block;
+    background: #f48120;
+    height: 4px;
+    text-align: left;
+    float: left;
+    margin-top:  12px;
+    border-left: 2px solid #f48120!Important;
+}
+
+/**
+*	Header Close
+*/
+.aero-tip-title a {
+	position: absolute;
+	top: 6px;
+	right: 10px;
+	color: #4f5c6d;
+	font-size: 17px;
+}
+
 /*
 * 	Reset Global Styles | .aero-tip
 */
@@ -1243,8 +1271,16 @@ a.aicon-role:hover span, .aero-menu-active a.aicon-role span { background-positi
 .aero-modal-foot a.button { padding:1em; text-transform:uppercase; font-weight:600!important; }
 .aero-modal-foot a.button.small { margin:0!important; width:auto; height:auto; }
 .aero-modal-foot .aero-btn-red, .aero-modal-foot .aero-btn-grey { padding: 0.8em 1em!important; text-transform: uppercase;}
-.aero-branch a { color:#8893A3; font-size:16px; display:block; margin-top: 1em; padding: .7em 0.7em; border:1px solid #384557; }
-.aero-branch a:hover { color:#fff; border:1px solid #9098A3; }
+.aero-branch a {
+	color: #f9a967;
+	font-size: 16px;
+	display: block;
+	margin-top: 1em;
+	padding: .7em 0.7em;
+	border: 1px solid #884105;
+	transition: all .1s ease-in-out;
+}
+.aero-branch a:hover {  border:1px solid #a55e22; color: #f5c6a0; }
 
 .aero-modal-foot button.disabled.secondary:hover, .aero-modal-foot button.disabled.secondary:focus, .aero-modal-foot button[disabled].secondary:hover, .aero-modal-foot button[disabled].secondary:focus, .aero-modal-foot .button.disabled.secondary:hover, .aero-modal-foot .button.disabled.secondary:focus, .aero-modal-foot .button[disabled].secondary:hover, .aero-modal-foot .button[disabled].secondary:focus,
 .aero-modal-foot button.disabled.secondary, .aero-modal-foot button[disabled].secondary, .aero-modal-foot .button.disabled.secondary, .aero-modal-foot .button[disabled].secondary {

@@ -436,8 +436,7 @@ Aero.guide = {
         Aero.view.guide.renderContextualAction(guide);
 
         if(!guide.auto) return;
-
-        if(!guide.isComplete && !AeroStep.admin && guide.step.length > 0){
+        if(!guide.isStarted && !AeroStep.admin && guide.step.length > 0){
 
             var isStart = false;
 

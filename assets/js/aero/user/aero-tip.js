@@ -45,7 +45,7 @@ Aero.tip = {
                     step.title = step.title.replace(hotwords[j], titleImageTpl.replace(/TITLE/g, hotwords[j].toLowerCase()) + " " + title);
             }}
 
-			if(step.showTitle) title = '<div class="aero-tip-title">'+step.title+'<span></span></div>';
+			if(step.showTitle) title = '<div class="aero-tip-title">'+step.title+'<span></span><a>&#10005;</a></div>';
 			var progress = step.multi ? "" : "<div class='aero-tip-nav clearfix'><div class='aero-progress'><span>Step " + now +" of "+total+"</span></div></div>";
 
 			//Clear progress on contextual tips
@@ -314,6 +314,8 @@ Aero.tip = {
 
         //Validate
         if(!_this.validate()) return;
+
+        Aero.audit.save();
 
 		//Check cross domain is active
 		aeroStorage.getItem('aero:session:cds', function (r) {
@@ -956,7 +958,7 @@ Aero.tip = {
             }, true);
 
             //Center in free space
-            if(position == "orphan") pos.left -= 115;
+            //if(position == "orphan") pos.left -= 115;
 		}
 
 		return pos;
@@ -1012,9 +1014,7 @@ Aero.tip = {
 		var id = aeroStorage.getItem('aero:session:branch:returnid');
 		var to = aeroStorage.getItem('aero:session:branch:returnto');
 		if(!id) return false;
-
-		aeroStorage.removeItem('aero:session:branch:returnid');
-		aeroStorage.removeItem('aero:session:branch:returnto');
+        if(!to || to == "") to = 0;
 
 		Aero.confirm({
 			ok : "Return",
@@ -1022,13 +1022,21 @@ Aero.tip = {
 			title : "Branch complete",
 			msg : "You have completed this branch, we will now move you back to the original guide.",
 			onConfirm : function(){
-				//Hide the current in case same page
+                //Update audit
+                Aero.audit.save();
+
+			    //Hide the current in case same page
 				Aero.tip.hide();
 
 				//Start return
 				Aero.tip.start(id, parseInt(to), true);
+
+                aeroStorage.removeItem('aero:session:branch:returnid');
+                aeroStorage.removeItem('aero:session:branch:returnto');
 			},
 			onCancel : function(){
+
+                aeroStorage.removeItem('aero:session:branch:returnid');
 				Aero.tip.stop();
 			}
 		});
@@ -1182,6 +1190,7 @@ Aero.tip = {
 
 			aeroStorage.setItem('aero:session:branch:returnid', $q(this).data('returnid'));
 			aeroStorage.setItem('aero:session:branch:returnto', $q(this).data('returnto'));
+            aeroStorage.setItem('aero:session:branch:audit', 1);
 
 			Aero.tip.hide();
 			Aero.tip.start($q(this).data('guideid'), 0, true);

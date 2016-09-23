@@ -1168,6 +1168,11 @@ Aero.tip = {
         //Draggable tips
         $q('.aero-tip').draggable({ handle: "div.aero-tip-draggable" });
 
+        //Tip X button
+        $q('body').off('click.ctxx').on('click.ctxx', '.aero-tip-title a', function(){
+            Aero.tip.stop();
+        });
+
 		//Resize window reposition
         $q(window).on("resize", function(){
             self.setPosition($el, $tip, position);

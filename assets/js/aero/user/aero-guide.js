@@ -94,32 +94,36 @@ Aero.view.guide = {
 
         if(!search) self.clearSearch();
 
-        Aero.tpl.get("sidebar-guides.html", function(r){
-            aeroStorage.getItem('aero:sidebar:open', function(s){
-                aeroStorage.getItem('aero:session:tab', function(tab){
-                    //Remove duplicates
-                    $q('#aeroGuidebar').remove();
+        //Make sure window is big enough
+        if($q(window).width() > 500) {
 
-                    var tpl = _q.template(r);
-                    $q('body').append( tpl( { sidebar: s, guides: guides }));
-                    $q('#aeroStepbar').remove();
+            Aero.tpl.get("sidebar-guides.html", function (r) {
+                aeroStorage.getItem('aero:sidebar:open', function (s) {
+                    aeroStorage.getItem('aero:session:tab', function (tab) {
+                        //Remove duplicates
+                        $q('#aeroGuidebar').remove();
 
-                    if(tab > $q('#aeroGuidebar').outerHeight()) tab = $q('#aeroGuidebar').outerHeight() - 100;
-                    if(tab < 0) tab = 0;
+                        var tpl = _q.template(r);
+                        $q('body').append(tpl({sidebar: s, guides: guides}));
+                        $q('#aeroStepbar').remove();
 
-                    $q('#aero-tab').css("top", tab + "px");
-                    self.setEvents();
-                    Aero.view.sidebar.setEvents();
-                    Aero.view.sidebar.setScrollable();
+                        if (tab > $q('#aeroGuidebar').outerHeight()) tab = $q('#aeroGuidebar').outerHeight() - 100;
+                        if (tab < 0) tab = 0;
 
-                    //Notify of new guides
-                    var diff = parseInt($q('body').data('newguides'));
-                    if(diff > 0){
-                        Aero.view.sidebar.notify(diff);
-                    }
+                        $q('#aero-tab').css("top", tab + "px");
+                        self.setEvents();
+                        Aero.view.sidebar.setEvents();
+                        Aero.view.sidebar.setScrollable();
+
+                        //Notify of new guides
+                        var diff = parseInt($q('body').data('newguides'));
+                        if (diff > 0) {
+                            Aero.view.sidebar.notify(diff);
+                        }
+                    }, true);
                 }, true);
-            }, true);
-        });
+            });
+        }
     },
 
     /**

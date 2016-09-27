@@ -669,7 +669,7 @@ Aero.view.sidebar = {
             }
         });
 
-        //Tab drag
+        //Tab dragging
         $q('#aero-tab').draggable({
             axis: "y",
             distance: 10,

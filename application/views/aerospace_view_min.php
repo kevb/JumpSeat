@@ -80,6 +80,8 @@ admin : <?= $admin ? "true" : "false" ?>,
 baseUrl : "<?= base_url(); ?>",
 host : "<?= $app; ?>",
 locale : "<?= substr(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']),0,2); ?>",
+rootLocale : "<?= $rootLocale; ?>",
+
 <? if ($require != ""){ ?>
     required : {
     ready : function(){
@@ -305,6 +307,8 @@ AeroStep.ready = function(callback, required){
 new AeroStep.init(callback, required);
 };
 
+//Make sure window is big enough
+if($q(window).width() > 500) {
 //Load on ready
 AeroStep.ready(function(){
 AeroStep.require(function(){
@@ -317,4 +321,5 @@ aerorequirejs(AeroStep.config.lib_list);
 }});
 });
 }, AeroStep.required);
+}
 }

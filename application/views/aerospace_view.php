@@ -307,16 +307,19 @@ if(!AeroStep){
 	     new AeroStep.init(callback, required);
 	};
 
-	//Load on ready
-	AeroStep.ready(function(){
-		AeroStep.require(function(){
-            AeroStep.loadCss();
-            xdLocalStorage.init({ iframeUrl: "<?= base_url(); ?>assets/tpl/crossdomain.html", initCallback: function (){
+	//Make sure window is big enough
+	if(window.innerWidth > 500) {
+		//Load on ready
+		AeroStep.ready(function(){
+			AeroStep.require(function(){
+				AeroStep.loadCss();
+				xdLocalStorage.init({ iframeUrl: "<?= base_url(); ?>assets/tpl/crossdomain.html", initCallback: function (){
 
-                //Storage ready
-                aerorequirejs.config(AeroStep.config);
-                aerorequirejs(AeroStep.config.lib_list);
-            }});
-		});
-	}, AeroStep.required);
+					//Storage ready
+					aerorequirejs.config(AeroStep.config);
+					aerorequirejs(AeroStep.config.lib_list);
+				}});
+			});
+		}, AeroStep.required);
+	}
 }

@@ -12,6 +12,7 @@ Aero.model.pathway = {
 	 */
 	url : "api/pathway"
 };
+
 /**
  * Pathway View
  * @author Mike Priest
@@ -124,10 +125,12 @@ Aero.pathway = {
 
             if(!r) r = [];
 
-            r.unshift({ 'title': AeroStep.lang.allguides });
-			r.push({ 'title': 'On This Page' });
+			if($q.isArray(r)){
+				r.unshift({'title': AeroStep.lang.allguides});
+				r.push({'title': 'On This Page'});
+				Aero.constants.PATHWAYS = r;
+			}
 
-			Aero.constants.PATHWAYS = r;
 			if(callback) callback(r);
 		}, "GET");
 	},
@@ -142,7 +145,7 @@ Aero.pathway = {
 		if(!Aero.constants.pathway) Aero.constants.pathway = {};
 
 		//Already exists
-		if(Aero.constants.pathway && Aero.constants.pathway[pathwayid]){
+		if(!Aero.tip._guide && Aero.constants.pathway && Aero.constants.pathway[pathwayid]){
 			callback(Aero.constants.pathway[pathwayid]);
 			return;
 		}

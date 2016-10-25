@@ -99,7 +99,7 @@ Aero.view.guide.admin = {
             Aero.view.admin.renderMenu($li);
             return false;
         });
-        
+
         //Delete
         $q('body').off("click.aeroGDelete").on("click.aeroGDelete", ".aero-guides ul li a.aero-delete", function(){
             var li = $q(this).parents('li:eq(0)');

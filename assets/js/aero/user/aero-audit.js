@@ -141,8 +141,14 @@ Aero.audit = {
 		Aero.view.audit.timeTotal = 0;
 
         if(AeroStep.admin ||
-		    !Aero.constants.USERNAME || typeof Aero.tip._guide === 'undefined' || !Aero.tip._guide ||
-            aeroStorage.getItem('aero:session:audit')) isNew = false;
+		    !Aero.constants.USERNAME || typeof Aero.tip._guide === 'undefined' ||
+			!Aero.tip._guide || aeroStorage.getItem('aero:session:audit')) isNew = false;
+
+		//Start new audit for branched guide
+		if(aeroStorage.getItem('aero:session:branch:audit')) {
+            isNew = true;
+            aeroStorage.removeItem('aero:session:branch:audit');
+		}
 
         Aero.view.audit.setEvents();
 

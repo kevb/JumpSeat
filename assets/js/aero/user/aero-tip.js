@@ -45,7 +45,7 @@ Aero.tip = {
                     step.title = step.title.replace(hotwords[j], titleImageTpl.replace(/TITLE/g, hotwords[j].toLowerCase()) + " " + title);
             }}
 
-			if(step.showTitle) title = '<div class="aero-tip-title">'+step.title+'<span></span></div>';
+			if(step.showTitle) title = '<div class="aero-tip-title">'+step.title+'<span></span><a title="Close Guide">&#10005;</a></div>';
 			var progress = step.multi ? "" : "<div class='aero-tip-nav clearfix'><div class='aero-progress'><span>Step " + now +" of "+total+"</span></div></div>";
 
 			//Clear progress on contextual tips
@@ -61,10 +61,12 @@ Aero.tip = {
                 media = Aero.view.media.render(step);
             }
 
+            var licrep = AeroStep.license == "Enterprise" ? '' : '<div class="aero-lic">Powered by <a href="http://www.jumpseat.io" target="_blank">JumpSeat</a></div>';
+
 			return "<div id='"+step.id +"' class='aero-tip aero-tip-"+pos+size+"' style='display:none'>" +
                     "<div class='aero-tip-arrow'></div>" +
 					"<div class='aero-tip-body'>"+title+step.body+quiz+media+"</div>" +
-                    progress +
+                    progress + licrep +
                     "<div class='aero-tip-draggable'></div>" +
 	    	  "</div>";
 		}
@@ -76,13 +78,12 @@ Aero.tip = {
      * @todo complete spotlight feature
      */
     spotlight : function($tip, step){
-        return;
 
         var $el, $tpl, sWidth, sHeight, offSet;
 
         //Append Relative CSS
         $el = $q(step.loc);
-        $el.addClass('ae-showElement ae-relativePosition');
+        $el.addClass('el-spotlight');
 
         //Add minus padding 10
         sWidth = $el.outerWidth() + 10;
@@ -90,12 +91,12 @@ Aero.tip = {
         offSet = $el.offset();
 
         //Append Overlay
-        $tpl = $q('<div class="aero-remove ae-overlay" style="top: 0;bottom: 0; left: 0;right: 0;position: fixed;opacity: 0.8;"></div>');
+        $tpl = $q('<div class="aero-remove aero-overlay"></div>');
         $q('body').append($tpl);
 
         //Append Spotlight
         $tpl = $q('<div />')
-                .addClass('aero-remove ae-helperLayer')
+                .addClass('aero-remove aero-light')
                 .css({
                 width : sWidth,
                 height : sHeight,
@@ -318,6 +319,8 @@ Aero.tip = {
         //Validate
         if(!_this.validate()) return;
 
+        Aero.audit.save();
+
 		//Check cross domain is active
 		aeroStorage.getItem('aero:session:cds', function (r) {
 
@@ -510,7 +513,7 @@ Aero.tip = {
                 this.prev();
             }
             else if(step[type] == "skip"){
-                self.show(i + 1);
+                self.next();
             }
             else if(step[type] == "skipto") {
 				self.jumpTo(step[prefix + "skipto"]);
@@ -751,10 +754,9 @@ Aero.tip = {
 					Aero.log('On show code error: ' + err, 'error');
 				}
 
-                //// @todo finalize spotlight
-                //if(true){
-                //     self.spotlight($tip, step);
-                //}
+                if(step.spotlight){
+                    self.spotlight($tip, step);
+                }
                 self.setPosition($el, $tip, step.position);
                 self.setEvents($el, step.nav, $tip, step.position);
 
@@ -965,7 +967,7 @@ Aero.tip = {
             }, true);
 
             //Center in free space
-            if(position == "orphan") pos.left -= 115;
+            //if(position == "orphan") pos.left -= 115;
 		}
 
 		return pos;
@@ -977,36 +979,28 @@ Aero.tip = {
 	 */
 	scrollToElement : function($el){
 
+	    var $tip, $scrollParent, nudge, winH,scroll;
 
-		var $tip = $q('.aero-tip:eq(0)');
-        var $scrollParent = Aero.pos.isScrollable($el);
-        var nudge = 0;
-
+        $tip = $q('.aero-tip:eq(0)');
         $tip.show();
+        $scrollParent = Aero.pos.isScrollable($el);
 
 		if (!$el.visible(false, $scrollParent) || !$tip.visible(false)) {
+
+		    winH = $scrollParent ? $scrollParent.height() / 2 : $q(window).height()/2;
 
             //Check if $el is part of scrollable list
             nudge = $scrollParent ? $scrollParent.scrollTop() - $scrollParent.offset().top : 0;
             $scrollParent = $scrollParent ? $scrollParent : $q('body, html');
+            scroll = nudge + $tip.offset().top - winH + $tip.outerHeight() / 2;
+
             $tip.hide();
 
             $scrollParent.stop().animate({
-                scrollTop: nudge + $el.offset().top - ($scrollParent.height()/2 + $el.height()/2)
+                scrollTop: scroll
             }, 500, function () {
                 $q('.aero-tip').fadeIn(200);
             });
-
-            //Tip still not visible
-            if(!$tip.visible(false)){
-                $q('body').stop().animate({
-                    scrollTop: nudge + $el.offset().top - ($q('body').height()/2 + $el.height()/2)
-                }, 500, function () {
-                    $q('.aero-tip').fadeIn(200);
-                });
-            }
-
-            $tip.hide();
 		}else{
 			$tip.hide();
 			$q('.aero-tip').fadeIn(200);
@@ -1021,9 +1015,7 @@ Aero.tip = {
 		var id = aeroStorage.getItem('aero:session:branch:returnid');
 		var to = aeroStorage.getItem('aero:session:branch:returnto');
 		if(!id) return false;
-
-		aeroStorage.removeItem('aero:session:branch:returnid');
-		aeroStorage.removeItem('aero:session:branch:returnto');
+        if(!to || to == "") to = 0;
 
 		Aero.confirm({
 			ok : "Return",
@@ -1031,13 +1023,21 @@ Aero.tip = {
 			title : "Branch complete",
 			msg : "You have completed this branch, we will now move you back to the original guide.",
 			onConfirm : function(){
-				//Hide the current in case same page
+                //Update audit
+                Aero.audit.save();
+
+			    //Hide the current in case same page
 				Aero.tip.hide();
 
 				//Start return
 				Aero.tip.start(id, parseInt(to), true);
+
+                aeroStorage.removeItem('aero:session:branch:returnid');
+                aeroStorage.removeItem('aero:session:branch:returnto');
 			},
 			onCancel : function(){
+
+                aeroStorage.removeItem('aero:session:branch:returnid');
 				Aero.tip.stop();
 			}
 		});
@@ -1137,10 +1137,10 @@ Aero.tip = {
 	 *  @param {string} session
 	 */
 	sayCongrats : function(){
-		aeroStorage.getItem("aero:session", function(ls){
-			var guide = JSON.parse(ls);
+        aeroStorage.getItem("aero:session", function(ls){
+            var guide = JSON.parse(ls);
 
-			if(!AeroStep.admin){
+            if(!AeroStep.admin){
                 // @ninja
                 try {
                     window.postMessage({type: "cloudninjas-track-completed"}, "*");
@@ -1150,8 +1150,8 @@ Aero.tip = {
                 }
 
                 AeroStep.session.destroy();
-			}
-		}, true);
+            }
+        }, true);
 	},
 
 	/**
@@ -1168,6 +1168,11 @@ Aero.tip = {
 
         //Draggable tips
         $q('.aero-tip').draggable({ handle: "div.aero-tip-draggable" });
+
+        //Tip X button
+        $q('body').off('click.ctxx').on('click.ctxx', '.aero-tip-title a', function(){
+            Aero.tip.stop();
+        });
 
 		//Resize window reposition
         $q(window).on("resize", function(){
@@ -1191,6 +1196,7 @@ Aero.tip = {
 
 			aeroStorage.setItem('aero:session:branch:returnid', $q(this).data('returnid'));
 			aeroStorage.setItem('aero:session:branch:returnto', $q(this).data('returnto'));
+            aeroStorage.setItem('aero:session:branch:audit', 1);
 
 			Aero.tip.hide();
 			Aero.tip.start($q(this).data('guideid'), 0, true);

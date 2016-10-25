@@ -100,6 +100,7 @@ class PathwayMap_Model extends CI_Model
 	{
         //Load person
         $this->load->library('person', array('host' => $this->host));
+        $this->load->model('analytics_model', '', FALSE, $this->host);
 
         //Get user & permissions
         $acl = $this->person->acl;
@@ -137,6 +138,9 @@ class PathwayMap_Model extends CI_Model
                             unset($pathway_map[$key]);
                         else
                             $pathway = $guide;
+
+                            $pathway['progress']   = $this->analytics_model->get_progress("admin@setup.com", $guide['id']);
+                            $pathway['test'] = $guide['id'];
                             $pathway['guideid'] = $guide['id'];
                     }
                 }

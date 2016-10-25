@@ -94,18 +94,18 @@ Aero.view.guide = {
 
         if(!search) self.clearSearch();
 
-        Aero.tpl.get("sidebar-guides.html", function(r){
-            aeroStorage.getItem('aero:sidebar:open', function(s){
-                aeroStorage.getItem('aero:session:tab', function(tab){
+        Aero.tpl.get("sidebar-guides.html", function (r) {
+            aeroStorage.getItem('aero:sidebar:open', function (s) {
+                aeroStorage.getItem('aero:session:tab', function (tab) {
                     //Remove duplicates
                     $q('#aeroGuidebar').remove();
 
                     var tpl = _q.template(r);
-                    $q('body').append( tpl( { sidebar: s, guides: guides }));
+                    $q('body').append(tpl({sidebar: s, guides: guides}));
                     $q('#aeroStepbar').remove();
 
-                    if(tab > $q('#aeroGuidebar').outerHeight()) tab = $q('#aeroGuidebar').outerHeight() - 100;
-                    if(tab < 0) tab = 0;
+                    if (tab > $q('#aeroGuidebar').outerHeight()) tab = $q('#aeroGuidebar').outerHeight() - 100;
+                    if (tab < 0) tab = 0;
 
                     $q('#aero-tab').css("top", tab + "px");
                     self.setEvents();
@@ -114,7 +114,7 @@ Aero.view.guide = {
 
                     //Notify of new guides
                     var diff = parseInt($q('body').data('newguides'));
-                    if(diff > 0){
+                    if (diff > 0) {
                         Aero.view.sidebar.notify(diff);
                     }
                 }, true);
@@ -436,7 +436,6 @@ Aero.guide = {
         Aero.view.guide.renderContextualAction(guide);
 
         if(!guide.auto) return;
-
         if(!guide.isStarted && !AeroStep.admin && guide.step.length > 0){
 
             var isStart = false;
@@ -670,7 +669,7 @@ Aero.view.sidebar = {
             }
         });
 
-        //Tab drag
+        //Tab dragging
         $q('#aero-tab').draggable({
             axis: "y",
             distance: 10,

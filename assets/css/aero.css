@@ -1392,10 +1392,14 @@ a.aicon-role:hover span, .aero-menu-active a.aicon-role span { background-positi
 	border-radius: 0 0 5px 0;
 }
 .aero-lic {
-
 	text-transform: uppercase;
 	font-size: 10px;
 	color: #a7a7a7;
+}
+.aero-lic a {
+	font-size: inherit;
+	color: inherit;
+	border-bottom: 1px solid #3f4854;
 }
 
 .aero-quiz { margin-top:10px;}

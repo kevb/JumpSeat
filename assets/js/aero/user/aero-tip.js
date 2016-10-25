@@ -61,7 +61,7 @@ Aero.tip = {
                 media = Aero.view.media.render(step);
             }
 
-            var licrep = AeroStep.license == "Enterprise" ? '' : '<div class="aero-lic">Powered by JumpSeat</div>';
+            var licrep = AeroStep.license == "Enterprise" ? '' : '<div class="aero-lic">Powered by <a href="http://www.jumpseat.io" target="_blank">JumpSeat</a></div>';
 
 			return "<div id='"+step.id +"' class='aero-tip aero-tip-"+pos+size+"' style='display:none'>" +
                     "<div class='aero-tip-arrow'></div>" +

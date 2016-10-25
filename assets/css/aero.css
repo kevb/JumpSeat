@@ -1400,6 +1400,7 @@ a.aicon-role:hover span, .aero-menu-active a.aicon-role span { background-positi
 	font-size: inherit;
 	color: inherit;
 	border-bottom: 1px solid #3f4854;
+    display:inline-block;
 }
 
 .aero-quiz { margin-top:10px;}

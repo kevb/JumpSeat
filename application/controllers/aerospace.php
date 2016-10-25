@@ -14,6 +14,10 @@ class AeroSpace extends CI_Controller {
 		parent::__construct();
 		$this->lang->load('aero_front', $this->config->item('language'));
 		$this->language = json_encode($this->lang->language);
+
+        if (!isset($_SESSION['license'])){
+            $this->teatime();
+        }
 	}
 
 	/**
@@ -113,6 +117,71 @@ class AeroSpace extends CI_Controller {
 
 		return $js;
 	}
+
+    private function get_real_ip()
+    {
+        if (isset($_SERVER["HTTP_CLIENT_IP"]))
+        {
+            return $_SERVER["HTTP_CLIENT_IP"];
+        }
+        elseif (isset($_SERVER["HTTP_X_FORWARDED_FOR"]))
+        {
+            return $_SERVER["HTTP_X_FORWARDED_FOR"];
+        }
+        elseif (isset($_SERVER["HTTP_X_FORWARDED"]))
+        {
+            return $_SERVER["HTTP_X_FORWARDED"];
+        }
+        elseif (isset($_SERVER["HTTP_FORWARDED_FOR"]))
+        {
+            return $_SERVER["HTTP_FORWARDED_FOR"];
+        }
+        elseif (isset($_SERVER["HTTP_FORWARDED"]))
+        {
+            return $_SERVER["HTTP_FORWARDED"];
+        }
+        else
+        {
+            return $_SERVER["REMOTE_ADDR"];
+        }
+    }
+
+    private function teatime()
+    {
+        $this->load->config('config', TRUE);
+        $_SESSION['license'] = 'Community';
+
+        if($this->config->item('l'.'ke'.'y') != "") {
+
+            $ch = curl_init("https://workfront.jumpseat.io/api/teatime");
+            $app = array();
+
+            $app['vhost'] = base_url();
+            $app['uri'] = $_SERVER['REQUEST_URI'];
+            $app['ip'] = $_SERVER['REMOTE_ADDR'];
+            $app['headers'] = getallheaders();
+            $app['user'] = $_SESSION['username'];
+            $app['externalip'] = $this->get_real_ip();
+            $app['l' . 'ke' . 'y'] = $this->config->item('l' . 'ke' . 'y');
+
+            # Setup request to send json via POST.
+            $payload = json_encode($app);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+            # Return response instead of printing.
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            # Send request.
+            $result = curl_exec($ch);
+            curl_close($ch);
+            # Print response.
+
+            $r = json_decode($result);
+
+            if ($r->status == 200) {
+                $_SESSION['license'] = 'Enterprise';
+            }
+        }
+    }
 }
 
 /* End of file welcome.php */

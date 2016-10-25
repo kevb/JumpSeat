@@ -79,6 +79,7 @@ debug : <?= $debug ? "true":"false" ?>,
 admin : <?= $admin ? "true" : "false" ?>,
 baseUrl : "<?= base_url(); ?>",
 host : "<?= $app; ?>",
+license : "<?= $_SESSION['license'] ?>",
 locale : "<?= substr(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']),0,2); ?>",
 rootLocale : "<?= $rootLocale; ?>",
 
@@ -308,7 +309,7 @@ new AeroStep.init(callback, required);
 };
 
 //Make sure window is big enough
-if($q(window).width() > 500) {
+if(window.innerWidth > 500) {
 //Load on ready
 AeroStep.ready(function(){
 AeroStep.require(function(){

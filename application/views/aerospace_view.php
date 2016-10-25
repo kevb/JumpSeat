@@ -79,6 +79,7 @@ if(!AeroStep){
 		admin : <?= $admin ? "true" : "false" ?>,
 		baseUrl : "<?= base_url(); ?>",
 		host : "<?= $app; ?>",
+		license : "<?= $_SESSION['license'] ?>",
 		locale : "<?= substr(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']),0,2); ?>",
 		rootLocale : "<?= $rootLocale; ?>",
 

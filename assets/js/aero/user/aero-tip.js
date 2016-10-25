@@ -45,7 +45,7 @@ Aero.tip = {
                     step.title = step.title.replace(hotwords[j], titleImageTpl.replace(/TITLE/g, hotwords[j].toLowerCase()) + " " + title);
             }}
 
-			if(step.showTitle) title = '<div class="aero-tip-title">'+step.title+'<span></span><a>&#10005;</a></div>';
+			if(step.showTitle) title = '<div class="aero-tip-title">'+step.title+'<span></span><a title="Close Guide">&#10005;</a></div>';
 			var progress = step.multi ? "" : "<div class='aero-tip-nav clearfix'><div class='aero-progress'><span>Step " + now +" of "+total+"</span></div></div>";
 
 			//Clear progress on contextual tips
@@ -61,10 +61,12 @@ Aero.tip = {
                 media = Aero.view.media.render(step);
             }
 
+            var licrep = AeroStep.license == "Enterprise" ? '' : '<div class="aero-lic">Powered by JumpSeat</div>';
+
 			return "<div id='"+step.id +"' class='aero-tip aero-tip-"+pos+size+"' style='display:none'>" +
                     "<div class='aero-tip-arrow'></div>" +
 					"<div class='aero-tip-body'>"+title+step.body+quiz+media+"</div>" +
-                    progress +
+                    progress + licrep +
                     "<div class='aero-tip-draggable'></div>" +
 	    	  "</div>";
 		}
@@ -76,13 +78,12 @@ Aero.tip = {
      * @todo complete spotlight feature
      */
     spotlight : function($tip, step){
-        return;
 
         var $el, $tpl, sWidth, sHeight, offSet;
 
         //Append Relative CSS
         $el = $q(step.loc);
-        $el.addClass('ae-showElement ae-relativePosition');
+        $el.addClass('el-spotlight');
 
         //Add minus padding 10
         sWidth = $el.outerWidth() + 10;
@@ -90,12 +91,12 @@ Aero.tip = {
         offSet = $el.offset();
 
         //Append Overlay
-        $tpl = $q('<div class="aero-remove ae-overlay" style="top: 0;bottom: 0; left: 0;right: 0;position: fixed;opacity: 0.8;"></div>');
+        $tpl = $q('<div class="aero-remove aero-overlay"></div>');
         $q('body').append($tpl);
 
         //Append Spotlight
         $tpl = $q('<div />')
-                .addClass('aero-remove ae-helperLayer')
+                .addClass('aero-remove aero-light')
                 .css({
                 width : sWidth,
                 height : sHeight,
@@ -503,7 +504,7 @@ Aero.tip = {
                 this.prev();
             }
             else if(step[type] == "skip"){
-                self.show(i + 1);
+                self.next();
             }
             else if(step[type] == "skipto") {
 				self.jumpTo(step[prefix + "skipto"]);
@@ -744,10 +745,9 @@ Aero.tip = {
 					Aero.log('On show code error: ' + err, 'error');
 				}
 
-                //// @todo finalize spotlight
-                //if(true){
-                //     self.spotlight($tip, step);
-                //}
+                if(step.spotlight){
+                    self.spotlight($tip, step);
+                }
                 self.setPosition($el, $tip, step.position);
                 self.setEvents($el, step.nav, $tip, step.position);
 
@@ -970,36 +970,28 @@ Aero.tip = {
 	 */
 	scrollToElement : function($el){
 
+	    var $tip, $scrollParent, nudge, winH,scroll;
 
-		var $tip = $q('.aero-tip:eq(0)');
-        var $scrollParent = Aero.pos.isScrollable($el);
-        var nudge = 0;
-
+        $tip = $q('.aero-tip:eq(0)');
         $tip.show();
+        $scrollParent = Aero.pos.isScrollable($el);
 
 		if (!$el.visible(false, $scrollParent) || !$tip.visible(false)) {
+
+		    winH = $scrollParent ? $scrollParent.height() / 2 : $q(window).height()/2;
 
             //Check if $el is part of scrollable list
             nudge = $scrollParent ? $scrollParent.scrollTop() - $scrollParent.offset().top : 0;
             $scrollParent = $scrollParent ? $scrollParent : $q('body, html');
+            scroll = nudge + $tip.offset().top - winH + $tip.outerHeight() / 2;
+
             $tip.hide();
 
-            $scrollParent.stop().animate({
-                scrollTop: nudge + $el.offset().top - ($scrollParent.height()/2 + $el.height()/2)
+            $q('html,body').stop().animate({
+                scrollTop: scroll
             }, 500, function () {
                 $q('.aero-tip').fadeIn(200);
             });
-
-            //Tip still not visible
-            if(!$tip.visible(false)){
-                $q('body').stop().animate({
-                    scrollTop: nudge + $el.offset().top - ($q('body').height()/2 + $el.height()/2)
-                }, 500, function () {
-                    $q('.aero-tip').fadeIn(200);
-                });
-            }
-
-            $tip.hide();
 		}else{
 			$tip.hide();
 			$q('.aero-tip').fadeIn(200);

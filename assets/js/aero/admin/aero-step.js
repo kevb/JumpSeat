@@ -62,6 +62,7 @@ Aero.view.step.admin = {
         data.sidebar = (data.sidebar == "1") ? true : null;
         data.multi = (data.multi == "1") ? true : null;
         data.isRestrict = (data.isRestrict == "1") ? true : null;
+        data.spotlight = (data.spotlight == "1") ? true : null;
 
         //Clean data for empty props
         data = _q.pick(data,_q.identity);

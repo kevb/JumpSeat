@@ -5,8 +5,8 @@ $lang['copy']		    = "TenSpeed Technologies, Inc. &copy; 2015 All rights reserve
 $lang['tagline']        = "Revolutionizing how <strong>you</strong> onboard, support and educate your users";
 
 //Login
-$lang['luser']         = "Username/Email FR";
-$lang['lpass']         = "Password FR";
+$lang['luser']         = "Username/Email";
+$lang['lpass']         = "Password";
 $lang['signin']         = "Sign in";
 $lang['reset']          = "Reset";
 $lang['passreset']      = "Forgot your password? Click here to reset it";

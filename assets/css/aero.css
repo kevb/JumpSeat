@@ -535,6 +535,7 @@ li.aero-helper-dropable {
 	top:300px;
 	z-index: 999999999;
 	box-sizing: content-box;
+	border-radius: 5px;
 }
 .aero-tip-body { font-size:14px; line-height: 1.4em; color:#fff; }
 .aero-tip-body p { margin-bottom:1em;}
@@ -1354,6 +1355,29 @@ a.aicon-role:hover span, .aero-menu-active a.aicon-role span { background-positi
 	color:#fff;
 }
 
+.aero-overlay {
+    top: -9999px;
+    position: fixed;
+    opacity: 0.3;
+    height: 100%;
+    width: 100%;
+    background: #565656;
+    display: block;
+    z-index: 99999;
+    top: 0;
+    left: 0;
+}
+.ae-active-el.el-spotlight {
+    position:relative;
+    z-index:999999;
+}
+.aero-light {
+    position:absolute;
+    background:#fff;
+    z-index: 999995;
+    border-radius: 5px;
+}
+
 /* Front */
 .aero-tip-draggable {
 	background-image: url('../images/draggable.png');
@@ -1365,7 +1389,15 @@ a.aicon-role:hover span, .aero-menu-active a.aicon-role span { background-positi
 	margin: 0 -25px;
 	cursor: move;
 	border-top: 1px solid #1F2A3A;
+	border-radius: 0 0 5px 0;
 }
+.aero-lic {
+
+	text-transform: uppercase;
+	font-size: 10px;
+	color: #a7a7a7;
+}
+
 .aero-quiz { margin-top:10px;}
 .aero-quiz ul, .aero-quiz ul li { margin:0; padding:0; list-style: none; }
 .aero-quiz ul li { float:left; line-height: 25px; width: 100%;}

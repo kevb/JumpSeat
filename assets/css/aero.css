@@ -460,6 +460,7 @@ li.aero-helper-dropable {
 	text-align:center;
 	background:#DB5052;
 	z-index:9999999;
+	border:0!important;
 }
 
 #aero-tab a {
@@ -536,6 +537,7 @@ li.aero-helper-dropable {
 	z-index: 999999999;
 	box-sizing: content-box;
 	border-radius: 5px;
+	border: 0!Important;
 }
 .aero-tip-body { font-size:14px; line-height: 1.4em; color:#fff; }
 .aero-tip-body p { margin-bottom:1em;}
@@ -1358,7 +1360,6 @@ a.aicon-role:hover span, .aero-menu-active a.aicon-role span { background-positi
 .aero-overlay {
     top: -9999px;
     position: fixed;
-    opacity: 0.3;
     height: 100%;
     width: 100%;
     background: #565656;
@@ -1366,6 +1367,11 @@ a.aicon-role:hover span, .aero-menu-active a.aicon-role span { background-positi
     z-index: 99999;
     top: 0;
     left: 0;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=50);
+    -moz-opacity:0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.6;
 }
 .ae-active-el.el-spotlight {
     position:relative;
@@ -1373,7 +1379,6 @@ a.aicon-role:hover span, .aero-menu-active a.aicon-role span { background-positi
 }
 .aero-light {
     position:absolute;
-    background:#fff;
     z-index: 999995;
     border-radius: 5px;
 }

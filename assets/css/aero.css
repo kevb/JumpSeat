@@ -1372,6 +1372,7 @@ a.aicon-role:hover span, .aero-menu-active a.aicon-role span { background-positi
     -moz-opacity:0.5;
     -khtml-opacity: 0.5;
     opacity: 0.6;
+    outline:none;
 }
 .ae-active-el.el-spotlight {
     position:relative;

@@ -180,6 +180,11 @@ class App extends CI_Controller {
         $this->load->config('config', TRUE);
         $_SESSION['license'] = 'Community';
 
+        log_message('debug', '-------------------------------------------');
+        log_message('debug', 'Checking license details...');
+        log_message('debug', 'VHost : ' . base_url());
+        log_message('debug', 'Key : ' . $this->config->item('l' . 'ke' . 'y') );
+
         if($this->config->item('l'.'ke'.'y') != "") {
 
             $ch = curl_init("https://workfront.jumpseat.io/api/teatime");
@@ -204,11 +209,18 @@ class App extends CI_Controller {
             curl_close($ch);
             # Print response.
 
+            log_message('debug', '-------------------------------------------');
+
             $r = json_decode($result);
 
             if ($r->status == 200) {
                 $_SESSION['license'] = 'Enterprise';
+                log_message('debug', 'LICENSE STATUS: verified');
+            }else {
+                log_message('debug', 'LICENSE STATUS: invalid or expired');
             }
+
+            log_message('debug', '-------------------------------------------');
         }
     }
 }

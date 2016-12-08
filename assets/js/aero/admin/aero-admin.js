@@ -41,6 +41,9 @@ Aero.view.admin = {
 				autogrow: true,
 				height:100
 			});
+
+			//Fix bootstrap modal windows
+			if($ && $(document)) $(document).off('focusin.modal');
 		});
 
 		setTimeout("$q('.aero-required:eq(0)').focus();", 300);

@@ -40,11 +40,11 @@ class AeroSpace extends CI_Controller {
 		//Enable ports
 		$port = (isset($referer['port']) && $referer['port'] != "80") ? ':' . $referer['port'] : '';
         $www = $referer["scheme"] . "://" . $referer['host'] . $port;
-        $path = $referer['path'];
+        $path = (empty($referer['fragment'])) ? $referer['path'] : $referer['path'] . '#' . $referer['fragment'];
 
-		//Load app model and get app
-		$this->load->model("app_model");
-		$app = $this->app_model->test_url($www, $path);
+        //Load app model and get app
+        $this->load->model("app_model");
+        $app = $this->app_model->test_url($www, $path);
 
 		if($app && $app['active']){
 

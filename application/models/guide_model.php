@@ -175,7 +175,7 @@ class Guide_Model extends CI_Model
         $guides = $this->version_check($guides);
 
         //Get language pack
-    	if ($locale !== 'en'){
+    	if ($locale !== $this->config->item("language")){
     		$languageContent = $this->language_model->get_all_by_language($locale);
     	}
 
@@ -190,7 +190,7 @@ class Guide_Model extends CI_Model
                 array_push($whereIds, $guide['id']);
 
                 // Add Language content to the guide
-                if (isset($locale) && $locale !== 'en'){
+                if (isset($locale) && $locale !== $this->config->item("language")){
                 	foreach($languageContent as $key => $guideContent){
                 		if ($guide['id'] === $guideContent['guideid']){
                 			$guide = $this->language_model->add_language_pack($guide, $guideContent);

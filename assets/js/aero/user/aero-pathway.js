@@ -125,13 +125,15 @@ Aero.pathway = {
 
             if(!r) r = [];
 
+            Aero.constants.PATHWAYS = [];
+			var def = [{'title': AeroStep.lang.allguides}];
+
 			if($q.isArray(r)){
-				r.unshift({'title': AeroStep.lang.allguides});
-				r.push({'title': 'On This Page'});
-				Aero.constants.PATHWAYS = r;
+                Aero.constants.PATHWAYS = def.concat(r);
+                Aero.constants.PATHWAYS.push({'title': 'On This Page'});
 			}
 
-			if(callback) callback(r);
+			if(callback) callback(Aero.constants.PATHWAYS);
 		}, "GET");
 	},
 

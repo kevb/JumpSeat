@@ -30,7 +30,8 @@ class Guide_Model extends CI_Model
 
         $this->locale = substr(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']),0,2);
 
-		$this->load->model('app_model');
+        $this->load->model('user_model');
+        $this->load->model('app_model');
 		$this->load->model('language_model', '', FALSE, $host);
         $this->load->model('version_model', '', FALSE, $host);
     }
@@ -75,7 +76,6 @@ class Guide_Model extends CI_Model
     {
         $wheres = array();
 
-        $this->load->library('person', array('host' => $this->host));
         if(in_array("Administrator", $this->person->roles)) return true;
 
         $roles = $this->mongo_db
@@ -113,6 +113,7 @@ class Guide_Model extends CI_Model
         //Merge guides with completed
         foreach($guides as &$guide)
         {
+
             foreach($stats as $stat) {
                 if ($stat['guideid'] == $guide['id'] && $stat['perc'] == 100) $guide['isComplete'] = true;
             }
@@ -178,25 +179,25 @@ class Guide_Model extends CI_Model
     		$languageContent = $this->language_model->get_all_by_language($locale);
     	}
 
-		foreach($guides as $key => $guide){
-			if( !$this->has_access($guide['id']) )
+		foreach($guides as $key => &$guide){
+			if( $this->has_access($guide['id']) )
             {
-                unset($guides[$key]);
-                $guides = array_values($guides);
-            }else{
                 $hasAuto = isset($guide['auto']) || $hasAuto ? true : false;
                 $hasRestrict = (isset($guide['restrict']) && sizeof($guide['restrict']) > 0) ? true : false;
                 array_push($whereIds, $guide['id']);
 
                 // Add Language content to the guide
                 if (isset($locale) && $locale !== $this->config->item("language")){
-                	foreach($languageContent as $key => $guideContent){
-                		if ($guide['id'] === $guideContent['guideid']){
-                			$guide = $this->language_model->add_language_pack($guide, $guideContent);
-                			$guides[$key] = $guide;
-                		}
-                	}
-	            }
+                    foreach($languageContent as $key => $guideContent){
+                        if ($guide['id'] === $guideContent['guideid']){
+                            $guide = $this->language_model->add_language_pack($guide, $guideContent);
+                            $guides[$key] = $guide;
+                        }
+                    }
+                }
+            }else{
+                unset($guides[$key]);
+                $guides = array_values($guides);
             }
         }
 

@@ -142,6 +142,7 @@ class Analytics_Model extends CI_Model
 		return count($guideids);
 	}
 
+
     /**
      *  Check if a user has completed a guide
      *  @param string $guideid

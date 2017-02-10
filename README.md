@@ -1,10 +1,6 @@
 ###JUMPSEAT PROJECT OVERVIEW
 
-Version: 1.2.0 (LATE 2015)
-
-JumpSeat is an Interactive Learning Management System (ILMS) that enables businesses to create step-by-step
-task guidance over any existing web-based application. This proactive learning platform enables businesses to become more agile,
-whilst reducing costs of training and support.
+JumpSeat reduces onboarding times, improves training, and eases support by delivering on-screen guidance over your existing enterprise applications.
 
 Please note that the open-source version is unsupported. Use at your own risk. If you require support or hosting, please
 visit our website http://jumpseat.io for pricing.
@@ -17,6 +13,7 @@ you will need to use either the browser extension or JavaScript snippet to start
  1. CodeIgniter
  2. jQuery
  3. Foundation
+ 4. MongoDB
 
 ###BROWSER SUPPORT
 JumpSeat currently supports the following browsers:

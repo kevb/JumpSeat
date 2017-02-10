@@ -90,6 +90,7 @@ class Pathway_Model extends CI_Model
 
 				if(!$this->has_access($pathway['id'])){
 					unset($pathways[$i]);
+                    $pathways = array_values($pathways);
 				}
 
 				$i++;

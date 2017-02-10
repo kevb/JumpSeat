@@ -95,16 +95,21 @@ if(!AeroStep){
 		*	 Get the username
 		*/
 		getUsername : (function(){
-			var user = "<?= $username; ?>";
-			if(user == "") user = "guest@jumpseat.io";
 
-			//Use metadata?
-			if(AeroStep.data.username) user = AeroStep.data.username();
+			var user = "<?= $username; ?>";
+			if(user == ""){
+              	user = "guest@jumpseat.io";
+
+				//Use metadata?
+				if(AeroStep.data.username) user = AeroStep.data.username();
+			}
 
 			//Has session?
 			var ls = aeroStorage.getItem('aero:username');
 
-			if(ls != user){
+			if(ls !== user){
+		 		aeroStorage.setItem('aero:cache', new Date().getTime());
+
 				//Clear aero
 				AeroStep.session.destroy('aero:');
 			}

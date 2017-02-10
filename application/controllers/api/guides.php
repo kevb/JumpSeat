@@ -27,7 +27,7 @@ class Guides extends REST_Controller
     function index_get()
     {
     	$id = $this->input->get('id');
-        $enduser = $this->input->get('enduser');
+        $enduser = urldecode($this->input->get('enduser'));
 
     	$select = $this->input->get('select') ? $this->input->get('select') : array();
 

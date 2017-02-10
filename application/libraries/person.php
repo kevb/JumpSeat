@@ -26,12 +26,29 @@ class Person
 	 */
 	public function __construct($params = array('host' => '', 'username' => ''))
 	{
-		$this->CI =& get_instance();
+	    $this->CI =& get_instance();
 
 		//Load the new ACL
-		$host = str_replace(".", "_", $this->host);
-		$host = str_replace("://", "_", $host);
 		$this->host = isset($params['host']) ? $params['host'] : "";
+
+        if(!isset($_SESSION['sysadmin']) && isset($params['username']) && $params['username'] != '') {
+
+            $_SESSION['appuser'] = true;
+
+            //Login people from App User
+            if (!isset($_SESSION['username'])) {
+
+                $_SESSION['username'] = $params['username'];
+
+                if (!isset($_SESSION['userid'])) {
+                    $this->CI->load->library('mongo_db');
+                    $user = $this->CI->mongo_db->where(array('email' => $params['username']))->get(USERS);
+                    $_SESSION['userid'] = $user[0]['id'];
+                }
+            }
+        }else{
+            unset($_SESSION['appuser']);
+        }
 
 		//Start permissions
 		$this->set_person();
@@ -52,7 +69,7 @@ class Person
 			if($user){
 				//Set object
 				if($user['sysadmin']) $this->roles = array('Administrator', 'Guest');
-				
+
 				$this->id = $user['id'];
 				$this->firstname = $user['firstname'];
 				$this->lastname = $user['lastname'];
@@ -90,7 +107,7 @@ class Person
 		//Add the Guest Role for Default
 		$guest_id = $this->CI->role_model->get_by_title("Guest")['id'];
 		array_push($roles, array("title" => "Guest", "id" => $guest_id));
-		
+
 		//Add roles to default
 		foreach($roles as $role){
 			array_push($this->roles, $role['title']);
@@ -107,7 +124,7 @@ class Person
 	public function set_acl()
 	{
 		$this->CI->load->model('role_model', '', FALSE, $this->host);
-		
+
 		//Set user groups
 		$this->set_groups();
 
@@ -124,7 +141,7 @@ class Person
 
 		//Go get ACL for host
 		$this->acl = $this->CI->role_model->get_acl($this->roles, true);
-		
+
 		$_SESSION['acl'] = $this->acl;
 		$_SESSION['host'] = $this->host;
 	}

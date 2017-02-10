@@ -27,12 +27,20 @@ class User_Model extends CI_Model
 			->where(array('email' => $username))
 			->get($this->collection);
 
-        if(sizeof($user) <= 0) return false;
+
+        if(sizeof($user) <= 0) return 1;
+        if(isset($user[0]['failedtries'])){
+            if($user[0]['failedtries'] > 3) return 2;
+        }else{
+            $user[0]['failedtries'] = 0;
+        }
 
         $success = password_verify($password, $user[0]['password']);
         $expired = $this->_is_expired($user[0]['id']);
 
         if ($success && !$expired){
+
+            unset($_SESSION['appuser']);
 			$_SESSION['username'] = $user[0]['email'];
 			$_SESSION['userid'] = $user[0]['id'];
 			$_SESSION['firstname'] = $user[0]['firstname'];
@@ -42,9 +50,17 @@ class User_Model extends CI_Model
             //Update last login
             $this->update_lastlogin($user[0]['id'], $user[0]['timeslogin']);
 
-			return true;
+			return 0;
 		}else{
-            return false;
+
+		    //Count fail
+            $tooMany = $this->update_failedtries($user[0]['id'], $user[0]['failedtries']);
+
+            //Too many password attempts
+            if($tooMany) return 2;
+
+            //Failed password
+            return 1;
         }
 	}
 
@@ -196,10 +212,33 @@ class User_Model extends CI_Model
         $user['lastlogin'] = New Mongodate(time());
         $user['timeslogin'] = $count + 1;
 
+        //Reset fails
+        $user['failedtries'] = 0;
+
         $this->mongo_db
             ->where(array('_id' => new MongoId($id)))
             ->set( (array) $user )
             ->update($this->collection);
+    }
+
+
+    /**
+     * Updates user failed tries and date
+     * @param $id User object ID
+     */
+    public function update_failedtries($id, $count = 0)
+    {
+        if(empty($count)) $count = 0;
+
+        $user['faileddate'] = New Mongodate(time());
+        $user['failedtries'] = $count + 1;
+
+        $this->mongo_db
+            ->where(array('_id' => new MongoId($id)))
+            ->set( (array) $user )
+            ->update($this->collection);
+
+        return $user['failedtries'] > 3;
     }
 
 

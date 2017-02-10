@@ -38,6 +38,5 @@ class Login extends REST_Controller
 	 */
 	function index_get()
 	{
-
 	}
 }

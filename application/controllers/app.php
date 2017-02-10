@@ -13,7 +13,7 @@ class App extends CI_Controller {
 		$this->lang->load('aero', $this->config->item('language'));
 		$this->data['lang'] = (object) $this->lang->language;
 
-		if (!isset($_SESSION['username'])){
+		if (!isset($_SESSION['username']) || isset($_SESSION['appuser'])){
 			header("Location: /login");
 			exit;
 		}

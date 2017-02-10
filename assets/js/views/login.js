@@ -6,6 +6,7 @@ function login(){
     clearBox();
 
     var error = '<div class="alert-box error">Invalid username or password</div>';
+    var locked = '<div class="alert-box error">Your account has been locked. Please reset your password.</div>';
 	var data = {
 		username: $q('input[name="username"]').val().toLowerCase(),
 		password: $q('input[name="password"]').val()
@@ -17,11 +18,13 @@ function login(){
     }
 
 	$q.post("/api/login", data, function( r ) {
-		if(r.success){
+		if(r.success == 0){
 			window.location = "/apps";
-		}else{
+		}else if (r.success == 1){
 			$q('form').prepend(error);
-		}
+		}else {
+            $q('form').prepend(locked);
+        }
 	});
 }
 

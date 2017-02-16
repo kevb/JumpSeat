@@ -22,13 +22,23 @@ class Guest_Model extends CI_Model
 	/**
 	 *  TEST ONLY Login User
 	 */
-	public function login($username)
+	public function login($username, $host = '')
     {
+        $host = str_replace('.', '_', $host);
+        $host = str_replace('://', '_', $host);
+
         //Guest
-        if($username == "guest@jumpseat.io") return;
+        if(isset($_SESSION['appuser']) || isset($_SESSION['sysadmin']) || $username == "guest@jumpseat.io") return;
 
         //Already logged in?
         if(isset($_SESSION['userid'])) return;
+
+        // Guest flag
+        if(!isset($_SESSION['sysadmin'])) $_SESSION['appuser']  = true;
+
+        //RESET FOR APP USER
+        session_destroy();
+        session_start();
 
         //Does user already exist?
         $user = $this->mongo_db
@@ -51,12 +61,14 @@ class Guest_Model extends CI_Model
             $user = $user[0];
         }
 
+        $_SESSION['appuser']  = true;
         $_SESSION['username'] = $user['email'];
         $_SESSION['userid'] = $user['id'];
         $_SESSION['firstname'] = $user['firstname'];
         $_SESSION['lastname'] = $user['lastname'];
         $_SESSION['sysadmin'] = $user['sysadmin'];
 
+        $this->load->library('person', array('host' => $host));
         $this->user_model->update_lastlogin($user['id'], $user['timeslogin']);
 
         return true;

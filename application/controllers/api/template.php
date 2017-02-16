@@ -27,14 +27,12 @@ class Template extends REST_Controller
 	 */
 	public function index_get()
 	{
-
-
-
         $guest = $this->input->get('guest');
-        if($guest != ""){
+        $host = $this->input->get('host');
 
+        if($guest != ""){
             $this->load->model('guest_model');
-            $this->guest_model->login($guest);
+            $this->guest_model->login($guest, $host);
         }
 
         $name = urldecode($_REQUEST['name']);

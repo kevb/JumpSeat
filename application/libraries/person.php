@@ -24,31 +24,14 @@ class Person
 	 *  Contructor
 	 * @param array $params
 	 */
-	public function __construct($params = array('host' => '', 'username' => ''))
+	public function __construct($params = array('host' => ''))
 	{
 	    $this->CI =& get_instance();
 
 		//Load the new ACL
 		$this->host = isset($params['host']) ? $params['host'] : "";
 
-//        if(!isset($_SESSION['sysadmin']) && isset($params['username']) && $params['username'] != '') {
-//
-//            $_SESSION['appuser'] = true;
-//
-//            //Login people from App User
-//            if (!isset($_SESSION['username'])) {
-//
-//                $_SESSION['username'] = $params['username'];
-//
-//                if (!isset($_SESSION['userid'])) {
-//                    $this->CI->load->library('mongo_db');
-//                    $user = $this->CI->mongo_db->where(array('email' => $params['username']))->get(USERS);
-//                    $_SESSION['userid'] = $user[0]['id'];
-//                }
-//            }
-//        }else{
-//            unset($_SESSION['appuser']);
-//        }
+        if(isset($_SESSION['sysadmin'])) unset($_SESSION['appuser']);
 
 		//Start permissions
 		$this->set_person();
@@ -61,7 +44,6 @@ class Person
 	public function set_person()
 	{
 		if(isset($_SESSION['username']) && $_SESSION['username'] != ""){
-
 			//User model
 			$this->CI->load->model('user_model');
 			$user = $this->CI->user_model->get_by_email($_SESSION['username']);

@@ -382,44 +382,48 @@ Aero.guide = {
     init : function(){
         var self = this;
 
-        //Check for ended guide
-        var end = aeroStorage.getItem('aero:session:end');
-        if(end) Aero.tip.sayCongrats();
+        //Set user and load template
+        Aero.tpl.get("sidebar-guides.html", function () {
 
-        self.getAll(function(guides){
+            //Check for ended guide
+            var end = aeroStorage.getItem('aero:session:end');
+            if (end) Aero.tip.sayCongrats();
 
-            aeroStorage.getItem('aero:session', function(ls){
+            self.getAll(function (guides) {
 
-                var hasLink = Aero.utils.getUrlParam('guideid');
+                aeroStorage.getItem('aero:session', function (ls) {
 
-                if(ls){
-                    //Session start
-                    var guide = JSON.parse(ls);
+                    var hasLink = Aero.utils.getUrlParam('guideid');
 
-                    //Get current step
-                    aeroStorage.getItem('aero:session:current', function(i){
-                        Aero.tip.start(guide.id, parseInt(i));
-                    }, true);
+                    if (ls) {
+                        //Session start
+                        var guide = JSON.parse(ls);
 
-                }else if(hasLink){
-                    //URL link start
-                    Aero.tip.start(Aero.utils.getUrlParam('guideid'));
+                        //Get current step
+                        aeroStorage.getItem('aero:session:current', function (i) {
+                            Aero.tip.start(guide.id, parseInt(i));
+                        }, true);
 
-                    //Change URL param
-                    window.history.pushState("object or string", "Title", window.location.href.replace('guideid', 'startedid'));
-                }else{
-                    //Render guide sidebar
-                    var index = aeroStorage.getItem('aero:pathway');
-                    if(index && index != "0"){
-                        Aero.pathway.get(function(r){
-                            var t = Aero.view.pathway.render(r, parseInt(index));
-                            if(!t) Aero.view.guide.render(guides);
-                        });
-                    }else{
-                        Aero.view.guide.render(guides);
+                    } else if (hasLink) {
+                        //URL link start
+                        Aero.tip.start(Aero.utils.getUrlParam('guideid'));
+
+                        //Change URL param
+                        window.history.pushState("object or string", "Title", window.location.href.replace('guideid', 'startedid'));
+                    } else {
+                        //Render guide sidebar
+                        var index = aeroStorage.getItem('aero:pathway');
+                        if (index && index != "0") {
+                            Aero.pathway.get(function (r) {
+                                var t = Aero.view.pathway.render(r, parseInt(index));
+                                if (!t) Aero.view.guide.render(guides);
+                            });
+                        } else {
+                            Aero.view.guide.render(guides);
+                        }
                     }
-                }
-            }, true);
+                }, true);
+            });
         });
     },
 
@@ -682,10 +686,10 @@ Aero.view.sidebar = {
         $q(window).off('hashchange.hashn').on('hashchange.hashn', function() {
             Aero.hashChange = true;
             AeroStep.ready(function(){
-                setTimeout(function(){
+                setTimeout(function () {
                     Aero.hashChange = false;
                     Aero.guide.init();
-                },500);
+                }, 500);
             }, AeroStep.required);
         });
     }

@@ -139,7 +139,7 @@ class PathwayMap_Model extends CI_Model
                         else
                             $pathway = $guide;
 
-                            $pathway['progress']   = $this->analytics_model->get_progress("admin@setup.com", $guide['id']);
+                            $pathway['progress']   = $this->analytics_model->get_progress($_SESSION['username'], $guide['id']);
                             $pathway['test'] = $guide['id'];
                             $pathway['guideid'] = $guide['id'];
                     }

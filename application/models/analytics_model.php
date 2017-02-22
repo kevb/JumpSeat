@@ -46,7 +46,6 @@ class Analytics_Model extends CI_Model
 		//Collect report on all guides
 		foreach($guides as $guide)
 		{
-
 			if(isset($started[$guide['id']])){
 				array_push($report, array(
 					'title' => $guide['title'],

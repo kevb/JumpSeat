@@ -976,6 +976,7 @@ Aero.tip = {
         $tip.show();
         $scrollParent = Aero.pos.isScrollable($el);
 
+
 		if (!$el.visible(false, $scrollParent) || !$tip.visible(false)) {
 
 		    winH = $scrollParent ? $scrollParent.height() / 2 : $q(window).height()/2;
@@ -987,12 +988,14 @@ Aero.tip = {
 
             $tip.hide();
 
-            $q('html,body').stop().animate({
+            $scrollParent.stop().animate({
                 scrollTop: scroll
             }, 500, function () {
                 $q('.aero-tip').fadeIn(200);
             });
 		}else{
+
+            console.log("THERE");
 			$tip.hide();
 			$q('.aero-tip').fadeIn(200);
 		}

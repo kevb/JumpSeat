@@ -180,6 +180,10 @@ Aero.tip = {
 		if(!url) url = "";
         url = full + url;
 
+        // @crossdomain
+        // Replace for wild card apps
+        if(!cds) url = url.replace(Aero.host, location.protocol + "//" + location.host);
+
 		if(!skipTrim){
 			//Remove trailing empty hash
 			if(an.test(curUrl)) curUrl = curUrl.replace("#", "");

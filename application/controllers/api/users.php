@@ -104,6 +104,8 @@ class Users extends REST_Controller
      */
     function install_post()
     {
+        $this->user_model->create_admin();
+
         if($this->user_model->count() > 1){
             $this->response(array('error' => 'Function not allowed'), 404);
             exit;
@@ -119,22 +121,10 @@ class Users extends REST_Controller
 
         $new = $this->user_model->create($user);
 
-        $data['success'] = $this->user_model->login($user['email'], $user['password']);
+        $data['success'] = $this->user_model->login($user['email'], $user['password']) == 0;
 
         $response_code = $data['success'] ? 200 : 400;
         $this->response($data, $response_code);
-    }
-
-    /**
-     * POST create admin account
-     */
-    function admin_post()
-    {
-        $user = $this->user_model->create_admin();
-
-        $success = empty($user) ? false : true;
-        $response_code = $success ? 200 : 400;
-        $this->response($user, $response_code);
     }
 
  	/**

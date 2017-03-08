@@ -13,7 +13,6 @@ require APPPATH.'/libraries/REST_Controller.php';
 class Import_Guide extends REST_Controller
 {
 	private $model_name = '';
-	private $collection = '';
 
 	function __construct()
 	{
@@ -22,7 +21,6 @@ class Import_Guide extends REST_Controller
 		$this->host = str_replace(".", "_", $_POST['host']);
 		$this->host = str_replace('://', '_', $this->host);
 
-		$this->collection = $this->host .'_' . GUIDES;
 		$this->load->model('guide_model', '', FALSE, $this->host);
 	}
 

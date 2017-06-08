@@ -191,7 +191,7 @@ class Guide_Model extends CI_Model
                     foreach($languageContent as $lkey => $guideContent){
                         if ($guide['id'] === $guideContent['guideid']){
                             $guide = $this->language_model->add_language_pack($guide, $guideContent);
-                            $guides[$lkey] = $guide;
+                            $guides[$key] = $guide;
                         }
                     }
                 }

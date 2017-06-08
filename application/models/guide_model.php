@@ -188,10 +188,10 @@ class Guide_Model extends CI_Model
 
                 // Add Language content to the guide
                 if (isset($locale) && $locale !== $this->config->item("language")){
-                    foreach($languageContent as $key => $guideContent){
+                    foreach($languageContent as $lkey => $guideContent){
                         if ($guide['id'] === $guideContent['guideid']){
                             $guide = $this->language_model->add_language_pack($guide, $guideContent);
-                            $guides[$key] = $guide;
+                            $guides[$lkey] = $guide;
                         }
                     }
                 }

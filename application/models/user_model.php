@@ -29,7 +29,10 @@ class User_Model extends CI_Model
 
         if(sizeof($user) <= 0) return 1;
         if(isset($user[0]['failedtries'])){
-            if($user[0]['failedtries'] > 3) return 2;
+            if($user[0]['failedtries'] > 3) {
+
+                return 2;
+            }
         }else{
             $user[0]['failedtries'] = 0;
         }
@@ -415,12 +418,13 @@ class User_Model extends CI_Model
      */
     public function verify($email, $key)
     {
-        $success = false;
+        // login() was changed to return error codes rather than boolean (0 is success)
+        $success = 1;
         $user = $this->get_by_email($email);
         if (isset($user))
             $success = $this->login($email, $key);
 
-        if ($success)
+        if ($success == 0)
             header('Location: '. base_url() . $user['id'] .'/profile');
         else
             header('Location: '. base_url() . 'login?error=1');

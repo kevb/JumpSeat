@@ -373,6 +373,7 @@ class User_Model extends CI_Model
         $user['password'] = $pass;
 
         $this->update_by_id($id, $user);
+        $this->update_failedtries($id);
 
         $url = base_url() .'api/users/verify?email='. $user['email'] .'&'.'key='. $pass;
 

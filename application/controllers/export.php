@@ -21,7 +21,7 @@ class Export extends CI_Controller {
 
 		// Generate filename from timestamp
 		$stamp = date('Y-m-d H:i:s');
-		$data['filename'] = 'JumpSeat '. $stamp .'.'. $model;
+		$data['filename'] = 'JumpSeat ' . ucwords($model) .'s ' . $stamp .'.'. $model;
 
 		//Open the view
 		$this->load->view('export_view', $data);

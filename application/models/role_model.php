@@ -145,10 +145,13 @@ class Role_Model extends CI_Model
 	 * @param array $id id
 	 * @return array $role
 	 */
-	public function get_by_title($title, $permission = false)
+	public function get_by_title($title, $permission = false, $collection = null)
 	{
 		$select = array('title', 'description');
 		if($permission) $select = array('title', 'description', 'guides', 'steps', 'pathways', 'roles', 'config', 'analytics');
+
+        // Override
+		if($collection) $this->collection = $collection . "_" . ROLES;
 
 		//Get roles
 		$role = $this->mongo_db
@@ -204,9 +207,12 @@ class Role_Model extends CI_Model
 	 * @param array $role data
 	 * @return array $role
 	 */
-	public function create($role)
+	public function create($role, $collection = null)
 	{
 		unset($role['id']);
+
+        // Override
+        if($collection) $this->collection = $collection . "_" . ROLES;
 
 		$new_role = array_replace_recursive($this->get_defaults(), (array) $role);
 

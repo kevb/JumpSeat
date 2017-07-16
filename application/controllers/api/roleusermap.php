@@ -78,7 +78,7 @@ class RoleUserMap extends REST_Controller
      */
     function index_post()
     {
-    	$new = $this->roleusermap_model->create($this->request_data['roleid'], $this->request_data['userid']);
+        $new = $this->roleusermap_model->create($this->request_data['roleid'], $this->request_data['userid']);
     	$this->response($new, 200);
     }
 

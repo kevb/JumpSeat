@@ -24,6 +24,8 @@ class Import_User extends REST_Controller
 
 		$this->collection = $this->host .'_' . GUIDES;
 		$this->load->model('user_model', '', FALSE, $this->host);
+        $this->load->model('role_model', '', FALSE, $this->host);
+        $this->load->model('roleusermap_model', '', FALSE, $this->host);
 	}
 
 	/**
@@ -41,7 +43,33 @@ class Import_User extends REST_Controller
 			foreach ($users as $user)
 			{
 				try {
-					$this->user_model->create((array) $user);
+					$uid = $this->user_model->create((array) $user);
+
+                    $host = str_replace(".", "_", $user->{'host'});
+                    $host = str_replace('://', '_', $host);
+
+                    // Has role been assigned?
+                    if(array_key_exists('role', $user) && $user->{'role'} != ""){
+                        $roles = explode(",", $user->{'role'});
+
+                        foreach($roles as &$role) {
+
+                            $role = trim($role);
+                            // Go get the role
+                            $foundRole = $this->role_model->get_by_title($role, false, $host);
+
+                            // Add to existing or create new group
+                            if($foundRole) {
+                                $roleId = $foundRole['id'];
+                            } else {
+                                // Create roler
+                                $newRole = array("title" => $role, "description" => "", 'host' => $host);
+                                $roleId = $this->role_model->create($newRole, $host);
+                            }
+
+                            $this->roleusermap_model->create($roleId, $uid, $host);
+                        }
+                    }
 				}
 				catch(Exception $e){
 					log_message('error', 'ZZT: Error importing user: ' . json_encode($user) );
@@ -52,4 +80,3 @@ class Import_User extends REST_Controller
 		$this->response(true, 200);
 	}
 }
-?>

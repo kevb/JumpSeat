@@ -114,16 +114,21 @@ class RoleUserMap_Model extends CI_Model
 	 * @param string $userid
 	 * @return string $if
 	 */
-	public function create($roleid, $userid)
+	public function create($roleid, $userid, $collection = null)
 	{
 		$map['roleid'] = $roleid;
 		$map['userid'] = $userid;
+
+		// Override collection
+		if($collection) $this->collection = $collection . "_" . ROLEUSER;
 
 		if(!$this->map_exists($userid, $roleid))
 			{
 			try
 			{
-				$id = $this->mongo_db->insert($this->collection, $map );
+                log_message('debug', 'ZZT Changed Use ' . $this->collection);
+
+                $id = $this->mongo_db->insert($this->collection, $map );
 				return $id->{'$id'};
 			}
 			catch (Exception $e)

@@ -296,6 +296,10 @@ Aero.tip = {
 
             self._forward = true;
             self.setGuide(id, function() {
+
+                self.setNav();
+                self.beforeShow(s);
+
                 Aero.audit.init(function(){
                     self.setNav();
 

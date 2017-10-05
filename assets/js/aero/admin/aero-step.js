@@ -154,6 +154,7 @@ Aero.view.step.admin = {
             index: index,
             loc : path,
             nav : nav,
+            noUrl: index == 0 ? '' : 'all',
             loss : 'ignore',
             showTitle : true
         };
@@ -181,7 +182,7 @@ Aero.view.step.admin = {
 
                 if(!isEdit) {
                     Aero.view.admin.render("step", $q.extend(Aero.model.step.defaults(), settings));
-                }else{
+                } else {
                     $q('.aero-editing').addClass('aero-picking').data('loc', settings.loc);
                     $q('.aero-picking a:eq(1)').trigger('click');
                     $q('.aero-picking').removeClass('.aero-picking');

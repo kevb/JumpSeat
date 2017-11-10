@@ -7,7 +7,7 @@ var juf = ['jquery', 'underscore', 'foundation'];
  *  JumpSeat Require Config
  */
 requirejs.config({
-    baseUrl: AeroStep.baseUrl + '/assets/js',
+    baseUrl: AeroStep.baseUrl + 'assets/js',
     paths: {
         //Base
         'jquery': 'third_party/jquery-11',

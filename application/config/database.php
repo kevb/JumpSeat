@@ -48,10 +48,10 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
+$db['default']['hostname'] = 'mongo_db';
 $db['default']['username'] = '';
 $db['default']['password'] = '';
-$db['default']['database'] = '';
+$db['default']['database'] = 'jumpseat';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;

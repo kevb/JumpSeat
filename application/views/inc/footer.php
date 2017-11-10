@@ -1,5 +1,5 @@
 <div class="footer">
-    <?= $lang->copy . $this->config->item('version') ?> <?= $_SESSION['license'] ?>
+    <?= $lang->copy . $this->config->item('version') ?> <?= isset($_SESSION['license']) ? $_SESSION['license'] : '' ?>
 </div>
 
 <script type="application/javascript">

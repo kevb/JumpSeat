@@ -402,7 +402,7 @@ class User_Model extends CI_Model
                 </html>';
 
         $result = $this->email
-            ->from('no-reply@10spd.com')
+            ->from('no-reply@1day.io') /* TODO: Use configuration file */
             ->to($email)
             ->subject($subject)
             ->message($body)

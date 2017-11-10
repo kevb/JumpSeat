@@ -154,14 +154,24 @@ class Mongo_db
 		$db = $defaultConfig['mongo_database'];
 		$host = $defaultConfig['mongo_hostbase'];
 		$port = $defaultConfig['mongo_hostport'];
+		$replicaSet = $defaultConfig['mongo_replica_set'];
 
 		if ($auth === true)
 		{
-			$dsn = "mongodb://$user:$password@$host:$port/$db";
+			if ($replicaSet !== false) {
+				$dsn = "mongodb://$user:$password@$host:$port/$db?replicaSet=".$replicaSet;
+			}else {
+				$dsn = "mongodb://$user:$password@$host:$port/$db";
+			}
 		}
 		else
 		{
-			$dsn = "mongodb://$host:$port/$db";
+			if ($replicaSet !== false) {
+				$dsn = "mongodb://$host:$port/$db?replicaSet=".$replicaSet;
+			}else {
+				$dsn = "mongodb://$host:$port/$db";
+			}
+			
 		}
 
 		$this->setConfig(array('dsn' => $dsn), $connect);

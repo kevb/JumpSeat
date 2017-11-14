@@ -1,0 +1,2 @@
+# Ignore the config folder - should be mounted as volume
+/application/config/*

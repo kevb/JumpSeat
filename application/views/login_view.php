@@ -21,7 +21,7 @@
 	<div class="row">
 		<div class="small-offset-1 small-10 medium-offset-2 medium-8 large-offset-4 large-4 columns panel">
 		 	<div class="small-6 medium-4 large-4 center">
-		 		<img src="<?= $baseUrl; ?>/assets/images/jumpseat-stacked.png" />
+		 		<img src="<?= $baseUrl; ?>assets/images/jumpseat-stacked.png" />
             </div>
             <div class="large-9 center">
                 <p><?= $lang->tagline; ?></p>

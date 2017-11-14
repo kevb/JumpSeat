@@ -104,12 +104,12 @@ class Users extends REST_Controller
      */
     function install_post()
     {
-        $this->user_model->create_admin();
-
-        if($this->user_model->count() > 1){
+        if($this->user_model->count() >= 1){
             $this->response(array('error' => 'Function not allowed'), 404);
             exit;
         }
+
+        $this->user_model->create_admin();
 
         $user = array(
             "email" => $this->post('email'),

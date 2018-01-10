@@ -29,6 +29,37 @@ class Pathway_Model extends CI_Model
 	 * @param string $pathwayid
 	 * @return boolean
 	 */
+	public function test_access($pathwayid)
+	{
+		$wheres = array();
+
+		$this->load->library('person', array('host' => $this->host));
+		if(in_array("Administrator", $this->person->roles)) return true;
+
+		$roles = $this->mongo_db
+			->where(array('pathwayid' => $pathwayid))
+			->get($this->rolemap_collection);
+
+		//Default to Guest
+		if(sizeof($roles) == 0) return true;
+
+		// @todo clean this up with orWhere roleid && pathwayid
+		foreach($roles as $role)
+		{
+			foreach($this->person->roleids as $roleid)
+			{
+				if($role['roleid'] == $roleid) return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check to see if a user has access to a pathway
+	 * @param string $pathwayid
+	 * @return boolean
+	 */
 	public function has_access($pathwayid)
 	{
 		$wheres = array();
@@ -62,6 +93,7 @@ class Pathway_Model extends CI_Model
 	*/
 	public function get_all($select = array(), $count = false, $dropEmpty = false)
 	{
+		$myPathways = array();
 		$order = array('title' => 'ASC');
 		$where = array();
 		$i = 0;
@@ -80,24 +112,16 @@ class Pathway_Model extends CI_Model
 			{
 				$this->load->model('pathwaymap_model', '', FALSE, $this->host);
 				$size = $this->pathwaymap_model->count_guides($pathway['id']);
-
-				//Drop empty?
-//				if($dropEmpty){
-//					if($size == 0) unset($pathways[$i]);
-//				}else{
-					$pathway['guides'] = $size;
-//				}
-
-				if(!$this->has_access($pathway['id'])){
-					unset($pathways[$i]);
-                    $pathways = array_values($pathways);
+				$pathway['guides'] = $size;
+				
+				if ($this->has_access($pathway['id'])){
+					array_push($myPathways, $pathway);
 				}
-
 				$i++;
 			}
 		}
 
-		return $pathways;
+		return $myPathways;
 	}
 
 	/**

@@ -95,7 +95,6 @@ Aero.view.guide = {
         if(!search) self.clearSearch();
 
         Aero.tpl.get("sidebar-guides.html", function (r) {
-            console.log('Aero.view.guide.render');
             aeroStorage.getItem('aero:sidebar:open', function (s) {
                 aeroStorage.getItem('aero:session:tab', function (tab) {
                     //Remove duplicates
@@ -414,7 +413,6 @@ Aero.guide = {
                         //Render guide sidebar
                         var index = aeroStorage.getItem('aero:pathway');
                         if (index && index != "0") {
-                            console.log('Aero.guide.init.render');
                             Aero.pathway.get(function (r) {
                                 var t = Aero.view.pathway.render(r, parseInt(index));
                                 if (!t) Aero.view.guide.render(guides);

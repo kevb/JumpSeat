@@ -1002,8 +1002,6 @@ Aero.tip = {
                 $q('.aero-tip').fadeIn(200);
             });
 		}else{
-
-            console.log("THERE");
 			$tip.hide();
 			$q('.aero-tip').fadeIn(200);
 		}

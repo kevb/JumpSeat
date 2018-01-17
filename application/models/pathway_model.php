@@ -75,25 +75,23 @@ class Pathway_Model extends CI_Model
 			->get($this->collection);
 
 		//Get guide count
-		if($count)
+		foreach($pathways as &$pathway)
 		{
-			foreach($pathways as &$pathway)
-			{
-				$this->load->model('pathwaymap_model', '', FALSE, $this->host);
-				$size = $this->pathwaymap_model->count_guides($pathway['id']);
-				$pathway['guides'] = $size;
+			$this->load->model('pathwaymap_model', '', FALSE, $this->host);
+			$size = $this->pathwaymap_model->count_guides($pathway['id']);
+			$pathway['guides'] = $size;
 
-				if($dropEmpty){
-					if ($size > 0 && $this->has_access($pathway['id'])){
-						array_push($myPathways, $pathway);
-					}
-				} else {
-					if ($this->has_access($pathway['id'])){
-						array_push($myPathways, $pathway);
-					}
+			if($dropEmpty){
+				if ($size > 0 && $this->has_access($pathway['id'])){
+					array_push($myPathways, $pathway);
 				}
-				$i++;
+			} else {
+				
+				if ($this->has_access($pathway['id'])){
+					array_push($myPathways, $pathway);
+				}
 			}
+			$i++;
 		}
 
 		return $myPathways;

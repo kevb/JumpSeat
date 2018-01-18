@@ -23,12 +23,25 @@ JumpSeat currently supports the following browsers:
  3. Chrome
  4. Safari
 
-###LICENSE
+###DOCKER
 
-JumpSeat is released under the GNU Affero General Public License. This Free Software Foundation license is fairly new, and thus we wanted to talk about how this license differs from GPL.
-Our goal with using AGPL is to preserve the concept of copyleft with JumpSeat. With traditional GPL, copyleft was associated with the concept of distribution of software.  The problem is that nowadays,
-distribution of software is rare: things tend to run in the cloud. AGPL fixes this “loophole” in GPL by saying that if you use the software over a network, you are bound by the copyleft.
-Other than that, the license is virtually the same as GPL v3.
+Replace jumpseat.crt and jumpseat.key with your own SSL keys. Currently they are just self-signed certs tied to the hostname aero.local.
+Container uses one volume for MongoDB (/var/lib/mongodb) for persisent storage.
+If you would like to update JumpSeat, run a 'git pull' in the www directory.
 
-To say this another way: if you modify the core source code, the goal is that you have to contribute those modifications back to the community.
-See LICENCE file under the root directory for details.
+####USING DOCKER
+
+ 1. Create image with command:
+ 2. docker build -t jumpseat .
+ 3. Create and start a container:
+ 4. docker run -it -v /PATH/JumpSeat/:/var/www -v /PATH/wdb/:/var/lib/mongodb -p 80:80 -p 433:433 jumpseat
+
+-v Will mount your local files with the container. This allows for local development and testing.
+
+
+###GULP BUILD
+
+Firstly run `npm install` then:
+
+ 1. gulp watch (for dev)
+ 2. gulp build (for prod)

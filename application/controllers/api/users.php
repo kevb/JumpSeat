@@ -5,16 +5,16 @@
  *
  * CRUD API services for Aero users
  *
- * @package		Aero
- * @subpackage	Users
- * @category	REST Controller
- * @author		Mike Priest
+ * @package     Aero
+ * @subpackage  Users
+ * @category    REST Controller
+ * @author      Mike Priest
 */
 require APPPATH.'/libraries/REST_Controller.php';
 
 class Users extends REST_Controller
 {
-	function __construct()
+    function __construct()
     {
         // Construct our parent class
         parent::__construct();
@@ -26,18 +26,18 @@ class Users extends REST_Controller
      */
     function index_get()
     {
-    	$id = $this->input->get('id');
-    	$select = $this->input->get('select');
+        $id = $this->input->get('id');
+        $select = $this->input->get('select');
 
-    	if($id && is_array($id)){
-    		$users = $this->user_model->get_by_ids($id);
-    	}elseif($id){
-    		$users = $this->user_model->get_by_id($id);
-    	}else{
-    		$users = $this->user_model->get_all($select);
-    	}
+        if($id && is_array($id)){
+            $users = $this->user_model->get_by_ids($id);
+        }elseif($id){
+            $users = $this->user_model->get_by_id($id);
+        }else{
+            $users = $this->user_model->get_all($select);
+        }
 
-    	$this->response($users, 200);
+        $this->response($users, 200);
     }
 
 
@@ -46,26 +46,26 @@ class Users extends REST_Controller
      */
     function table_get()
     {
-    	$rows["data"] = array();
+        $rows["data"] = array();
 
-    	//All users
-    	$users = $this->user_model->get_all();
+        //All users
+        $users = $this->user_model->get_all();
 
-    	//Get person
-    	$this->load->library('person', array('host' => $this->host));
-		$acl = $this->person->acl;
-		$user = $this->person->username;
+        //Get person
+        $this->load->library('person', array('host' => $this->host));
+        $acl = $this->person->acl;
+        $user = $this->person->username;
 
-    	date_default_timezone_set($this->config->item('timezone'));
+        date_default_timezone_set($this->config->item('timezone'));
 
-    	//Build rows
-    	foreach($users as $user)
-    	{
-	    	$id = $user['id'];
-	    	$first = $user['firstname'];
-	    	$last = $user['lastname'];
-	    	$admin = $user['sysadmin'] ? "Yes" : "No";
-	    	$email = $user['email'];
+        //Build rows
+        foreach($users as $user)
+        {
+            $id = $user['id'];
+            $first = $user['firstname'];
+            $last = $user['lastname'];
+            $admin = $user['sysadmin'] ? "Yes" : "No";
+            $email = $user['email'];
             $lastlogin = "Never";
 
             if((isset($user['lastlogin']))){
@@ -74,29 +74,29 @@ class Users extends REST_Controller
             }
             $created = $this->format_date($user['created']->sec);
 
-    		$tools = "<div class='tools' style='width: 210px' data-id='$id'>";
-    		if(true){
-    			$tools .= "<a class='small button success edit'>Edit <i class='ss-icon'>&#x270E;</i></a>";
-    		}
-    		if(true){
-    			$tools .= "<a class='small button alert delete'>Delete <i class='ss-icon'>&#xE0D0;</i></a>";
-    		}
-    		$tools .= "</div></li>";
+            $tools = "<div class='tools' style='width: 210px' data-id='$id'>";
+            if(true){
+                $tools .= "<a class='small button success edit'>Edit <i class='ss-icon'>&#x270E;</i></a>";
+            }
+            if(true){
+                $tools .= "<a class='small button alert delete'>Delete <i class='ss-icon'>&#xE0D0;</i></a>";
+            }
+            $tools .= "</div></li>";
 
-    		$row = array(
-    				"<input type='checkbox' class='select' value='1' data-id='$id' />",
-    				$first,
-    				$last,
-    				$email,
-    				$created,
+            $row = array(
+                    "<input type='checkbox' class='select' value='1' data-id='$id' />",
+                    $first,
+                    $last,
+                    $email,
+                    $created,
                     $lastlogin,
                     $admin,
-    				$tools
-    		);
+                    $tools
+            );
 
-    		array_push($rows['data'], $row);
-    	}
-    	$this->response($rows, 200);
+            array_push($rows['data'], $row);
+        }
+        $this->response($rows, 200);
     }
 
     /**
@@ -127,15 +127,15 @@ class Users extends REST_Controller
         $this->response($data, $response_code);
     }
 
- 	/**
+    /**
      *  POST user service call
      */
     function index_post()
     {
         $new = $this->user_model->create($this->request_data);
 
-    	$response_code = $new ? 200 : 400;
-    	$this->response($new, $response_code);
+        $response_code = $new ? 200 : 400;
+        $this->response($new, $response_code);
     }
 
     /**
@@ -143,11 +143,11 @@ class Users extends REST_Controller
      */
     function index_put()
     {
-    	$id = $this->request_data['id'];
-    	unset($this->request_data['id']);
+        $id = $this->request_data['id'];
+        unset($this->request_data['id']);
 
-    	$user = $this->user_model->update_by_id($id, $this->request_data);
-		$this->response($user, 201);
+        $user = $this->user_model->update_by_id($id, $this->request_data);
+        $this->response($user, 201);
     }
 
     /**
@@ -155,8 +155,8 @@ class Users extends REST_Controller
      */
     function index_delete()
     {
-    	$user = $this->user_model->delete_by_id($this->delete('id'));
-    	$this->response($user, 200);
+        $user = $this->user_model->delete_by_id($this->delete('id'));
+        $this->response($user, 200);
     }
 
     function password_reset_get()

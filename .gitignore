@@ -1,2 +1,3 @@
 /application/config/email.php
 node_modules
+local_db

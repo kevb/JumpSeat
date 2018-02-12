@@ -52,7 +52,7 @@ $config['timezone']	= "America/Denver";
 | path to your installation.
 |
 */
-$config['base_url']	= 'https://jump.1day.io';
+$config['base_url']	= 'http://localhost:3000';
 
 /*
 |--------------------------------------------------------------------------

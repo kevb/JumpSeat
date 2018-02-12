@@ -16,6 +16,8 @@ services:
   jumpseat:
     build:
       context: "."
+    environment:
+      JUMP_ENV: development
     volumes:
       - ./local_config/config/:/var/www/html/application/config/
       - ./local_config/php.ini:/usr/local/etc/php/php.ini

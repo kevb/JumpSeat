@@ -428,8 +428,13 @@ class User_Model extends CI_Model
         if (isset($user))
             $success = $this->login($email, $key);
 
-        if ($success == 0)
+        if ($success == 0) {
             header('Location: '. base_url() . $user['id'] .'/profile');
+            $this->mongo_db
+                ->where(array('_id' => new MongoId($user['id'])))
+                ->unsetField('resetExpiry')
+                ->update($this->collection);
+        }
         else
             header('Location: '. base_url() . 'login?error=1');
     }
